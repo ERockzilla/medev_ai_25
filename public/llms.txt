@@ -1,0 +1,95 @@
+# medev.ai - Medical Device Intelligence Platform
+
+> Actionable intelligence for medical device professionals. 
+> Navigate compliance, design, and development with confidence.
+
+## About medev.ai
+
+medev.ai is a comprehensive resource for medical device regulatory affairs professionals, 
+quality engineers, and product developers. We provide guidance on FDA regulations, 
+international standards, and practical tools for regulatory compliance.
+
+## Core Topics
+
+### FDA Regulations
+- 21 CFR Part 820 - Quality System Regulation (QMSR)
+- 21 CFR Part 11 - Electronic Records and Signatures
+- 21 CFR Part 803 - Medical Device Reporting (MDR)
+- 21 CFR Part 807 - Establishment Registration and Device Listing
+- 21 CFR Part 812 - Investigational Device Exemptions (IDE)
+- 21 CFR Part 830 - Unique Device Identification (UDI)
+- FDA 510(k) Premarket Notification process
+- FDA PMA (Premarket Approval) process
+- eSTAR submission template guidance
+
+### International Standards
+- ISO 13485:2016 - Quality Management Systems for Medical Devices
+- ISO 14971:2019 - Risk Management for Medical Devices
+- IEC 62304:2015 - Medical Device Software Lifecycle
+- IEC 62366-1:2015 - Usability Engineering
+- IEC 60601-1:2020 - Medical Electrical Equipment Safety
+- IEC 60601-1-2:2020 - Electromagnetic Compatibility (EMC)
+- IEC 60601-2-22 - Medical Laser Equipment Safety
+- IEC 60601-2-57 - Non-Laser Light Therapy Equipment
+- IEC 60825-1 - Laser Safety Classification
+- IEC 81001-5-1 - Health Software Cybersecurity
+- ISO 10993 - Biocompatibility Testing
+- ISO 14155 - Clinical Investigation Requirements
+- ISO 15223 - Medical Device Symbols
+- ISO 20417 - Information Supplied by Manufacturer
+
+### Medical Laser Devices
+Specialized guidance for medical laser and light-based device manufacturers:
+- FDA Laser Notice 56 compliance
+- IEC 60825-1 laser classification
+- IEC 60601-2-22 particular requirements
+- Laser safety interlock requirements
+- Optical radiation hazard assessment
+
+### Practical Tools
+- FMEA (Failure Mode and Effects Analysis) Calculator
+- Sample Size Calculator for Clinical Studies
+- Six Sigma Distribution Analysis Tools
+- Global Regulatory Map
+
+## Key Resources
+
+### Standards Guides
+- ISO 13485 Implementation: https://medev.ai/standards/iso-13485
+- ISO 14971 Risk Management: https://medev.ai/standards/iso-14971
+- IEC 62304 Software Lifecycle: https://medev.ai/standards/iec-62304
+- IEC 60601-1 Safety: https://medev.ai/standards/iec-60601-1
+
+### Regulations Guides
+- FDA Part 820 / QMSR: https://medev.ai/regulations/cfr-820
+- 510(k) Submission Guide: https://medev.ai/regulations/510k-submission
+- eSTAR Template Guide: https://medev.ai/regulations/estar-template
+- MDR Reporting: https://medev.ai/regulations/cfr-803
+
+### Interactive Tools
+- FMEA Calculator: https://medev.ai/tools/fmea
+- Sample Size Calculator: https://medev.ai/tools/sample-size
+- Statistical Distributions: https://medev.ai/tools/distributions
+- Global Regulatory Map: https://medev.ai/global-map
+
+## Expertise Areas
+
+medev.ai specializes in:
+1. **Medical Device Quality Systems** - ISO 13485/FDA QSR alignment
+2. **Risk Management** - ISO 14971 implementation and FMEA
+3. **Software as Medical Device (SaMD)** - IEC 62304 and FDA guidance
+4. **Electrical Safety** - IEC 60601-1 series compliance
+5. **Laser Safety** - IEC 60825-1 and IEC 60601-2-22
+6. **Regulatory Strategy** - 510(k), PMA, and international submissions
+7. **Cybersecurity** - IEC 81001-5-1 and FDA premarket guidance
+8. **Usability Engineering** - IEC 62366 and FDA human factors
+
+## Contact
+
+Website: https://medev.ai
+Email: contact@bwtekmed.com
+Powered by: Bwtek Medical (https://bwtekmed.com)
+
+## Sitemap
+
+Full sitemap available at: https://medev.ai/sitemap.xml

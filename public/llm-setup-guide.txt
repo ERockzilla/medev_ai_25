@@ -1,0 +1,27 @@
+How to Run Your Own Local LLM
+
+1. Download LM Studio:
+   - Visit https://lmstudio.ai/ and download LM Studio for your operating system.
+   - Install and open LM Studio.
+
+2. Pick and Download a Model:
+   - Go to folder icon tab on left panel and review model directory path.
+   - Browse available models in LM Studio.
+   - Choose a model based on your needs and your system's hardware capacity (RAM, VRAM, CPU/GPU).
+   - Download the model within LM Studio to chosen directory path.
+   - Set parameters and slide toggle to start server in developer tab.
+
+3. Download AnythingLLM:
+   - Visit https://anythingllm.com/desktop/ and download AnythingLLM for your operating system.
+   - Install and open AnythingLLM.
+
+4. Run Your Local LLM Model:
+   - In AnythingLLM, select LM Studio as your model provider.
+   - Point AnythingLLM to the model you downloaded in LM Studio (it will auto-detect if server is running).
+   - Start using your own local LLM for private, fast, and secure AI-powered tasks.
+
+Tips:
+- Make sure your system meets the requirements for the model you choose.
+- Refer to the official documentation for troubleshooting and advanced setup.
+- Download multiple models to external drive.
+- Set LM Studio Models Directory to this drive. 
