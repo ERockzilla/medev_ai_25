@@ -40,7 +40,7 @@ export default function AboutPage() {
         {/* Introduction Text */}
         <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-8 border border-slate-700 space-y-6 text-slate-300 shadow-xl mb-12">
           <p className="leading-relaxed text-lg">
-            We believe that knowledge about medical device development from regulatory pathways to laser physics should be accessible to everyone. That is why we built <strong className="text-white">medev.ai</strong>: a free, open-source intelligence platform designed to demystify the industry for engineers, regulatory professionals, and innovators.
+            We believe that knowledge about medical device development, regulatory pathways, and laser physics should be accessible to everyone. That is why we built <strong className="text-white">medev.ai</strong>: a free, open-source intelligence platform designed to demystify the industry for engineers, regulatory professionals, and innovators.
           </p>
         </div>
 
