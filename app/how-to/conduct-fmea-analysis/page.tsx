@@ -466,7 +466,7 @@ export default function HowToFMEAPage() {
           {/* Breadcrumb */}
           <div className="mb-6 flex items-center justify-between">
             <Link 
-              href="/dashboard"
+              href="/"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
             >
               <ArrowLeft className="w-4 h-4" />

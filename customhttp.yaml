@@ -1,0 +1,59 @@
+customHeaders:
+  # 1. GLOBAL HEADERS
+  - pattern: '**/*'
+    headers:
+      - key: 'Strict-Transport-Security'
+        value: 'max-age=63072000; includeSubDomains; preload'
+      - key: 'Content-Security-Policy'
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.g.doubleclick.net; img-src 'self' data: https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; frame-ancestors 'self';"
+      - key: 'X-Content-Type-Options'
+        value: 'nosniff'
+      - key: 'Referrer-Policy'
+        value: 'strict-origin-when-cross-origin'
+      - key: 'Permissions-Policy'
+        value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()'
+      
+      # PERFORMANCE: Helps browser resolve external links faster
+      - key: 'X-DNS-Prefetch-Control'
+        value: 'on'
+
+      # INSIDER TIP: Prevents your site from being opened in a malicious iframe popup context
+      - key: 'Cross-Origin-Opener-Policy'
+        value: 'same-origin-allow-popups'
+
+      # FUN / BRANDING
+      - key: 'X-Recruiting'
+        value: 'Like heady toppers? Contact eric@medev.ai'
+      - key: 'Clacks-Overhead'
+        value: 'GNU Terry Pratchett'
+      - key: 'X-Powered-By'
+        value: 'Lollipop kids, umpa lumpas, and death magnetic puppet masters'
+
+  # 2. NEXT.JS DATA & API ROUTES (SEO Hygiene)
+  # Prevents Google from indexing raw JSON data or API responses as search results
+  - pattern: '**/*.json'
+    headers:
+      - key: 'X-Robots-Tag'
+        value: 'noindex'
+      - key: 'Cache-Control'
+        value: 'public, max-age=0, must-revalidate'
+
+  # 3. SAFETY VALVE: Service Worker & Manifest
+  # NEVER cache these. If you do, you can't update your app for users.
+  - pattern: '**/{service-worker.js,manifest.json}'
+    headers:
+      - key: 'Cache-Control'
+        value: 'public, max-age=0, must-revalidate'
+
+  # 4. STATIC ASSETS (Long-term Caching)
+  # Note: Removed .json from here to handle it separately above
+  - pattern: '**/*.{js,css,png,jpg,jpeg,gif,ico,svg,woff,woff2,webp,avif}'
+    headers:
+      - key: 'Cache-Control'
+        value: 'public, max-age=31536000, immutable'
+
+  # 5. HTML PAGES
+  - pattern: '**/*.html'
+    headers:
+      - key: 'Cache-Control'
+        value: 'public, max-age=0, must-revalidate'

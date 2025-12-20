@@ -56,7 +56,7 @@ export default function AboutPage() {
               Use medev.ai to research standards, simulate regulatory strategies, and build your technical foundation without barriers.
             </p>
             <Link 
-              href="/dashboard" 
+              href="/" 
               className="relative z-10 inline-flex items-center text-blue-400 font-medium hover:text-blue-300 transition-colors"
             >
              <span className="ml-2">← </span> Back to Dashboard 

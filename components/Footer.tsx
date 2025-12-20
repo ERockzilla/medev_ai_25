@@ -82,7 +82,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Platform</h4>
             <ul className="space-y-3">
-              <FooterLink href="/dashboard">Knowledge Center</FooterLink>
+              <FooterLink href="/">Knowledge Center</FooterLink>
               <FooterLink href="/glossary">Glossary</FooterLink>
               <FooterLink href="/standards">Standards Database</FooterLink>
               <FooterLink href="/regulations">Regulations</FooterLink>

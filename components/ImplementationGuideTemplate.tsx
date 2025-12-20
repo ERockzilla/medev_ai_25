@@ -91,7 +91,7 @@ export default function ImplementationGuideTemplate({
           {/* Breadcrumb */}
           <div className="mb-6">
             <Link 
-              href="/dashboard"
+              href="/"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
             >
               <ArrowLeft className="w-4 h-4" />
