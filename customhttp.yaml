@@ -1,27 +1,89 @@
 customHeaders:
-  # 1. GLOBAL HEADERS
+  # =============================================================================
+  # SECURITY HEADERS CONFIGURATION FOR AWS AMPLIFY
+  # Last Updated: 2024-12-20
+  # 
+  # NOTE: This file is safe to keep in public repos - it contains policies, 
+  # not secrets. Attackers can view these headers in browser DevTools anyway.
+  # =============================================================================
+
+  # 1. GLOBAL HEADERS - Applied to ALL routes
   - pattern: '**/*'
     headers:
+      # ---------------------------------------------------------------------
+      # TRANSPORT SECURITY
+      # ---------------------------------------------------------------------
       - key: 'Strict-Transport-Security'
         value: 'max-age=63072000; includeSubDomains; preload'
-      - key: 'Content-Security-Policy'
-        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.g.doubleclick.net; img-src 'self' data: https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; frame-ancestors 'self';"
-      - key: 'X-Content-Type-Options'
-        value: 'nosniff'
-      - key: 'Referrer-Policy'
-        value: 'strict-origin-when-cross-origin'
-      - key: 'Permissions-Policy'
-        value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()'
       
-      # PERFORMANCE: Helps browser resolve external links faster
-      - key: 'X-DNS-Prefetch-Control'
-        value: 'on'
-
-      # INSIDER TIP: Prevents your site from being opened in a malicious iframe popup context
+      # ---------------------------------------------------------------------
+      # CONTENT SECURITY POLICY (CSP)
+      # This is your PRIMARY defense against XSS and injection attacks
+      # ---------------------------------------------------------------------
+      - key: 'Content-Security-Policy'
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.g.doubleclick.net; img-src 'self' data: https://www.google-analytics.com https://*.githubusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;"
+      
+      # ---------------------------------------------------------------------
+      # ANTI-CLICKJACKING / FRAMING PROTECTION
+      # Prevents your site from being embedded in malicious iframes
+      # ---------------------------------------------------------------------
+      - key: 'X-Frame-Options'
+        value: 'SAMEORIGIN'
+      
       - key: 'Cross-Origin-Opener-Policy'
         value: 'same-origin-allow-popups'
+      
+      - key: 'Cross-Origin-Embedder-Policy'
+        value: 'credentialless'
+      
+      - key: 'Cross-Origin-Resource-Policy'
+        value: 'same-origin'
+      
+      # ---------------------------------------------------------------------
+      # CONTENT TYPE / MIME SNIFFING PROTECTION
+      # Prevents browsers from MIME-sniffing content
+      # ---------------------------------------------------------------------
+      - key: 'X-Content-Type-Options'
+        value: 'nosniff'
+      
+      # ---------------------------------------------------------------------
+      # XSS PROTECTION (Legacy but still useful for older browsers)
+      # ---------------------------------------------------------------------
+      - key: 'X-XSS-Protection'
+        value: '1; mode=block'
+      
+      # ---------------------------------------------------------------------
+      # REFERRER POLICY
+      # Controls what information is sent in the Referer header
+      # ---------------------------------------------------------------------
+      - key: 'Referrer-Policy'
+        value: 'strict-origin-when-cross-origin'
+      
+      # ---------------------------------------------------------------------
+      # PERMISSIONS POLICY (formerly Feature-Policy)
+      # Disables browser features you don't need - reduces attack surface
+      # ---------------------------------------------------------------------
+      - key: 'Permissions-Policy'
+        value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=(), interest-cohort=()'
+      
+      # ---------------------------------------------------------------------
+      # DNS PREFETCH CONTROL
+      # Performance optimization - helps resolve external links faster
+      # ---------------------------------------------------------------------
+      - key: 'X-DNS-Prefetch-Control'
+        value: 'on'
+      
+      # ---------------------------------------------------------------------
+      # CACHE CONTROL FOR SECURITY
+      # Prevents sensitive pages from being cached inappropriately
+      # ---------------------------------------------------------------------
+      - key: 'X-Permitted-Cross-Domain-Policies'
+        value: 'none'
 
-      # FUN / BRANDING
+      # ---------------------------------------------------------------------
+      # FUN / BRANDING HEADERS
+      # Easter eggs for fellow developers who check response headers
+      # ---------------------------------------------------------------------
       - key: 'X-Recruiting'
         value: 'Like heady toppers? Contact eric@medev.ai'
       - key: 'Clacks-Overhead'
