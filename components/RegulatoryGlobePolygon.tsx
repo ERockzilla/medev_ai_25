@@ -21,7 +21,7 @@ export default function RegulatoryGlobePolygon({ selectedCountry, onCountrySelec
 
   // Load GeoJSON data
   useEffect(() => {
-    fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+    fetch('/countries.geo.json')
       .then(res => res.json())
       .then(data => {
         const features = data.features || [];
