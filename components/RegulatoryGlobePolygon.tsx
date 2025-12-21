@@ -40,10 +40,11 @@ export default function RegulatoryGlobePolygon({ selectedCountry, onCountrySelec
 
     try {
       const myGlobe = new Globe(globeEl.current)
-        .showGlobe(false) // Hide Earth texture - show only colored countries
+        .showGlobe(true) // Show Earth texture as fallback/base layer
+        .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
         .showAtmosphere(true)
         .atmosphereColor('#3b82f6')
-        .atmosphereAltitude(0.2)
+        .atmosphereAltitude(0.25)
         .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
         .width(globeEl.current.offsetWidth)
         .height(Math.min(700, window.innerHeight - 250))
@@ -130,8 +131,8 @@ export default function RegulatoryGlobePolygon({ selectedCountry, onCountrySelec
       .polygonsData(polygonsData)
       .polygonCapColor((d: any) => d.color)
       .polygonSideColor((d: any) => d.color)
-      .polygonStrokeColor(() => '#111827')
-      .polygonAltitude((d: any) => d.regulatory ? 0.015 : 0.001)
+      .polygonStrokeColor(() => '#ffffff')
+      .polygonAltitude((d: any) => d.regulatory ? 0.02 : 0.005)
       .polygonLabel((d: any) => {
         if (!d.regulatory) return '';
         const reg = d.regulatory;
