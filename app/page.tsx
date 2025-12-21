@@ -8,7 +8,7 @@ import MatrixBackground from '@/components/MatrixBackground';
 import SmartSearch from '@/components/SmartSearch';
 import MedicalDeviceTimeline from '@/components/MedicalDeviceTimeline';
 import { KNOWLEDGE_CATEGORIES, getTotalArticleCount } from '@/lib/knowledgeBase';
-import { BookOpen, Bookmark, Plus, ChevronRight, ChevronLeft, Trash2 } from 'lucide-react';
+import { BookOpen, Bookmark, Plus, ChevronRight, ChevronLeft, Trash2, RotateCcw } from 'lucide-react';
 import { useBookmarks } from '@/contexts/BookmarkContext';
 
 export default function DashboardPage() {
@@ -202,7 +202,7 @@ export default function DashboardPage() {
                             </Link>
                             <button
                               onClick={() => removeBookmark(bookmark.id)}
-                              className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+                              className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all"
                               title="Remove bookmark"
                             >
                               <Trash2 className="w-4 h-4" />

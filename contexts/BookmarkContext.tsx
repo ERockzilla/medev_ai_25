@@ -16,14 +16,36 @@ interface BookmarkContextType {
   removeBookmark: (id: string) => void;
   isBookmarked: (url: string) => boolean;
   toggleBookmark: (bookmark: Omit<BookmarkItem, 'id' | 'addedAt'>) => void;
+  resetToDefaults: () => void;
 }
 
 const BookmarkContext = createContext<BookmarkContextType | undefined>(undefined);
 
 const DEFAULT_BOOKMARKS: BookmarkItem[] = [
+  // Core Standards
   { id: '1', title: 'ISO 13485 - QMS', url: '/standards/iso-13485', type: 'standard', addedAt: Date.now() },
-  { id: '2', title: 'FMEA Calculator', url: '/tools/fmea-calculator', type: 'tool', addedAt: Date.now() },
-  { id: '3', title: '21 CFR Part 820', url: '/regulations/cfr-820', type: 'regulation', addedAt: Date.now() },
+  { id: '2', title: 'ISO 14971 - Risk Management', url: '/standards/iso-14971', type: 'standard', addedAt: Date.now() },
+  { id: '3', title: 'IEC 62304 - Software Lifecycle', url: '/standards/iec-62304', type: 'standard', addedAt: Date.now() },
+  { id: '4', title: 'IEC 60601-1 - General Safety', url: '/standards/iec-60601-1', type: 'standard', addedAt: Date.now() },
+  { id: '5', title: 'IEC 62366 - Usability Engineering', url: '/standards/iec-62366', type: 'standard', addedAt: Date.now() },
+
+  // Key Regulations
+  { id: '6', title: '21 CFR Part 820', url: '/regulations/cfr-820', type: 'regulation', addedAt: Date.now() },
+
+  // Essential Tools
+  { id: '7', title: 'FMEA Calculator', url: '/tools/fmea', type: 'tool', addedAt: Date.now() },
+  { id: '8', title: 'Device Classification', url: '/tools/device-classification', type: 'tool', addedAt: Date.now() },
+  { id: '9', title: 'Regulatory Pathway Finder', url: '/tools/regulatory-pathway', type: 'tool', addedAt: Date.now() },
+  { id: '10', title: 'Laser Safety Calculator', url: '/tools/laser-safety', type: 'tool', addedAt: Date.now() },
+  { id: '11', title: 'Software Risk Classification', url: '/tools/software-risk-class', type: 'tool', addedAt: Date.now() },
+
+  // Guides
+  { id: '12', title: 'Guide: Integrated Risk Management', url: '/guides/integrated-risk-management', type: 'guide', addedAt: Date.now() },
+  { id: '13', title: 'Guide: Usability Engineering', url: '/guides/usability-engineering', type: 'guide', addedAt: Date.now() },
+
+  // How-To's
+  { id: '14', title: 'How To: Conduct FMEA Analysis', url: '/how-to/conduct-fmea-analysis', type: 'how-to', addedAt: Date.now() },
+  { id: '15', title: 'How To: Design Development (ISO 13485)', url: '/how-to/design-development-iso13485', type: 'how-to', addedAt: Date.now() },
 ];
 
 export function BookmarkProvider({ children }: { children: ReactNode }) {
@@ -76,8 +98,13 @@ export function BookmarkProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const resetToDefaults = () => {
+    localStorage.removeItem('medev-bookmarks');
+    setBookmarks(DEFAULT_BOOKMARKS);
+  };
+
   return (
-    <BookmarkContext.Provider value={{ bookmarks, addBookmark, removeBookmark, isBookmarked, toggleBookmark }}>
+    <BookmarkContext.Provider value={{ bookmarks, addBookmark, removeBookmark, isBookmarked, toggleBookmark, resetToDefaults }}>
       {children}
     </BookmarkContext.Provider>
   );

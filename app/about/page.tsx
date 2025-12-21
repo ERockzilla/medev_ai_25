@@ -26,11 +26,11 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 pt-20 pb-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        
+
         {/* Header Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight">
-            About medev.ai
+            MEDev.AI
           </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
             Expanding medical device intelligence for the next generation of innovators.
@@ -46,7 +46,7 @@ export default function AboutPage() {
 
         {/* The "Choice" UX Section: Visualizing the Connection */}
         <div className="grid md:grid-cols-2 gap-6">
-          
+
           {/* Card 1: Medev.ai (Learning) */}
           <div className="relative group bg-slate-800/80 rounded-xl p-8 border border-blue-900/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-blue-900/20">
             <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl pointer-events-none" />
@@ -55,11 +55,11 @@ export default function AboutPage() {
             <p className="text-slate-400 text-sm mb-6 min-h-[80px]">
               Use medev.ai to research standards, simulate regulatory strategies, and build your technical foundation without barriers.
             </p>
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="relative z-10 inline-flex items-center text-blue-400 font-medium hover:text-blue-300 transition-colors"
             >
-             <span className="ml-2">← </span> Back to Dashboard 
+              <span className="ml-2">← </span> Back to Dashboard
             </Link>
           </div>
 
@@ -71,9 +71,9 @@ export default function AboutPage() {
             <p className="text-slate-400 text-sm mb-6 min-h-[80px]">
               Ready to transition from learning to building? Our partner <strong className="text-white">BWtek Medical</strong> provides certified design and manufacturing for laser systems.
             </p>
-            <a 
-              href="https://bwtekmed.com" 
-              target="_blank" 
+            <a
+              href="https://bwtekmed.com"
+              target="_blank"
               rel="noopener noreferrer"
               className="relative z-10 inline-flex items-center text-emerald-400 font-medium hover:text-emerald-300 transition-colors"
             >
