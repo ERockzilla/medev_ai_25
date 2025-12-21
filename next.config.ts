@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
 
+  // ==========================================================================
+  // SECURITY NOTE: Malicious paths like /lander are BLOCKED in middleware.ts
+  // Middleware returns 410 GONE - no redirects, no chains, just dead end
+  // ==========================================================================
+
   // Security headers for production
   async headers() {
     return [
