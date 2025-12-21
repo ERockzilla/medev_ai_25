@@ -120,6 +120,8 @@ export default function RegulatoryAnalysisPage() {
               <RegulatoryGlobe
                 selectedCountry={selectedCountry?.code}
                 onCountrySelect={(data) => setSelectedCountry(data)}
+                data={adjustedData}
+                metric={metric}
               />
             </div>
 
@@ -235,8 +237,8 @@ export default function RegulatoryAnalysisPage() {
             </div>
           </div>
         </div>
-                      {/* Footer */}
-              <Footer />
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );

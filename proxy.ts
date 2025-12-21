@@ -1,8 +1,9 @@
+
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // =============================================================================
-// SECURITY MIDDLEWARE
+// SECURITY PROXY
 // Blocks known malicious paths BEFORE they hit any page
 // Returns immediate 410 GONE response - NO redirect chain
 // =============================================================================
@@ -31,7 +32,7 @@ function isBlockedPath(pathname: string): boolean {
     );
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // ==========================================================================
@@ -185,7 +186,7 @@ export function middleware(request: NextRequest) {
 
 // =============================================================================
 // MATCHER CONFIG
-// Only run middleware on specific paths to avoid performance hit on every request
+// Only run proxy on specific paths to avoid performance hit on every request
 // =============================================================================
 export const config = {
     matcher: [

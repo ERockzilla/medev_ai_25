@@ -2,14 +2,16 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Globe from 'globe.gl';
-import { REGULATORY_DATA, type RegulatoryData } from '@/lib/regulatoryData';
+import { type RegulatoryData } from '@/lib/regulatoryData';
 
 interface RegulatoryGlobePolygonProps {
   selectedCountry?: string;
   onCountrySelect?: (data: RegulatoryData) => void;
+  data: RegulatoryData[];
+  metric: 'complexity' | 'cost' | 'timeline';
 }
 
-export default function RegulatoryGlobePolygon({ selectedCountry, onCountrySelect }: RegulatoryGlobePolygonProps) {
+export default function RegulatoryGlobePolygon({ selectedCountry, onCountrySelect, data, metric }: RegulatoryGlobePolygonProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const globeEl = useRef<HTMLDivElement>(null);
   const globeInstance = useRef<any>(null);
@@ -78,13 +80,13 @@ export default function RegulatoryGlobePolygon({ selectedCountry, onCountrySelec
     }
   }, [countries]);
 
-  // Update polygon colors
+  // Update polygon colors based on passed data and metric
   useEffect(() => {
-    if (!globeInstance.current || countries.length === 0) return;
+    if (!globeInstance.current || countries.length === 0 || data.length === 0) return;
 
-    // Create maps for country matching
-    const regulatoryByCode = new Map(REGULATORY_DATA.map(d => [d.code.toUpperCase(), d]));
-    const regulatoryByCountry = new Map(REGULATORY_DATA.map(d => [d.country.toUpperCase(), d]));
+    // Create maps for country matching using the passed data (which includes adjustments)
+    const regulatoryByCode = new Map(data.map(d => [d.code.toUpperCase(), d]));
+    const regulatoryByCountry = new Map(data.map(d => [d.country.toUpperCase(), d]));
 
     // Country name aliases
     const nameAliases: Record<string, string> = {
@@ -134,14 +136,28 @@ export default function RegulatoryGlobePolygon({ selectedCountry, onCountrySelec
         if (!d.regulatory) return '';
         const reg = d.regulatory;
 
+        // Determine which metric to highlight based on prop
+        const metricLabel = metric === 'complexity' ? 'Complexity' : metric === 'cost' ? 'Avg Cost' : 'Timeline';
+        const metricValue = metric === 'complexity'
+          ? `${reg.complexity}/10`
+          : metric === 'cost'
+            ? `$${(reg.avgCost / 1000).toFixed(0)}k`
+            : `${reg.avgTimeline} months`;
+
         return `
           <div style="background: rgba(17, 24, 39, 0.95); color: white; padding: 12px 16px; border-radius: 8px; font-family: system-ui; min-width: 220px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); border: 1px solid ${reg.color};">
             <div style="font-size: 18px; font-weight: bold; margin-bottom: 4px; color: ${reg.color};">${reg.country}</div>
             <div style="font-size: 13px; color: #9ca3af; margin-bottom: 12px;">${reg.code} - ${reg.agency}</div>
-            <div style="border-top: 1px solid #374151; padding-top: 8px; margin-top: 8px; space-y: 6px;">
+            <div style="background: ${reg.color}20; padding: 8px; border-radius: 6px; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #d1d5db; font-size: 14px;">${metricLabel}:</span>
+                <span style="font-weight: bold; color: ${reg.color}; font-size: 16px;">${metricValue}</span>
+              </div>
+            </div>
+            <div style="border-top: 1px solid #374151; padding-top: 8px; margin-top: 8px;">
               <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
                 <span style="color: #d1d5db; font-size: 13px;">Complexity:</span>
-                <span style="font-weight: bold; color: ${reg.color}; font-size: 14px;">${reg.complexity}/10</span>
+                <span style="font-weight: bold; color: white; font-size: 14px;">${reg.complexity}/10</span>
               </div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
                 <span style="color: #d1d5db; font-size: 13px;">Avg Cost:</span>
@@ -161,7 +177,7 @@ export default function RegulatoryGlobePolygon({ selectedCountry, onCountrySelec
         }
       });
 
-  }, [countries, selectedCountry, onCountrySelect]);
+  }, [countries, selectedCountry, onCountrySelect, data, metric]);
 
   return (
     <div ref={containerRef} className="relative w-full h-full">
