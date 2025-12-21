@@ -22,6 +22,7 @@ const RegulatoryGlobe = dynamic(() => import('@/components/RegulatoryGlobePolygo
 
 export default function GlobalMapPage() {
   const [selectedCountry, setSelectedCountry] = useState<RegulatoryData | null>(null);
+  const [metric, setMetric] = useState<'complexity' | 'cost' | 'timeline'>('complexity');
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
@@ -45,10 +46,14 @@ export default function GlobalMapPage() {
               </div>
               <div className="flex items-center gap-2">
                 <label className="text-sm text-gray-700">Color By:</label>
-                <select className="px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>Complexity Score</option>
-                  <option>Registration Cost</option>
-                  <option>Timeline</option>
+                <select
+                  value={metric}
+                  onChange={(e) => setMetric(e.target.value as 'complexity' | 'cost' | 'timeline')}
+                  className="px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="complexity">Complexity Score</option>
+                  <option value="cost">Registration Cost</option>
+                  <option value="timeline">Timeline</option>
                 </select>
               </div>
             </div>
@@ -76,6 +81,8 @@ export default function GlobalMapPage() {
               <RegulatoryGlobe
                 selectedCountry={selectedCountry?.code}
                 onCountrySelect={(data) => setSelectedCountry(data)}
+                data={REGULATORY_DATA}
+                metric={metric}
               />
             </div>
 
@@ -170,8 +177,8 @@ export default function GlobalMapPage() {
           )}
         </div>
       </div>
-              {/* Footer */}
-              <Footer />
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
@@ -188,7 +195,7 @@ function InfoCard({ title, value, code, color }: any) {
         {code}
       </span>
     </div>
-    );
+  );
 }
 
 
