@@ -12,7 +12,7 @@ A free, open-source platform for Meditech professionals featuring comprehensive 
 5. Development - Process
 6. Testing - Traceability
 7. Compliance - Regulatory Oversight
-8. Refinemnet - Statiscial Governance
+8. Refinemnet - Statistical Governance
 
 ---
 
