@@ -4,7 +4,7 @@ customHeaders:
       - key: 'Strict-Transport-Security'
         value: 'max-age=63072000; includeSubDomains; preload'
       - key: 'Content-Security-Policy'
-        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://umami-git-main-erics-projects-cc3a2b1c.vercel.app; connect-src 'self' https://umami-git-main-erics-projects-cc3a2b1c.vercel.app; img-src 'self' data: https://*.githubusercontent.com https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;"
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self'; img-src 'self' data: https://*.githubusercontent.com https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;"
       - key: 'X-Frame-Options'
         value: 'SAMEORIGIN'
       - key: 'Cross-Origin-Opener-Policy'

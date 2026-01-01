@@ -12,6 +12,20 @@ const nextConfig: NextConfig = {
   // Middleware returns 410 GONE - no redirects, no chains, just dead end
   // ==========================================================================
 
+  // Rewrites to proxy Umami analytics
+  async rewrites() {
+    return [
+      {
+        source: '/stats/script.js',
+        destination: 'https://umami-git-main-erics-projects-cc3a2b1c.vercel.app/script.js',
+      },
+      {
+        source: '/stats/api/:match*',
+        destination: 'https://umami-git-main-erics-projects-cc3a2b1c.vercel.app/api/:match*',
+      },
+    ];
+  },
+
   // Security headers for production
   async headers() {
     return [
@@ -40,7 +54,8 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://umami-git-main-erics-projects-cc3a2b1c.vercel.app; connect-src 'self' https://umami-git-main-erics-projects-cc3a2b1c.vercel.app; img-src 'self' data: https://unpkg.com https://*.githubusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; frame-ancestors 'self';"
+            // Simplified CSP: everything is now 'self' thanks to the proxy!
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self'; img-src 'self' data: https://unpkg.com https://*.githubusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; frame-ancestors 'self';"
           },
         ],
       },
