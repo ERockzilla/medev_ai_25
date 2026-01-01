@@ -1,80 +1,30 @@
 customHeaders:
-  # =============================================================================
-  # SECURITY HEADERS CONFIGURATION FOR AWS AMPLIFY
-  # Last Updated: 2025-12-21
-  # =============================================================================
-
-  # 1. GLOBAL HEADERS - Applied to ALL routes
   - pattern: '**/*'
     headers:
-      # ---------------------------------------------------------------------
-      # TRANSPORT SECURITY
-      # ---------------------------------------------------------------------
       - key: 'Strict-Transport-Security'
         value: 'max-age=63072000; includeSubDomains; preload'
-      
-      # ---------------------------------------------------------------------
-      # CONTENT SECURITY POLICY (CSP)
-      # XSS and injection attacks
-      # ---------------------------------------------------------------------
       - key: 'Content-Security-Policy'
-        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.g.doubleclick.net; img-src 'self' data: https://www.google-analytics.com https://*.githubusercontent.com https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;"
-      
-      # ---------------------------------------------------------------------
-      # ANTI-CLICKJACKING / FRAMING PROTECTION
-      # malicious iframes
-      # ---------------------------------------------------------------------
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://umami-git-main-erics-projects-cc3a2b1c.vercel.app; connect-src 'self' https://umami-git-main-erics-projects-cc3a2b1c.vercel.app; img-src 'self' data: https://*.githubusercontent.com https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests;"
       - key: 'X-Frame-Options'
         value: 'SAMEORIGIN'
-      
       - key: 'Cross-Origin-Opener-Policy'
         value: 'same-origin-allow-popups'
-      
       - key: 'Cross-Origin-Embedder-Policy'
         value: 'credentialless'
-      
       - key: 'Cross-Origin-Resource-Policy'
         value: 'same-origin'
-      
-      # ---------------------------------------------------------------------
-      # CONTENT TYPE / MIME SNIFFING PROTECTION
-      #       # ---------------------------------------------------------------------
       - key: 'X-Content-Type-Options'
         value: 'nosniff'
-      
-      # ---------------------------------------------------------------------
-      # XSS PROTECTION (Legacy)
-      # ---------------------------------------------------------------------
       - key: 'X-XSS-Protection'
         value: '1; mode=block'
-      
-      # ---------------------------------------------------------------------
-      # REFERRER POLICY
-      # ---------------------------------------------------------------------
       - key: 'Referrer-Policy'
         value: 'strict-origin-when-cross-origin'
-      
-      # ---------------------------------------------------------------------
-      # PERMISSIONS POLICY (formerly Feature-Policy)
-      # ---------------------------------------------------------------------
       - key: 'Permissions-Policy'
         value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=(), interest-cohort=()'
-      
-      # ---------------------------------------------------------------------
-      # DNS PREFETCH CONTROL
-      #  ---------------------------------------------------------------------
       - key: 'X-DNS-Prefetch-Control'
         value: 'on'
-      
-      # ---------------------------------------------------------------------
-      # CACHE CONTROL FOR SECURITY
-      # ---------------------------------------------------------------------
       - key: 'X-Permitted-Cross-Domain-Policies'
         value: 'none'
-
-      # ---------------------------------------------------------------------
-      # BRANDING HEADERS
-      # ---------------------------------------------------------------------
       - key: 'X-Recruiting'
         value: 'Like heady toppers? Contact eric@medev.ai'
       - key: 'Clacks-Overhead'
@@ -82,7 +32,6 @@ customHeaders:
       - key: 'X-Powered-By'
         value: 'Lollipop kids, umpa lumpas, and death magnetic puppet masters'
 
-  # 2. NEXT.JS DATA & API ROUTES (SEO Hygiene)
   - pattern: '**/*.json'
     headers:
       - key: 'X-Robots-Tag'
@@ -90,19 +39,16 @@ customHeaders:
       - key: 'Cache-Control'
         value: 'public, max-age=0, must-revalidate'
 
-  # 3. SAFETY VALVE: Service Worker & Manifest
   - pattern: '**/{service-worker.js,manifest.json}'
     headers:
       - key: 'Cache-Control'
         value: 'public, max-age=0, must-revalidate'
 
-  # 4. STATIC ASSETS (Long-term Caching)
   - pattern: '**/*.{js,css,png,jpg,jpeg,gif,ico,svg,woff,woff2,webp,avif}'
     headers:
       - key: 'Cache-Control'
         value: 'public, max-age=31536000, immutable'
 
-  # 5. HTML PAGES
   - pattern: '**/*.html'
     headers:
       - key: 'Cache-Control'

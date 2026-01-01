@@ -59,7 +59,7 @@ export default function AboutPage() {
               href="/"
               className="relative z-10 inline-flex items-center text-blue-400 font-medium hover:text-blue-300 transition-colors"
             >
-              <span className="ml-2">← </span> Back to Dashboard
+              <span className="ml-2">← </span> Back to Knowledge Center
             </Link>
           </div>
 

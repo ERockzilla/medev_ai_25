@@ -40,7 +40,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; img-src 'self' data: https://unpkg.com https://*.githubusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; frame-ancestors 'self';"
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://umami-git-main-erics-projects-cc3a2b1c.vercel.app; connect-src 'self' https://umami-git-main-erics-projects-cc3a2b1c.vercel.app; img-src 'self' data: https://unpkg.com https://*.githubusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; frame-ancestors 'self';"
           },
         ],
       },

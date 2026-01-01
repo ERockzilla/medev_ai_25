@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import StructuredData, { generateOrganizationSchema, generateWebSiteSchema } from "@/components/StructuredData";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
+import Analytics from "@/components/Analytics";
 
 export const metadata: Metadata = {
   title: {
@@ -87,7 +87,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <GoogleAnalytics />
+        <Analytics />
         <StructuredData data={generateOrganizationSchema()} />
         <StructuredData data={generateWebSiteSchema()} />
         <Providers>
