@@ -12,19 +12,7 @@ const nextConfig: NextConfig = {
   // Middleware returns 410 GONE - no redirects, no chains, just dead end
   // ==========================================================================
 
-  // Rewrites to proxy Umami analytics
-  async rewrites() {
-    return [
-      {
-        source: '/stats/script.js',
-        destination: 'https://umami-git-main-erics-projects-cc3a2b1c.vercel.app/script.js',
-      },
-      {
-        source: '/stats/api/:match*',
-        destination: 'https://umami-git-main-erics-projects-cc3a2b1c.vercel.app/api/:match*',
-      },
-    ];
-  },
+  // Analytics proxy now handled via API routes in /app/stats/ (more reliable on Amplify)
 
   // Security headers for production
   async headers() {
