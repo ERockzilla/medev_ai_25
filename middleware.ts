@@ -10,43 +10,43 @@ import type { NextRequest } from 'next/server';
 
 // List of paths that should be completely blocked
 const BLOCKED_PATHS = [
-    '/lander',
-    '/redirect',
-    '/go',
-    '/out',
-    '/track',
-    '/click',
-    '/r/',
-    '/l/',
-    '/aff/',
-    '/affiliate',
-    '/promo',
-    '/offer',
+  '/lander',
+  '/redirect',
+  '/go',
+  '/out',
+  '/track',
+  '/click',
+  '/r/',
+  '/l/',
+  '/aff/',
+  '/affiliate',
+  '/promo',
+  '/offer',
 ];
 
 // Check if a path starts with any blocked prefix
 function isBlockedPath(pathname: string): boolean {
-    const lowerPath = pathname.toLowerCase();
-    return BLOCKED_PATHS.some(blocked =>
-        lowerPath === blocked || lowerPath.startsWith(blocked + '/')
-    );
+  const lowerPath = pathname.toLowerCase();
+  return BLOCKED_PATHS.some(blocked =>
+    lowerPath === blocked || lowerPath.startsWith(blocked + '/')
+  );
 }
 
-export function proxy(request: NextRequest) {
-    const { pathname } = request.nextUrl;
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-    // ==========================================================================
-    // BLOCK MALICIOUS PATHS
-    // Returns 410 GONE - This path is permanently removed/blocked
-    // No redirect, no chain, just dead end for attackers
-    // ==========================================================================
-    if (isBlockedPath(pathname)) {
-        // Log the attempt (will show in Amplify logs)
-        console.warn(`[SECURITY] Blocked malicious path attempt: ${pathname} from ${request.headers.get('user-agent')}`);
+  // ==========================================================================
+  // BLOCK MALICIOUS PATHS
+  // Returns 410 GONE - This path is permanently removed/blocked
+  // No redirect, no chain, just dead end for attackers
+  // ==========================================================================
+  if (isBlockedPath(pathname)) {
+    // Log the attempt (will show in Amplify logs)
+    console.warn(`[SECURITY] Blocked malicious path attempt: ${pathname} from ${request.headers.get('user-agent')}`);
 
-        // Return 410 Gone with a friendly, informative page
-        return new NextResponse(
-            `<!DOCTYPE html>
+    // Return 410 Gone with a friendly, informative page
+    return new NextResponse(
+      `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -169,19 +169,19 @@ export function proxy(request: NextRequest) {
   </div>
 </body>
 </html>`,
-            {
-                status: 410, // GONE - Permanently removed
-                headers: {
-                    'Content-Type': 'text/html; charset=utf-8',
-                    'X-Robots-Tag': 'noindex, nofollow',
-                    'Cache-Control': 'no-store, no-cache, must-revalidate',
-                },
-            }
-        );
-    }
+      {
+        status: 410, // GONE - Permanently removed
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'X-Robots-Tag': 'noindex, nofollow',
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+        },
+      }
+    );
+  }
 
-    // Allow all other requests to continue normally
-    return NextResponse.next();
+  // Allow all other requests to continue normally
+  return NextResponse.next();
 }
 
 // =============================================================================
@@ -189,25 +189,25 @@ export function proxy(request: NextRequest) {
 // Only run proxy on specific paths to avoid performance hit on every request
 // =============================================================================
 export const config = {
-    matcher: [
-        // Match all paths that might be attack vectors
-        '/lander/:path*',
-        '/lander',
-        '/redirect/:path*',
-        '/redirect',
-        '/go/:path*',
-        '/go',
-        '/out/:path*',
-        '/out',
-        '/track/:path*',
-        '/track',
-        '/click/:path*',
-        '/click',
-        '/r/:path*',
-        '/l/:path*',
-        '/aff/:path*',
-        '/affiliate/:path*',
-        '/promo/:path*',
-        '/offer/:path*',
-    ],
+  matcher: [
+    // Match all paths that might be attack vectors
+    '/lander/:path*',
+    '/lander',
+    '/redirect/:path*',
+    '/redirect',
+    '/go/:path*',
+    '/go',
+    '/out/:path*',
+    '/out',
+    '/track/:path*',
+    '/track',
+    '/click/:path*',
+    '/click',
+    '/r/:path*',
+    '/l/:path*',
+    '/aff/:path*',
+    '/affiliate/:path*',
+    '/promo/:path*',
+    '/offer/:path*',
+  ],
 };
