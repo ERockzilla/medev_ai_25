@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const UMAMI_URL = 'https://umami-git-main-erics-projects-cc3a2b1c.vercel.app';
+// Self-hosted Umami on Vercel - production domain
+const UMAMI_URL = 'https://umami-ten-ruby.vercel.app';
 
 export async function GET() {
     try {

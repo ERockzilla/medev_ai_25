@@ -3,7 +3,7 @@
 import Script from 'next/script';
 
 // Umami Analytics - Privacy-focused, cookie-free analytics
-// Dashboard: https://umami-git-main-erics-projects-cc3a2b1c.vercel.app
+// Dashboard: https://umami-ten-ruby.vercel.app
 
 const UMAMI_WEBSITE_ID = '9e842b59-6a02-4f59-a74b-aca897eb8f75';
 // Use local proxy path to bypass ad blockers

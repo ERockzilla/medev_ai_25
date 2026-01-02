@@ -38,7 +38,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center relative">
       <MatrixBackground intensity="high" />
-      
+
       <div className="relative z-10 w-full max-w-md px-4">
         {/* Animated Logo Above Card */}
         <div className="mb-6">
@@ -55,7 +55,9 @@ export default function LoginPage() {
               </label>
               <input
                 id="email"
+                name="email"
                 type="email"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/80 backdrop-blur-sm transition-all"
@@ -71,7 +73,9 @@ export default function LoginPage() {
               </label>
               <input
                 id="password"
+                name="password"
                 type="password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/80 backdrop-blur-sm transition-all"

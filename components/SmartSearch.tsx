@@ -149,6 +149,8 @@ export default function SmartSearch() {
       <div className="relative">
         <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
         <input
+          id="smart-search"
+          name="smart-search"
           type="text"
           placeholder="Search standards, tools, guides... (try typing 'ISO', 'FMEA', or 'FDA')"
           value={query}
@@ -156,6 +158,7 @@ export default function SmartSearch() {
           onKeyDown={handleKeyDown}
           onFocus={() => query && results.length > 0 && setShowResults(true)}
           className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm"
+          autoComplete="off"
         />
         {query && (
           <button
