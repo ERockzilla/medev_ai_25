@@ -21,8 +21,8 @@ export async function GET(
     const feed = new RSS({
         title: `medev.ai - ${topic.charAt(0).toUpperCase() + topic.slice(1)} Resources`,
         description: `Latest resources about ${topic} from medev.ai`,
-        site_url: `https://medev.ai/feed/${topic}`,
-        feed_url: `https://medev.ai/feed/${topic}`,
+        site_url: `https://www.medev.ai/feed/${topic}`,
+        feed_url: `https://www.medev.ai/feed/${topic}`,
         language: 'en',
         pubDate: new Date(),
     });

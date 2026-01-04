@@ -5,8 +5,8 @@ export async function GET() {
     const feed = new RSS({
         title: 'medev.ai - Medical Device Development Resources',
         description: 'Latest guides, tutorials, and regulatory updates for medical device professionals.',
-        site_url: 'https://medev.ai',
-        feed_url: 'https://medev.ai/feed.xml',
+        site_url: 'https://www.medev.ai',
+        feed_url: 'https://www.medev.ai/feed.xml',
         language: 'en',
         pubDate: new Date(),
         copyright: `To allow for free use of content use a Creative Commons license.`,
