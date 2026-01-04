@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { BookOpen, FileText, Scale, Calculator, BarChart3, Sparkles, Briefcase, Menu, X } from 'lucide-react';
 import AnimatedLogo from './AnimatedLogo';
 import LiveClock from './LiveClock';
+import FutureGenIcon from './FutureGenIcon';
 
 export default function Header() {
   const pathname = usePathname();
@@ -19,6 +20,7 @@ export default function Header() {
     { href: '/ai-tools', Icon: Sparkles, title: 'AI Tools' },
     { href: '/regulatory-analysis', Icon: BarChart3, title: 'Analysis' },
     { href: '/professional-development', Icon: Briefcase, title: 'Professional Development' },
+    { href: '/future-generations', Icon: FutureGenIcon, title: 'Future Generations' },
   ];
 
   const isActive = (href: string) => {

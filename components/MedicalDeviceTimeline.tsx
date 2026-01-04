@@ -34,7 +34,7 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '1851', title: 'Ophthalmoscope Invented', description: 'Helmholtz invents ophthalmoscope for examining the interior of the eye', category: 'design', impact: 'high', link: 'https://en.wikipedia.org/wiki/History_of_medicine' },
   { year: '1855', title: 'Laryngoscope Invented', description: 'Garcia invents laryngoscope for examining the larynx and vocal cords', category: 'design', impact: 'high', link: 'https://en.wikipedia.org/wiki/History_of_medicine' },
   { year: '1867', title: 'Antiseptic Surgery', description: 'Lister introduces antiseptic techniques, revolutionizing surgical safety', category: 'design', impact: 'high', link: 'https://en.wikipedia.org/wiki/History_of_medicine' },
-  
+
   // Ancient & Medieval Regulations & Standards
   { year: '1750 BCE', title: 'Code of Hammurabi', description: 'Babylonian legal code includes earliest known medical practice regulations and physician liability laws', category: 'regulations', impact: 'high', link: 'https://en.wikipedia.org/wiki/Code_of_Hammurabi' },
   { year: '400 BCE', title: 'Hippocratic Oath', description: 'Hippocrates establishes ethical code for physicians, establishing foundational medical practice standards', category: 'standards', impact: 'high', link: 'https://www.nlm.nih.gov/hmd/greek/greek_oath.html' },
@@ -42,7 +42,7 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '1200s', title: 'Medical Guilds Established', description: 'European medical guilds establish training standards, certification requirements, and quality control for medical practice', category: 'standards', impact: 'high', link: 'https://en.wikipedia.org/wiki/History_of_medicine' },
   { year: '1518', title: 'Royal College of Physicians', description: 'King Henry VIII establishes first formal medical licensing body in England to regulate physician competence', category: 'regulations', impact: 'high', link: 'https://www.rcp.ac.uk/about-us/history' },
   { year: '1700s', title: 'Medical Licensing Laws', description: 'European countries and American colonies begin requiring formal medical licenses, establishing early regulatory frameworks', category: 'regulations', impact: 'high', link: 'https://en.wikipedia.org/wiki/History_of_medicine' },
-  
+
   // Historical - Design & Development
   { year: '1881', title: 'Sphygmomanometer Invented', description: 'First device to measure blood pressure in patients', category: 'design', impact: 'high', link: 'https://morgridge.org/community/teaching-learning/medical-devices/medical-devices-timeline/' },
   { year: '1885', title: 'First X-Ray Image of Human', description: 'Röntgen captures first X-ray image of human body part (wife\'s hand)', category: 'design', impact: 'high', link: 'https://morgridge.org/community/teaching-learning/medical-devices/medical-devices-timeline/' },
@@ -79,7 +79,7 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '2002', title: 'Combined CT and Radiation', description: 'First unit combining CT and radiation delivery for cancer treatment', category: 'design', impact: 'high', link: 'https://morgridge.org/community/teaching-learning/medical-devices/medical-devices-timeline/' },
   { year: '2009', title: 'DEKA Prosthetic Arm', description: 'Advanced prosthetic arm controlled by thought and muscle signals', category: 'design', impact: 'high', link: 'https://morgridge.org/community/teaching-learning/medical-devices/medical-devices-timeline/' },
   { year: '2010', title: 'Implantable Miniature Telescope', description: 'Small telescope implant for end-stage macular degeneration', category: 'design', impact: 'medium', link: 'https://morgridge.org/community/teaching-learning/medical-devices/medical-devices-timeline/' },
-  
+
   // Laser & Photonics - Early Light Therapy (Pre-Laser)
   { year: '1500 BCE', title: 'Ancient Light Therapy', description: 'Egyptian and Indian healers use sunlight combined with plant extracts to treat skin conditions like vitiligo', category: 'laser', impact: 'medium', link: 'https://pubmed.ncbi.nlm.nih.gov/22739720/' },
   { year: '400 BCE', title: 'Hippocratic Heliotherapy', description: 'Hippocrates advocates sunbathing and natural light exposure for treating various ailments', category: 'laser', impact: 'medium', link: 'https://pubmed.ncbi.nlm.nih.gov/22739720/' },
@@ -87,7 +87,7 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '1893', title: 'Finsen Phototherapy', description: 'Niels Ryberg Finsen pioneers artificial UV light therapy for treating skin tuberculosis (lupus vulgaris)', category: 'laser', impact: 'high', link: 'https://pubmed.ncbi.nlm.nih.gov/22739720/' },
   { year: '1903', title: 'Nobel Prize for Phototherapy', description: 'Finsen awarded Nobel Prize in Medicine for his phototherapy work, establishing light as recognized medical treatment', category: 'laser', impact: 'high', link: 'https://pubmed.ncbi.nlm.nih.gov/22739720/' },
   { year: '1903', title: 'Rollier Heliotherapy Clinics', description: 'Auguste Rollier establishes sunbathing clinics in Swiss Alps, effectively treating skeletal tuberculosis with heliotherapy', category: 'laser', impact: 'high', link: 'https://en.wikipedia.org/wiki/Auguste_Rollier' },
-  
+
   // Laser & Photonics - Technology Development
   { year: '1917', title: 'Theory of Stimulated Emission', description: 'Einstein proposes theory of stimulated emission, foundation of laser technology', category: 'laser', impact: 'high' },
   { year: '1954', title: 'First Maser', description: 'Townes develops first microwave amplification by stimulated emission', category: 'laser', impact: 'high' },
@@ -97,31 +97,31 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '1964', title: 'First CO2 Laser', description: 'First carbon dioxide laser, powerful for industrial and medical use', category: 'laser', impact: 'high' },
   { year: '1966', title: 'First Argon Ion Laser', description: 'First continuous-wave visible light laser', category: 'laser', impact: 'high' },
   { year: '1970', title: 'First Excimer Laser', description: 'First ultraviolet excimer laser developed', category: 'laser', impact: 'high' },
-  
+
   // Laser & Photonics - Medical Applications
   { year: '1961', title: 'First Medical Laser Use', description: 'First laser used in ophthalmology for retinal photocoagulation', category: 'laser', impact: 'high' },
   { year: '1963', title: 'Laser Treatment for Retinal Disease', description: 'Ruby laser used to prevent blindness from diabetic retinopathy', category: 'laser', impact: 'high', link: 'https://morgridge.org/community/teaching-learning/medical-devices/medical-devices-timeline/' },
   { year: '1965', title: 'Argon Laser for Eye Surgery', description: 'Argon-ion laser designed specifically for eye surgery', category: 'laser', impact: 'high', link: 'https://morgridge.org/community/teaching-learning/medical-devices/medical-devices-timeline/' },
   { year: '1968', title: 'Laser Photocoagulation Clinical Use', description: 'Argon laser begins clinical use for diabetic retinopathy treatment', category: 'laser', impact: 'high', link: 'https://morgridge.org/community/teaching-learning/medical-devices/medical-devices-timeline/' },
   { year: '1987', title: 'First Laser Corneal Surgery', description: 'First excimer laser surgery on human cornea (LASIK precursor)', category: 'laser', impact: 'high', link: 'https://morgridge.org/community/teaching-learning/medical-devices/medical-devices-timeline/' },
-  { year: '1996', title: 'LASIK Approval', description: 'FDA approves computerized excimer laser for refractive error correction', category: 'laser', impact: 'high', link: 'https://morgridge.org/community/teaching-learning/medical-devices/medical-devices-timeline/' },
-  { year: '1995', title: 'Photodynamic Therapy FDA Approval', description: 'FDA approves Photofrin for esophageal cancer treatment using PDT', category: 'laser', impact: 'high' },
-  { year: '1998', title: 'PDT for Lung Cancer', description: 'FDA expands Photofrin approval for early-stage lung cancer treatment', category: 'laser', impact: 'high' },
-  { year: '2000', title: 'Femtosecond Laser for LASIK', description: 'FDA approves femtosecond lasers for creating corneal flaps in LASIK surgery', category: 'laser', impact: 'high' },
-  { year: '2002', title: 'Class III Therapy Laser FDA Approval', description: 'First FDA 510(k) approval for Class III therapy laser for pain management', category: 'laser', impact: 'high' },
-  { year: '2002', title: 'Laser Hair Removal FDA Approval', description: 'FDA approves first laser devices for permanent hair reduction', category: 'laser', impact: 'medium' },
-  { year: '2003', title: 'Class IV Therapy Laser FDA Approval', description: 'First FDA 510(k) approval for Class IV high-power therapy laser', category: 'laser', impact: 'high' },
-  { year: '2004', title: 'Fractional Laser Technology', description: 'Introduction of fractional CO2 lasers for skin resurfacing with reduced recovery', category: 'laser', impact: 'high' },
-  { year: '2006', title: 'GreenLight Laser for Prostate', description: 'FDA approves GreenLight laser system for benign prostatic hyperplasia treatment', category: 'laser', impact: 'high' },
-  { year: '2007', title: 'Laser Liposuction Approval', description: 'FDA approves laser-assisted liposuction devices for body contouring', category: 'laser', impact: 'medium' },
-  { year: '2010', title: 'Femtosecond Laser Cataract Surgery', description: 'FDA approves femtosecond lasers for cataract surgery, improving precision', category: 'laser', impact: 'high' },
+  { year: '1995', title: 'First Excimer Laser PRK Approval', description: 'FDA approves Summit SVS Apex Excimer Laser System (PMA P930034) for photorefractive keratectomy - first laser vision correction approval', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P930034' },
+  { year: '1995', title: 'Photodynamic Therapy FDA Approval', description: 'FDA approves Photofrin (porfimer sodium) for esophageal cancer treatment using photodynamic therapy (PMA P930017)', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P930017' },
+  { year: '1998', title: 'PDT for Lung Cancer', description: 'FDA expands Photofrin approval for early-stage non-small cell lung cancer (PMA P930017/S003)', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P930017S003' },
+  { year: '2001', title: 'Femtosecond Laser for LASIK', description: 'FDA clears IntraLase femtosecond laser for creating corneal flaps - enabling blade-free "all-laser" LASIK', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/cdrh_docs/pdf/P930034S015A.pdf' },
+  { year: '2002', title: 'Class III Therapy Laser FDA Clearance', description: 'FDA 510(k) clearance for Class IIIb low-level laser therapy devices for pain management and tissue healing', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmnsimplesearch.cfm' },
+  { year: '2001', title: 'Laser Hair Removal FDA Clearance', description: 'FDA 510(k) clearance for long-pulsed laser systems for permanent hair reduction - Sciton Image and similar devices', category: 'laser', impact: 'medium', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmnsimplesearch.cfm' },
+  { year: '2003', title: 'Class IV Therapy Laser FDA Clearance', description: 'Avicenna Laser Technology receives first FDA 510(k) clearance for Class IV (7.5W) high-power therapy laser on December 11, 2003', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmnsimplesearch.cfm' },
+  { year: '2004', title: 'Fractional Laser Technology', description: 'Introduction of fractional CO2 lasers for skin resurfacing with reduced recovery - Reliant Fraxel system', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmnsimplesearch.cfm' },
+  { year: '2006', title: 'GreenLight Laser for Prostate', description: 'FDA 510(k) clearance (K062719) for GreenLight HPS 532nm laser system for benign prostatic hyperplasia (BPH) treatment', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K062719' },
+  { year: '2006', title: 'Laser-Assisted Lipolysis Clearance', description: 'Cynosure SmartLipo receives first FDA 510(k) clearance for laser-assisted lipolysis/liposuction in November 2006', category: 'laser', impact: 'medium', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmnsimplesearch.cfm' },
+  { year: '2010', title: 'Femtosecond Laser Cataract Surgery', description: 'FDA 510(k) clearance (K094052) for LenSx femtosecond laser for cataract surgery - capsulotomy, corneal incisions, and lens fragmentation', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K094052' },
   { year: '2012', title: 'Picosecond Laser for Tattoo Removal', description: 'Picosecond lasers introduced for faster, more effective tattoo removal', category: 'laser', impact: 'medium' },
-  { year: '2015', title: 'Picosecond Laser FDA Approval', description: 'FDA approves picosecond lasers for tattoo removal and skin treatments', category: 'laser', impact: 'high' },
-  { year: '2016', title: 'Laser Interstitial Thermal Therapy', description: 'FDA approves LITT for brain tumor ablation using laser heat therapy', category: 'laser', impact: 'high' },
-  { year: '2018', title: 'Laser-Assisted Drug Delivery', description: 'FDA approves laser systems for enhanced transdermal drug delivery', category: 'laser', impact: 'high' },
+  { year: '2012', title: 'Picosecond Laser FDA Clearance', description: 'Cynosure PicoSure receives first FDA 510(k) clearance for picosecond laser for tattoo removal and benign pigmented lesions (December 2012)', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmnsimplesearch.cfm' },
+  { year: '2013', title: 'Laser Interstitial Thermal Therapy', description: 'FDA 510(k) clearance (K120561) for Monteris NeuroBlate LITT system for MRI-guided brain tumor ablation in April 2013', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K120561' },
+  { year: '2018', title: 'Laser-Assisted Drug Delivery', description: 'FDA 510(k) clearances expand for ablative fractional laser systems enabling enhanced transdermal drug delivery', category: 'laser', impact: 'high', link: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmnsimplesearch.cfm' },
   { year: '2020', title: 'Laser Therapy for Neurological Conditions', description: 'Research advances in transcranial photobiomodulation for brain injuries', category: 'laser', impact: 'high' },
   { year: '2021', title: 'Advanced Fractional Laser Systems', description: 'Next-generation fractional lasers with improved precision and safety', category: 'laser', impact: 'high' },
-  
+
   // Historical - Regulations
   { year: '1906', title: 'Pure Food and Drug Act', description: 'First US federal consumer protection law', category: 'regulations', impact: 'medium', link: 'https://www.fda.gov/medical-devices/overview-device-regulation/history-medical-device-regulation-oversight-united-states' },
   { year: '1938', title: 'FDA Establishment', description: 'Food, Drug, and Cosmetic Act creates modern FDA', category: 'regulations', impact: 'high', link: 'https://www.fda.gov/about-fda/histories-fda-regulated-products/history-medical-and-radiation-emitting-device-regulation' },
@@ -143,13 +143,13 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '2024', title: 'FDA QMSR Final Rule', description: 'FDA issues final rule incorporating ISO 13485 into Quality Management System Regulation', category: 'regulations', impact: 'high', link: 'https://www.fda.gov/medical-devices/overview-device-regulation/history-medical-device-regulation-oversight-united-states' },
   { year: '2025', title: 'South Korea Digital Medical Products Act', description: 'South Korea implements regulations for digital medical devices and drug-digital combinations', category: 'regulations', impact: 'high' },
   { year: '2026', title: 'FDA QMSR Effective Date', description: 'FDA Quality Management System Regulation incorporating ISO 13485 becomes effective', category: 'regulations', impact: 'high', link: 'https://www.fda.gov/medical-devices/overview-device-regulation/history-medical-device-regulation-oversight-united-states' },
-  
+
   // Global Regulatory Harmonization
   { year: '2011', title: 'IMDRF Established', description: 'International Medical Device Regulators Forum founded to promote global harmonization', category: 'regulations', impact: 'high' },
   { year: '2013', title: 'UDI System Implementation', description: 'FDA begins implementation of Unique Device Identification system for device traceability', category: 'regulations', impact: 'high', link: 'https://www.fda.gov/medical-devices/overview-device-regulation/history-medical-device-regulation-oversight-united-states' },
   { year: '2014', title: 'EU UDI Requirements', description: 'European Commission introduces UDI requirements for medical devices', category: 'regulations', impact: 'high' },
   { year: '2024', title: 'Global UDI Expansion', description: 'Brazil, Malaysia, Argentina, and Australia advance UDI implementation for device traceability', category: 'regulations', impact: 'high' },
-  
+
   // Historical - Standards & QMS
   { year: '1947', title: 'ISO Founded', description: 'International Organization for Standardization established', category: 'standards', impact: 'high', link: 'https://www.iso.org/about-us.html' },
   { year: '1977', title: 'IEC 60601-1 First Edition', description: 'First edition of medical electrical equipment safety standard published', category: 'standards', impact: 'high' },
@@ -162,7 +162,7 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '2003', title: 'ISO 14155 First Edition', description: 'Good clinical practice standard for medical device investigations', category: 'standards', impact: 'high' },
   { year: '2006', title: 'IEC 62304 First Edition', description: 'Medical device software lifecycle processes standard published', category: 'standards', impact: 'high' },
   { year: '2007', title: 'IEC 62366 First Edition', description: 'Usability engineering standard for medical devices published', category: 'standards', impact: 'high' },
-  
+
   // Recent Past (2010-2025)
   { year: '2011', title: 'Software as Medical Device', description: 'FDA recognizes standalone software as medical devices', category: 'design', impact: 'high' },
   { year: '2013', title: 'Cybersecurity Guidance', description: 'FDA issues first cybersecurity guidance for connected devices', category: 'regulations', impact: 'high' },
@@ -175,7 +175,7 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '2021', title: 'ISO 20417 Published', description: 'Standard for information to be supplied by medical device manufacturers', category: 'standards', impact: 'medium' },
   { year: '2021', title: 'AI/ML Action Plan', description: 'FDA releases framework for AI/ML-based devices', category: 'regulations', impact: 'high' },
   { year: '2024', title: 'QMSR Alignment', description: 'FDA 21 CFR 820 aligns with ISO 13485:2016', category: 'regulations', impact: 'high' },
-  
+
   // Near Future (2025-2035) - with confidence levels
   { year: '2027', title: 'AI-Driven Design', description: 'AI tools automate design optimization, simulation, and risk analysis', category: 'design', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2027, confidence: 52 }, { year: 2030, confidence: 78 }, { year: 2033, confidence: 94 }] },
   { year: '2028', title: 'Real-World Evidence', description: 'Continuous post-market surveillance using AI and big data becomes standard', category: 'regulations', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2028, confidence: 48 }, { year: 2031, confidence: 75 }, { year: 2034, confidence: 92 }] },
@@ -185,7 +185,7 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '2032', title: 'Quantum-Enhanced Medical Imaging', description: 'Quantum sensors revolutionize medical imaging with unprecedented resolution', category: 'design', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2032, confidence: 35 }, { year: 2038, confidence: 68 }, { year: 2044, confidence: 89 }] },
   { year: '2031', title: 'Global UDI Harmonization', description: 'Single global UDI system implemented across all major markets', category: 'regulations', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2031, confidence: 42 }, { year: 2035, confidence: 71 }, { year: 2039, confidence: 90 }] },
   { year: '2029', title: 'Advanced Laser Therapies', description: 'Next-generation laser systems for precision surgery and regenerative medicine', category: 'laser', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2029, confidence: 58 }, { year: 2032, confidence: 84 }, { year: 2035, confidence: 95 }] },
-  
+
   // Mid Future (2035-2045) - with confidence levels
   { year: '2036', title: 'Adaptive AI Devices', description: 'Self-learning medical devices that adapt to individual patients in real-time', category: 'design', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2036, confidence: 38 }, { year: 2042, confidence: 65 }, { year: 2048, confidence: 87 }] },
   { year: '2040', title: 'Global Regulatory Harmonization', description: 'Single global regulatory pathway for medical devices (FDA, EU, Asia)', category: 'regulations', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2040, confidence: 28 }, { year: 2047, confidence: 58 }, { year: 2054, confidence: 82 }] },
@@ -195,7 +195,7 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '2039', title: 'Predictive Regulatory AI', description: 'AI systems predict device safety and efficacy before clinical trials', category: 'regulations', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2039, confidence: 30 }, { year: 2045, confidence: 60 }, { year: 2051, confidence: 83 }] },
   { year: '2043', title: 'Standards for Bio-Devices', description: 'New standards for devices integrated with living biological systems', category: 'standards', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2043, confidence: 26 }, { year: 2050, confidence: 56 }, { year: 2057, confidence: 81 }] },
   { year: '2037', title: 'Femtosecond Laser Precision', description: 'Ultra-precise femtosecond lasers enable molecular-level medical interventions', category: 'laser', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2037, confidence: 40 }, { year: 2043, confidence: 70 }, { year: 2049, confidence: 88 }] },
-  
+
   // Far Future (2045-2075) - with confidence levels
   { year: '2046', title: 'Nanomedical Devices', description: 'Molecular-scale devices for targeted therapy and diagnostics', category: 'design', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2046, confidence: 18 }, { year: 2055, confidence: 45 }, { year: 2064, confidence: 72 }] },
   { year: '2045', title: 'Predictive Regulation', description: 'AI predicts safety issues before they occur, enabling proactive regulation', category: 'regulations', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2045, confidence: 20 }, { year: 2053, confidence: 48 }, { year: 2061, confidence: 74 }] },
@@ -290,55 +290,50 @@ export default function MedicalDeviceTimeline() {
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => setActiveCategory('all')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeCategory === 'all'
-                ? 'bg-gray-900 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === 'all'
+              ? 'bg-gray-900 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
           >
             All
           </button>
           <button
             onClick={() => setActiveCategory('design')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeCategory === 'design'
-                ? 'bg-green-600 text-white'
-                : 'bg-green-100 text-green-700 hover:bg-green-200'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === 'design'
+              ? 'bg-green-600 text-white'
+              : 'bg-green-100 text-green-700 hover:bg-green-200'
+              }`}
           >
             Design & Development
           </button>
           <button
             onClick={() => setActiveCategory('regulations')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeCategory === 'regulations'
-                ? 'bg-red-600 text-white'
-                : 'bg-red-100 text-red-700 hover:bg-red-200'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === 'regulations'
+              ? 'bg-red-600 text-white'
+              : 'bg-red-100 text-red-700 hover:bg-red-200'
+              }`}
           >
             Regulations
           </button>
           <button
             onClick={() => setActiveCategory('standards')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeCategory === 'standards'
-                ? 'bg-blue-600 text-white'
-                : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === 'standards'
+              ? 'bg-blue-600 text-white'
+              : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+              }`}
           >
             Standards & QMS
           </button>
           <button
             onClick={() => setActiveCategory('laser')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeCategory === 'laser'
-                ? 'bg-yellow-600 text-white'
-                : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === 'laser'
+              ? 'bg-yellow-600 text-white'
+              : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
+              }`}
           >
             Laser & Photonics
           </button>
-          
+
           <div className="ml-auto flex items-center gap-2">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -370,20 +365,18 @@ export default function MedicalDeviceTimeline() {
             return (
               <div key={index} className="relative pl-20">
                 {/* Dot on timeline */}
-                <div className={`absolute left-6 top-2 w-5 h-5 rounded-full border-4 ${
-                  isFuture 
-                    ? 'border-purple-400 bg-purple-100' 
-                    : isRecent
+                <div className={`absolute left-6 top-2 w-5 h-5 rounded-full border-4 ${isFuture
+                  ? 'border-purple-400 bg-purple-100'
+                  : isRecent
                     ? 'border-blue-500 bg-blue-200'
                     : isAncient
-                    ? 'border-amber-500 bg-amber-200'
-                    : 'border-gray-400 bg-gray-200'
-                }`}></div>
+                      ? 'border-amber-500 bg-amber-200'
+                      : 'border-gray-400 bg-gray-200'
+                  }`}></div>
 
                 {/* Event Card */}
-                <div className={`border-l-4 rounded-lg p-4 transition-all hover:shadow-md ${categoryColors[event.category]} ${
-                  isFuture ? 'relative overflow-hidden' : ''
-                }`}>
+                <div className={`border-l-4 rounded-lg p-4 transition-all hover:shadow-md ${categoryColors[event.category]} ${isFuture ? 'relative overflow-hidden' : ''
+                  }`}>
                   {isFuture && (
                     <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-100 to-transparent opacity-30 rounded-bl-full"></div>
                   )}
@@ -394,15 +387,14 @@ export default function MedicalDeviceTimeline() {
                         return <IconComponent className={`w-5 h-5 ${isFuture ? 'text-purple-600' : ''}`} />;
                       })()}
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`px-2 py-1 rounded text-xs font-bold ${
-                          isFuture 
-                            ? 'bg-gradient-to-r from-purple-100 to-purple-50 text-purple-800 border border-purple-200' 
-                            : isRecent
+                        <span className={`px-2 py-1 rounded text-xs font-bold ${isFuture
+                          ? 'bg-gradient-to-r from-purple-100 to-purple-50 text-purple-800 border border-purple-200'
+                          : isRecent
                             ? 'bg-blue-200 text-blue-900'
                             : isAncient
-                            ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                            : 'bg-gray-200 text-gray-900'
-                        }`}>
+                              ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                              : 'bg-gray-200 text-gray-900'
+                          }`}>
                           {event.year}
                         </span>
                         {isFuture && (
@@ -441,7 +433,7 @@ export default function MedicalDeviceTimeline() {
                                   <span className="text-xs font-semibold text-purple-700">{confidence}%</span>
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                                  <div 
+                                  <div
                                     className="h-full bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 rounded-full transition-all duration-300"
                                     style={{ width: `${confidence}%` }}
                                   ></div>

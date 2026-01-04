@@ -8,8 +8,9 @@ import MatrixBackground from '@/components/MatrixBackground';
 import SmartSearch from '@/components/SmartSearch';
 import MedicalDeviceTimeline from '@/components/MedicalDeviceTimeline';
 import { KNOWLEDGE_CATEGORIES, getTotalArticleCount } from '@/lib/knowledgeBase';
-import { BookOpen, Bookmark, Plus, ChevronRight, ChevronLeft, Trash2, RotateCcw } from 'lucide-react';
+import { BookOpen, Bookmark, Plus, ChevronRight, ChevronLeft, Trash2, RotateCcw, Sparkles, ArrowRight } from 'lucide-react';
 import { useBookmarks } from '@/contexts/BookmarkContext';
+import FutureGenIcon from '@/components/FutureGenIcon';
 
 export default function DashboardPage() {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
@@ -50,6 +51,72 @@ export default function DashboardPage() {
               <div className="mb-8">
                 <SmartSearch />
               </div>
+
+              {/* Future Generations Feature Card - Transparent Glassmorphic Design */}
+              <Link
+                href="/future-generations"
+                className="block mb-8 group"
+              >
+                <div
+                  className="relative overflow-hidden rounded-2xl transition-all duration-300 hover:scale-[1.01]"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(1, 89, 163, 0.15) 0%, rgba(1, 128, 165, 0.12) 50%, rgba(0, 170, 134, 0.15) 100%)',
+                    boxShadow: '0 4px 20px rgba(1, 89, 163, 0.1), inset 0 1px 0 rgba(255,255,255,0.3)',
+                    border: '1px solid rgba(1, 89, 163, 0.25)',
+                    backdropFilter: 'blur(8px)',
+                  }}
+                >
+                  {/* Very subtle top highlight */}
+                  <div
+                    className="absolute top-0 left-0 right-0 h-1/2"
+                    style={{
+                      background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%)',
+                      borderRadius: '16px 16px 0 0',
+                    }}
+                  />
+
+                  <div className="relative z-10 p-6 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      {/* Icon container - subtle */}
+                      <div
+                        className="p-3 rounded-xl"
+                        style={{
+                          background: 'rgba(1, 89, 163, 0.1)',
+                          border: '1px solid rgba(1, 89, 163, 0.2)',
+                        }}
+                      >
+                        <FutureGenIcon className="w-8 h-8 text-[#0159A3]" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-800">Future Generations Roadmap</h3>
+                        <p className="text-gray-600 text-sm mt-1">
+                          Explore the AI-driven evolution of medical device engineering — from Gen 4 to the Post-Device Era
+                        </p>
+                      </div>
+                    </div>
+                    {/* Explore button - SOLID with gradient */}
+                    <div
+                      className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
+                      style={{
+                        background: 'linear-gradient(135deg, #0159A3 0%, #0180A5 50%, #00AA86 100%)',
+                        boxShadow: '0 4px 15px rgba(1, 89, 163, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
+                      }}
+                    >
+                      <span className="text-white font-semibold">Explore</span>
+                      <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+
+                  {/* Subtle bottom border */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-px"
+                    style={{
+                      background: 'linear-gradient(90deg, transparent 0%, rgba(1, 89, 163, 0.2) 50%, transparent 100%)',
+                    }}
+                  />
+                </div>
+              </Link>
+
               {/* Knowledge Base Categories */}
               <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                 <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
