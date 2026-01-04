@@ -38,6 +38,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://medev.ai"),
   alternates: {
     canonical: "/",
+    types: {
+      'application/rss+xml': [
+        { url: '/feed.xml', title: 'medev.ai - Main Feed' },
+      ],
+    },
   },
   openGraph: {
     type: "website",

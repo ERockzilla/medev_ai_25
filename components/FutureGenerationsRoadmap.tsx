@@ -807,7 +807,7 @@ export default function FutureGenerationsRoadmap() {
                             <h3 className="text-lg font-bold text-gray-800 mb-2">Share Your Prediction</h3>
                             <p className="text-sm text-gray-600 mb-4">
                                 What do you think the future holds for medical device engineering?
-                                Share your predictions about how AI will transform healthcare technology.
+                                Share your predictions about how healthcare and medical technology will transform.
                             </p>
                         </div>
                     </div>

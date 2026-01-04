@@ -117,13 +117,13 @@ export default function RegulationsPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const filteredRegulations = REGULATIONS.filter(regulation => {
-    const matchesSearch = 
+    const matchesSearch =
       regulation.number.toLowerCase().includes(searchQuery.toLowerCase()) ||
       regulation.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       regulation.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     const matchesCategory = selectedCategory === 'all' || regulation.category === selectedCategory;
-    
+
     return matchesSearch && matchesCategory;
   });
 
@@ -136,7 +136,7 @@ export default function RegulationsPage() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Breadcrumb */}
           <div className="mb-6">
-            <Link 
+            <Link
               href="/"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
             >
@@ -147,7 +147,6 @@ export default function RegulationsPage() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
-              <Scale className="w-8 h-8 text-green-600" />
               <h1 className="text-4xl font-bold text-gray-900">Regulations</h1>
             </div>
             <p className="text-xl text-gray-600">
@@ -155,7 +154,7 @@ export default function RegulationsPage() {
             </p>
             <div className="mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
               <p className="text-sm text-green-800">
-                <strong>Note:</strong> FDA regulations are legally binding requirements, not voluntary standards. 
+                <strong>Note:</strong> FDA regulations are legally binding requirements, not voluntary standards.
                 These regulations are freely available from the FDA and must be complied with for US market access.
               </p>
             </div>
@@ -181,11 +180,10 @@ export default function RegulationsPage() {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    selectedCategory === category.id
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === category.id
                       ? `bg-${category.color}-600 text-white`
                       : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   {category.label}
                 </button>
@@ -222,7 +220,7 @@ export default function RegulationsPage() {
                       </p>
                     </div>
                   </div>
-                  
+
                   <p className="text-sm text-gray-700 mb-4 line-clamp-2">
                     {regulation.description}
                   </p>
@@ -265,7 +263,7 @@ export default function RegulationsPage() {
               <h2 className="text-2xl font-bold text-gray-900">FDA Guidance Documents</h2>
             </div>
             <p className="text-gray-600 mb-6">
-              FDA guidance documents provide recommendations and best practices for compliance with regulations. 
+              FDA guidance documents provide recommendations and best practices for compliance with regulations.
               While not legally binding, they represent FDA's current thinking and are valuable for implementation.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -275,12 +273,12 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Software as Medical Device (SaMD)</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  Complete implementation guide for software that meets the definition of a medical device, 
+                  Complete implementation guide for software that meets the definition of a medical device,
                   including classification, validation, and regulatory pathways.
                 </p>
-                <a 
-                  href="https://www.fda.gov/medical-devices/digital-health-center-excellence/software-medical-device-samd" 
-                  target="_blank" 
+                <a
+                  href="https://www.fda.gov/medical-devices/digital-health-center-excellence/software-medical-device-samd"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:text-blue-700 text-sm font-medium inline-flex items-center gap-1"
                 >
@@ -294,12 +292,12 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Cybersecurity</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  Premarket and postmarket guidance for managing cybersecurity risks in medical devices, 
+                  Premarket and postmarket guidance for managing cybersecurity risks in medical devices,
                   including threat modeling and security controls.
                 </p>
-                <a 
-                  href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity" 
-                  target="_blank" 
+                <a
+                  href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:text-blue-700 text-sm font-medium inline-flex items-center gap-1"
                 >
@@ -313,12 +311,12 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Home-Use Devices</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  Human factors considerations and usability engineering requirements for medical devices 
+                  Human factors considerations and usability engineering requirements for medical devices
                   intended for use in the home environment.
                 </p>
-                <a 
-                  href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/design-considerations-devices-intended-home-use" 
-                  target="_blank" 
+                <a
+                  href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/design-considerations-devices-intended-home-use"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:text-blue-700 text-sm font-medium inline-flex items-center gap-1"
                 >
@@ -332,12 +330,12 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Laser Notice 56</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  FDA guidance on conformance with IEC 60825-1 Ed. 3 and IEC 60601-2-22 Ed. 3.1 for laser products. 
+                  FDA guidance on conformance with IEC 60825-1 Ed. 3 and IEC 60601-2-22 Ed. 3.1 for laser products.
                   Provides recommendations for manufacturers on demonstrating compliance with international laser safety standards.
                 </p>
-                <a 
-                  href="https://www.hhs.gov/guidance/document/laser-products-conformance-iec-60825-1-ed-3-and-iec-60601-2-22-ed-31-laser-notice-no-56" 
-                  target="_blank" 
+                <a
+                  href="https://www.hhs.gov/guidance/document/laser-products-conformance-iec-60825-1-ed-3-and-iec-60601-2-22-ed-31-laser-notice-no-56"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:text-blue-700 text-sm font-medium inline-flex items-center gap-1"
                 >
@@ -351,10 +349,10 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Quality System Regulation (21 CFR 820)</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  Quality system requirements for medical devices (QMSR), aligned with ISO 13485:2016. 
+                  Quality system requirements for medical devices (QMSR), aligned with ISO 13485:2016.
                   Includes design controls, process validation, and quality system requirements.
                 </p>
-                <Link 
+                <Link
                   href="/regulations/cfr-820"
                   className="text-blue-600 hover:text-blue-700 text-sm font-medium inline-flex items-center gap-1"
                 >
@@ -371,7 +369,7 @@ export default function RegulationsPage() {
               <h2 className="text-2xl font-bold text-gray-900">EU MDR/IVDR Regulations</h2>
             </div>
             <p className="text-gray-600 mb-6">
-              European Union Medical Device Regulation (MDR) and In Vitro Diagnostic Regulation (IVDR) 
+              European Union Medical Device Regulation (MDR) and In Vitro Diagnostic Regulation (IVDR)
               requirements. These regulations are freely available and legally binding for EU market access.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -381,12 +379,12 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">MDR Annex I - General Safety</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  Complete checklist of general safety and performance requirements for medical devices 
+                  Complete checklist of general safety and performance requirements for medical devices
                   under EU MDR, including essential requirements. This is the core regulation document.
                 </p>
-                <a 
-                  href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32017R0745" 
-                  target="_blank" 
+                <a
+                  href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32017R0745"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-purple-600 hover:text-purple-700 text-sm font-medium inline-flex items-center gap-1"
                 >
@@ -400,12 +398,12 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Software Classification</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  MDCG 2019-11 guidance on qualification and classification of software as a medical device. 
+                  MDCG 2019-11 guidance on qualification and classification of software as a medical device.
                   Provides decision tree and examples for classifying software under EU MDR.
                 </p>
-                <a 
-                  href="https://health.ec.europa.eu/system/files/2020-09/md_mdcg_2019_11_guidance_qualification_classification_software_en_0.pdf" 
-                  target="_blank" 
+                <a
+                  href="https://health.ec.europa.eu/system/files/2020-09/md_mdcg_2019_11_guidance_qualification_classification_software_en_0.pdf"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-purple-600 hover:text-purple-700 text-sm font-medium inline-flex items-center gap-1"
                 >
@@ -419,12 +417,12 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Clinical Evaluation</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  MDCG 2020-13 guidance on clinical evaluation documentation. Comprehensive guide for writing 
+                  MDCG 2020-13 guidance on clinical evaluation documentation. Comprehensive guide for writing
                   Clinical Evaluation Reports (CER) under EU MDR, including clinical data requirements.
                 </p>
-                <a 
-                  href="https://health.ec.europa.eu/system/files/2022-02/mdcg_2020-13_en.pdf" 
-                  target="_blank" 
+                <a
+                  href="https://health.ec.europa.eu/system/files/2022-02/mdcg_2020-13_en.pdf"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-purple-600 hover:text-purple-700 text-sm font-medium inline-flex items-center gap-1"
                 >
@@ -441,8 +439,8 @@ export default function RegulationsPage() {
               <h2 className="text-2xl font-bold text-gray-900">Device-Specific Guidance</h2>
             </div>
             <p className="text-gray-600 mb-6">
-              FDA guidance documents for specific device types, including special controls, classification, 
-              and regulatory pathways. These documents provide detailed requirements and recommendations 
+              FDA guidance documents for specific device types, including special controls, classification,
+              and regulatory pathways. These documents provide detailed requirements and recommendations
               for manufacturers of specific device categories.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -452,8 +450,8 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Dental Equipment</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  FDA guidance for dental devices including classification, special controls, and testing requirements. 
-                  Covers electrical safety, biocompatibility, sterilization, and performance standards for various 
+                  FDA guidance for dental devices including classification, special controls, and testing requirements.
+                  Covers electrical safety, biocompatibility, sterilization, and performance standards for various
                   dental equipment types.
                 </p>
                 <div className="text-sm text-gray-600 space-y-2 mb-4">
@@ -467,17 +465,17 @@ export default function RegulationsPage() {
                   </ul>
                 </div>
                 <div className="space-y-2">
-                  <a 
-                    href="https://www.fda.gov/medical-devices/device-advice-comprehensive-regulatory-assistance/medical-device-databases" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/medical-devices/device-advice-comprehensive-regulatory-assistance/medical-device-databases"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
                     Search FDA Device Classification Database <ExternalLink className="w-4 h-4" />
                   </a>
-                  <a 
-                    href="https://www.fda.gov/medical-devices/guidance-documents-medical-devices-and-radiation-emitting-products" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/medical-devices/guidance-documents-medical-devices-and-radiation-emitting-products"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
@@ -492,8 +490,8 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Home Monitoring Devices</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  Comprehensive guidance for connected home monitoring medical devices, including cybersecurity 
-                  requirements, usability engineering, remote monitoring capabilities, and data privacy considerations. 
+                  Comprehensive guidance for connected home monitoring medical devices, including cybersecurity
+                  requirements, usability engineering, remote monitoring capabilities, and data privacy considerations.
                   Addresses unique challenges of home-use environments.
                 </p>
                 <div className="text-sm text-gray-600 space-y-2 mb-4">
@@ -507,17 +505,17 @@ export default function RegulationsPage() {
                   </ul>
                 </div>
                 <div className="space-y-2">
-                  <a 
-                    href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/design-considerations-devices-intended-home-use" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/design-considerations-devices-intended-home-use"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
                     View Home-Use Device Guidance <ExternalLink className="w-4 h-4" />
                   </a>
-                  <a 
-                    href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
@@ -532,8 +530,8 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Surgical Laser Systems</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  FDA guidance for surgical and therapeutic laser systems, including classification, special controls, 
-                  performance standards, and safety requirements. Covers various laser types used in surgical procedures 
+                  FDA guidance for surgical and therapeutic laser systems, including classification, special controls,
+                  performance standards, and safety requirements. Covers various laser types used in surgical procedures
                   including ophthalmic, dermatological, and general surgery applications.
                 </p>
                 <div className="text-sm text-gray-600 space-y-2 mb-4">
@@ -547,33 +545,33 @@ export default function RegulationsPage() {
                   </ul>
                 </div>
                 <div className="space-y-2">
-                  <a 
-                    href="https://www.fda.gov/radiation-emitting-products/surgical-and-therapeutic-products/medical-lasers" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/radiation-emitting-products/surgical-and-therapeutic-products/medical-lasers"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
                     View Medical Lasers Overview <ExternalLink className="w-4 h-4" />
                   </a>
-                  <a 
-                    href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/guidance-content-and-organization-premarket-notification-medical-laser" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/guidance-content-and-organization-premarket-notification-medical-laser"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
                     View 510(k) Guidance for Medical Lasers <ExternalLink className="w-4 h-4" />
                   </a>
-                  <a 
-                    href="https://www.fda.gov/medical-devices/guidance-documents-medical-devices-and-radiation-emitting-products/assisted-reproduction-laser-systems-class-ii-special-controls-guidance-document-industry-and-fda" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/medical-devices/guidance-documents-medical-devices-and-radiation-emitting-products/assisted-reproduction-laser-systems-class-ii-special-controls-guidance-document-industry-and-fda"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
                     View Assisted Reproduction Laser Guidance <ExternalLink className="w-4 h-4" />
                   </a>
-                  <a 
-                    href="https://www.fda.gov/medical-devices/guidance-documents-medical-devices-and-radiation-emitting-products/low-level-laser-system-aesthetic-use-class-ii-special-controls-guidance-industry-and-fda-staff" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/medical-devices/guidance-documents-medical-devices-and-radiation-emitting-products/low-level-laser-system-aesthetic-use-class-ii-special-controls-guidance-industry-and-fda-staff"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
@@ -588,8 +586,8 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Wearable Medical Devices</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  Regulatory considerations for wearable medical devices including continuous monitoring devices, 
-                  fitness trackers with medical claims, and implantable wearables. Covers form factor constraints, 
+                  Regulatory considerations for wearable medical devices including continuous monitoring devices,
+                  fitness trackers with medical claims, and implantable wearables. Covers form factor constraints,
                   battery safety, environmental durability, and user experience requirements.
                 </p>
                 <div className="text-sm text-gray-600 space-y-2 mb-4">
@@ -604,17 +602,17 @@ export default function RegulationsPage() {
                   </ul>
                 </div>
                 <div className="space-y-2">
-                  <a 
-                    href="https://www.fda.gov/medical-devices/digital-health-center-excellence" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/medical-devices/digital-health-center-excellence"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
                     View Digital Health Center Guidance <ExternalLink className="w-4 h-4" />
                   </a>
-                  <a 
-                    href="https://www.fda.gov/medical-devices/device-advice-comprehensive-regulatory-assistance/medical-device-databases" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/medical-devices/device-advice-comprehensive-regulatory-assistance/medical-device-databases"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
@@ -629,8 +627,8 @@ export default function RegulationsPage() {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">AI/ML in Medical Devices</h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  Comprehensive regulatory framework for artificial intelligence and machine learning-enabled medical devices. 
-                  Includes FDA's AI/ML Action Plan, validation requirements, continuous learning considerations, and 
+                  Comprehensive regulatory framework for artificial intelligence and machine learning-enabled medical devices.
+                  Includes FDA's AI/ML Action Plan, validation requirements, continuous learning considerations, and
                   premarket/postmarket guidance for adaptive algorithms.
                 </p>
                 <div className="text-sm text-gray-600 space-y-2 mb-4">
@@ -645,17 +643,17 @@ export default function RegulationsPage() {
                   </ul>
                 </div>
                 <div className="space-y-2">
-                  <a 
-                    href="https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-software-medical-device" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-software-medical-device"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
                     View AI/ML Medical Device Guidance <ExternalLink className="w-4 h-4" />
                   </a>
-                  <a 
-                    href="https://www.fda.gov/medical-devices/software-medical-device-samd/good-machine-learning-practice-medical-device-development-guiding-principles" 
-                    target="_blank" 
+                  <a
+                    href="https://www.fda.gov/medical-devices/software-medical-device-samd/good-machine-learning-practice-medical-device-development-guiding-principles"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium inline-flex items-center gap-1 block"
                   >
@@ -675,8 +673,8 @@ export default function RegulationsPage() {
               <div className="flex-1">
                 <h4 className="font-bold text-green-900 mb-2">FDA Regulations - Legal Requirements</h4>
                 <p className="text-sm text-green-800 mb-3">
-                  FDA regulations are legally binding requirements that must be complied with for US market access. 
-                  Unlike standards, regulations are mandatory and enforceable by law. This section provides implementation 
+                  FDA regulations are legally binding requirements that must be complied with for US market access.
+                  Unlike standards, regulations are mandatory and enforceable by law. This section provides implementation
                   guidance to help understand and comply with these regulations.
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
@@ -701,9 +699,9 @@ export default function RegulationsPage() {
             </div>
           </div>
         </div>
-               {/* Footer */}
-                  <Footer />
-                
+        {/* Footer */}
+        <Footer />
+
       </div>
     </div>
   );

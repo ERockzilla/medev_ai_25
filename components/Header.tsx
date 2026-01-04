@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen, FileText, Scale, Calculator, BarChart3, Sparkles, Briefcase, Menu, X } from 'lucide-react';
+import { BookOpen, FileText, Scale, Calculator, BarChart3, Sparkles, Briefcase, Menu, X, Rss } from 'lucide-react';
 import AnimatedLogo from './AnimatedLogo';
 import LiveClock from './LiveClock';
 import FutureGenIcon from './FutureGenIcon';
@@ -19,6 +19,7 @@ export default function Header() {
     { href: '/tools', Icon: Calculator, title: 'Tools' },
     { href: '/ai-tools', Icon: Sparkles, title: 'AI Tools' },
     { href: '/regulatory-analysis', Icon: BarChart3, title: 'Analysis' },
+    { href: '/news', Icon: Rss, title: 'News' },
     { href: '/professional-development', Icon: Briefcase, title: 'Professional Development' },
     { href: '/future-generations', Icon: FutureGenIcon, title: 'Future Generations' },
   ];
