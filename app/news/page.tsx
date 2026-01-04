@@ -73,6 +73,22 @@ export default function DailyBriefingPage() {
                                         </Link>
                                     </li>
                                 </ul>
+                                {/* W3C Valid RSS Badge */}
+                                <div className="mt-4 pt-3 border-t border-gray-100">
+                                    <a
+                                        href="http://validator.w3.org/feed/check.cgi?url=https%3A//www.medev.ai/feed.xml"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-block hover:opacity-80 transition-opacity"
+                                        title="Validate our RSS feed"
+                                    >
+                                        <img
+                                            src="/valid-rss-rogers.png"
+                                            alt="[Valid RSS]"
+                                            className="h-8"
+                                        />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

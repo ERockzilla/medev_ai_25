@@ -70,12 +70,28 @@ export default function Footer() {
             </p>
 
             {/* Social Links */}
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
               <SocialLink href="mailto:eric@medev.ai" icon={<EmailIcon />} label="Email" />
               <SocialLink href="https://www.linkedin.com/company/bwtek-medical/" icon={<LinkedInIcon />} label="Company LinkedIn" />
               <SocialLink href="https://www.linkedin.com/in/ericdrock/" icon={<PersonIcon />} label="Eric Rock on LinkedIn" />
               <SocialLink href="https://github.com/ERockzilla" icon={<GitHubIcon />} label="GitHub" />
               <SocialLink href="/feed.xml" icon={<RSSIcon />} label="RSS Feed" />
+            </div>
+            {/* W3C Valid RSS Badge */}
+            <div className="mt-4">
+              <a
+                href="http://validator.w3.org/feed/check.cgi?url=https%3A//www.medev.ai/feed.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block hover:opacity-80 transition-opacity"
+                title="Validate our RSS feed"
+              >
+                <img
+                  src="/valid-rss-rogers.png"
+                  alt="[Valid RSS]"
+                  className="h-8"
+                />
+              </a>
             </div>
           </div>
 
