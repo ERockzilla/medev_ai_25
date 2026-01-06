@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import MatrixBackground from '@/components/MatrixBackground';
 import StructuredData, { generateGlossarySchema, generateFAQPageSchema } from '@/components/StructuredData';
 import { Search, BookOpen, ChevronDown, ChevronRight } from 'lucide-react';
 
@@ -194,156 +196,160 @@ export default function GlossaryPage() {
             })))} />
             <StructuredData data={generateFAQPageSchema(faqData)} />
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900/20 to-slate-900">
-                <Header />
+            <div className="min-h-screen bg-gray-50 relative">
+                <MatrixBackground intensity="low" />
+                <div className="relative z-10">
+                    <Header />
 
-                <main className="container mx-auto px-4 py-8">
-                    {/* Hero Section */}
-                    <div className="text-center mb-12">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full mb-6">
-                            <BookOpen className="w-4 h-4 text-blue-400" />
-                            <span className="text-blue-300 text-sm font-medium">Medical Device Glossary</span>
+                    <main className="max-w-7xl mx-auto px-6 py-8">
+                        {/* Breadcrumb */}
+                        <div className="mb-6">
+                            <Link
+                                href="/"
+                                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+                            >
+                                ← Back to Knowledge Center
+                            </Link>
                         </div>
 
-                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                            Regulatory Terms & Definitions
-                        </h1>
-
-                        <p className="text-xl text-slate-300 max-w-3xl mx-auto mb-8">
-                            Clear, concise definitions of key terms in medical device development,
-                            FDA regulations, and ISO standards. Your quick reference for regulatory compliance.
-                        </p>
+                        {/* Header */}
+                        <div className="mb-8">
+                            <h1 className="text-4xl font-bold text-gray-900 mb-2">Regulatory Terms & Definitions</h1>
+                            <p className="text-xl text-gray-600">
+                                Clear, concise definitions of key terms in medical device development,
+                                FDA regulations, and ISO standards.
+                            </p>
+                        </div>
 
                         {/* Search Bar */}
-                        <div className="max-w-xl mx-auto relative">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                            <input
-                                type="text"
-                                placeholder="Search terms... (e.g., SaMD, 510k, CAPA)"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500"
-                            />
+                        <div className="mb-8">
+                            <div className="relative">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                <input
+                                    type="text"
+                                    placeholder="Search terms... (e.g., SaMD, 510k, CAPA)"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Category Filter */}
-                    <div className="flex flex-wrap gap-2 justify-center mb-8">
-                        {categories.map((category) => (
-                            <button
-                                key={category}
-                                onClick={() => setSelectedCategory(category)}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${selectedCategory === category
-                                        ? 'bg-blue-500 text-white'
-                                        : 'bg-slate-800/50 text-slate-300 hover:bg-slate-700/50'
-                                    }`}
-                            >
-                                {category}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Results Count */}
-                    <p className="text-slate-400 text-center mb-8">
-                        Showing {filteredTerms.length} of {glossaryTerms.length} terms
-                    </p>
-
-                    {/* Glossary Grid */}
-                    <div className="grid gap-4 max-w-4xl mx-auto">
-                        {filteredTerms.map((item) => (
-                            <article
-                                key={item.term}
-                                id={item.term.toLowerCase().replace(/[\s()]/g, '-')}
-                                className="bg-slate-800/30 border border-slate-700/50 rounded-xl overflow-hidden hover:border-blue-500/30 transition-all"
-                            >
+                        {/* Category Filter */}
+                        <div className="flex flex-wrap gap-2 justify-center mb-8">
+                            {categories.map((category) => (
                                 <button
-                                    onClick={() => toggleTerm(item.term)}
-                                    className="w-full px-6 py-4 flex items-center justify-between text-left"
+                                    key={category}
+                                    onClick={() => setSelectedCategory(category)}
+                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${selectedCategory === category
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                                        }`}
                                 >
-                                    <div>
-                                        <h2 className="text-xl font-semibold text-white">
-                                            {item.term}
-                                            {item.fullName !== item.term && (
-                                                <span className="text-slate-400 font-normal ml-2">
-                                                    — {item.fullName}
-                                                </span>
-                                            )}
-                                        </h2>
-                                        <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-slate-700/50 text-slate-300 rounded">
-                                            {item.category}
-                                        </span>
-                                    </div>
-                                    {expandedTerms.has(item.term) ? (
-                                        <ChevronDown className="w-5 h-5 text-slate-400" />
-                                    ) : (
-                                        <ChevronRight className="w-5 h-5 text-slate-400" />
-                                    )}
+                                    {category}
                                 </button>
+                            ))}
+                        </div>
 
-                                {expandedTerms.has(item.term) && (
-                                    <div className="px-6 pb-6 border-t border-slate-700/50">
-                                        {/* Definition - formatted for AI scraping with "What is X?" pattern */}
-                                        <div className="mt-4">
-                                            <h3 className="text-sm font-medium text-blue-400 mb-2">
-                                                What is {item.term}?
-                                            </h3>
-                                            <p className="text-slate-300 leading-relaxed">
-                                                {item.definition}
-                                            </p>
+                        <p className="text-gray-600 text-center mb-8">
+                            Showing {filteredTerms.length} of {glossaryTerms.length} terms
+                        </p>
+
+                        {/* Glossary Grid */}
+                        <div className="grid gap-4 max-w-4xl mx-auto">
+                            {filteredTerms.map((item) => (
+                                <article
+                                    key={item.term}
+                                    id={item.term.toLowerCase().replace(/[\s()]/g, '-')}
+                                    className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-blue-400 hover:shadow-lg transition-all"
+                                >
+                                    <button
+                                        onClick={() => toggleTerm(item.term)}
+                                        className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50"
+                                    >
+                                        <div>
+                                            <h2 className="text-xl font-semibold text-gray-900">
+                                                {item.term}
+                                                {item.fullName !== item.term && (
+                                                    <span className="text-gray-500 font-normal ml-2">
+                                                        — {item.fullName}
+                                                    </span>
+                                                )}
+                                            </h2>
+                                            <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded">
+                                                {item.category}
+                                            </span>
                                         </div>
-
-                                        {/* Related Standards */}
-                                        {item.relatedStandards && item.relatedStandards.length > 0 && (
-                                            <div className="mt-4">
-                                                <h4 className="text-sm font-medium text-slate-400 mb-2">
-                                                    Related Standards & Regulations
-                                                </h4>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {item.relatedStandards.map((std) => (
-                                                        <span
-                                                            key={std}
-                                                            className="px-3 py-1 text-sm bg-blue-500/10 text-blue-300 rounded-full border border-blue-500/20"
-                                                        >
-                                                            {std}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
+                                        {expandedTerms.has(item.term) ? (
+                                            <ChevronDown className="w-5 h-5 text-gray-400" />
+                                        ) : (
+                                            <ChevronRight className="w-5 h-5 text-gray-400" />
                                         )}
-                                    </div>
-                                )}
-                            </article>
-                        ))}
-                    </div>
+                                    </button>
 
-                    {/* Bottom CTA */}
-                    <div className="mt-16 text-center">
-                        <div className="bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 border border-blue-500/20 rounded-2xl p-8 max-w-2xl mx-auto">
-                            <h3 className="text-2xl font-bold text-white mb-4">
+                                    {expandedTerms.has(item.term) && (
+                                        <div className="px-6 pb-6 border-t border-gray-200 bg-gray-50">
+                                            {/* Definition - formatted for AI scraping with "What is X?" pattern */}
+                                            <div className="mt-4">
+                                                <h3 className="text-sm font-medium text-blue-600 mb-2">
+                                                    What is {item.term}?
+                                                </h3>
+                                                <p className="text-gray-700 leading-relaxed">
+                                                    {item.definition}
+                                                </p>
+                                            </div>
+
+                                            {/* Related Standards */}
+                                            {item.relatedStandards && item.relatedStandards.length > 0 && (
+                                                <div className="mt-4">
+                                                    <h4 className="text-sm font-medium text-gray-500 mb-2">
+                                                        Related Standards & Regulations
+                                                    </h4>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {item.relatedStandards.map((std) => (
+                                                            <span
+                                                                key={std}
+                                                                className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-full"
+                                                            >
+                                                                {std}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </article>
+                            ))}
+                        </div>
+
+                        {/* Bottom CTA */}
+                        <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-8 max-w-2xl mx-auto text-center">
+                            <h3 className="text-2xl font-bold text-gray-900 mb-4">
                                 Can&apos;t find a term?
                             </h3>
-                            <p className="text-slate-300 mb-6">
+                            <p className="text-gray-600 mb-6">
                                 Explore our comprehensive guides on standards and regulations for in-depth coverage.
                             </p>
                             <div className="flex flex-wrap gap-4 justify-center">
                                 <a
                                     href="/standards"
-                                    className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
                                 >
                                     Browse Standards
                                 </a>
                                 <a
                                     href="/regulations"
-                                    className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-lg transition-colors"
+                                    className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition-colors"
                                 >
                                     Browse Regulations
                                 </a>
                             </div>
                         </div>
-                    </div>
-                </main>
+                    </main>
 
-                <Footer />
+                    <Footer />
+                </div>
             </div>
         </>
     );
