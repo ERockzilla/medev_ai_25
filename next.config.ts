@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 
   // ==========================================================================
-  // SECURITY NOTE: Malicious paths like /lander are BLOCKED in middleware.ts
-  // Middleware returns 410 GONE - no redirects, no chains, just dead end
+  // SECURITY NOTE: Malicious paths like /lander are BLOCKED in proxy.ts
+  // Proxy returns 410 GONE - no redirects, no chains, just dead end
   // ==========================================================================
 
   // Analytics proxy now handled via API routes in /app/stats/ (more reliable on Amplify)
