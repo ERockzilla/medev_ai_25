@@ -1238,7 +1238,7 @@ export default function FutureGenerationsRoadmap() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-3">Building the Future Together</h3>
                 <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                    Each generation represents not just technological advancement, but tangible improvements in patient outcomes. The journey from Gen 4 to Gen 10 is a path toward a world where <strong className="text-gray-800">medical devices enhance life rather than just sustain it</strong>, where treatment is <strong className="text-gray-800">personalized, accessible, and aligned with human values</strong>.
+                    Each generation represents not just technological advancement, but tangible improvements in patient outcomes. The journey from Gen 4 to Gen 10 is a path toward a world where medical devices enhance life rather than just sustain it, where treatment is personalized, accessible, and aligned with human values.
                 </p>
                 <p className="text-gray-500 text-sm mt-4">
                     Join us in shaping this future — where engineering excellence meets ethical responsibility.

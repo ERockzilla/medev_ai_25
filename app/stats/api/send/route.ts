@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { applyRateLimit, rateLimitHeaders, RATE_LIMITS } from '@/lib/rateLimit';
 
 // Self-hosted Umami on Vercel - production domain
 const UMAMI_URL = 'https://umami-ten-ruby.vercel.app';
@@ -36,6 +37,18 @@ function getClientIP(request: NextRequest): string {
 
 export async function POST(request: NextRequest) {
     try {
+        // Apply rate limiting (generous limits for analytics)
+        const rateLimitResult = applyRateLimit(request, RATE_LIMITS.analytics);
+        if (!rateLimitResult.allowed) {
+            return new NextResponse(JSON.stringify({ error: 'Rate limit exceeded' }), {
+                status: 429,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...rateLimitHeaders(rateLimitResult),
+                },
+            });
+        }
+
         const body = await request.text();
 
         // Extract real client IP for accurate geo-location in Umami
@@ -58,6 +71,7 @@ export async function POST(request: NextRequest) {
             status: response.status,
             headers: {
                 'Content-Type': 'application/json',
+                ...rateLimitHeaders(rateLimitResult),
             },
         });
     } catch (error) {
@@ -68,3 +82,4 @@ export async function POST(request: NextRequest) {
         });
     }
 }
+
