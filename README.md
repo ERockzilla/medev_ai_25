@@ -8,9 +8,9 @@ A free, open-source platform for MedTech professionals featuring comprehensive r
 
 ---
 
-## 📖 Site Contents & Capabilities
+## Site Contents & Capabilities
 
-### 🏠 [Dashboard Knowledge Center](/)
+### [Dashboard Knowledge Center](https://www.medev.ai/)
 The central hub of medev.ai, providing organized access to all site content.
 
 **Features:**
@@ -20,7 +20,7 @@ The central hub of medev.ai, providing organized access to all site content.
 - **Bookmarks Sidebar** – Save and organize your favorite resources
 - **Footer Navigation** – Quick links to key sections and external resources
 
-### 📋 [Standards Database](/standards)
+### [Standards Database](https://www.medev.ai/standards)
 Comprehensive database of medical device standards with implementation guidance.
 
 **Categories:**
@@ -34,7 +34,7 @@ Comprehensive database of medical device standards with implementation guidance.
 - **Clinical** – ISO 14155
 - **Labeling** – ISO 15223, ISO 20417
 
-### 📜 [Regulations](/regulations)
+### [Regulations](https://www.medev.ai/regulations)
 FDA regulations and submission guidance including:
 - 21 CFR Part 11 (Electronic Records)
 - 21 CFR Part 803 (Medical Device Reporting)
@@ -45,7 +45,7 @@ FDA regulations and submission guidance including:
 - 510(k) and PMA Submission Guides
 - eSTAR Template Guide
 
-### 🔧 [Tools](/tools)
+### [Tools](https://www.medev.ai/tools)
 Interactive calculators and decision-support tools:
 - **FMEA Calculator** – Failure Mode and Effects Analysis
 - **Device Classification** – FDA device classification lookup
@@ -57,25 +57,25 @@ Interactive calculators and decision-support tools:
 - **Design Change Notification** – Change assessment tool
 - **Statistical Distributions** – Distribution visualizations
 
-### 🌍 [Global Map](/global-map)
+### [Global Map](https://www.medev.ai/global-map)
 Interactive 3D globe visualization of worldwide regulatory bodies and medical device markets.
 
-### 📰 [News](/news)
+### [News](https://www.medev.ai/news)
 Curated industry news via RSS feeds from leading MedTech sources.
 
-### 📚 Additional Resources
-- [Glossary](/glossary) – Medical device terminology definitions
-- [Guides](/guides) – Step-by-step implementation guides
-- [How-To Articles](/how-to) – Practical tutorials
-- [Professional Development](/professional-development) – Career growth resources
-- [Future Generations](/future-generations) – Emerging trends and predictions
-- [Financial](/financial) – ROI and business case resources
-- [Regulatory Analysis](/regulatory-analysis) – In-depth regulatory insights
-- [AI Tools](/ai-tools) – AI-powered assistance features
+### Additional Resources
+- [Glossary](https://www.medev.ai/glossary) – Medical device terminology definitions
+- [Guides](https://www.medev.ai/guides) – Step-by-step implementation guides
+- [How-To Articles](https://www.medev.ai/how-to) – Practical tutorials
+- [Professional Development](https://www.medev.ai/professional-development) – Career growth resources
+- [Future Generations](https://www.medev.ai/future-generations) – Emerging trends and predictions
+- [Financial](https://www.medev.ai/financial) – ROI and business case resources
+- [Regulatory Analysis](https://www.medev.ai/regulatory-analysis) – In-depth regulatory insights
+- [AI Tools](https://www.medev.ai/ai-tools) – AI-powered assistance features
 
 ---
 
-## ⚙️ Technical Features
+## Technical Features
 
 ### Analytics & Tracking
 - **Umami Analytics** – Privacy-first, GDPR-compliant analytics
@@ -89,7 +89,7 @@ Curated industry news via RSS feeds from leading MedTech sources.
 
 ---
 
-## 📦 Software Bill of Materials (SBOM)
+## Software Bill of Materials (SBOM)
 
 ### Core Framework
 | Package | Version | Purpose |
@@ -122,7 +122,7 @@ Curated industry news via RSS feeds from leading MedTech sources.
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js 18+ 
@@ -142,8 +142,6 @@ npm install
 npm run dev
 ```
 
-The site will be available at `http://localhost:8888`
-
 ### Build for Production
 
 ```bash
@@ -153,11 +151,11 @@ npm run start
 
 ---
 
-## 📊 Project History (Nov 2025 - Present)
+## Project History (Nov 2025 - Present)
 
 ### Development Statistics
 
-![Project Contribution Stats](/images/project-stats.png)
+![Project Contribution Stats](https://raw.githubusercontent.com/ERockzilla/medev_ai_25/main/public/images/project-stats.png)
 
 **28 commits** | **51,023++ additions** | **2,432-- deletions**
 
@@ -168,19 +166,19 @@ npm run start
 
 ---
 
-## 🔗 Related Projects
+## Related Projects
 
 **DMOS** – Digital MedTech Operations System
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the GNU General Public License v3.0 – see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.
 
