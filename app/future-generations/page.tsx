@@ -1,11 +1,18 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import MatrixBackground from '@/components/MatrixBackground';
-import FutureGenerationsRoadmap from '@/components/FutureGenerationsRoadmap';
+import { RoadmapSkeleton } from '@/components/skeletons';
 import { GitBranch, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+
+// Dynamic import with shimmer skeleton for faster initial load
+const FutureGenerationsRoadmap = dynamic(
+    () => import('@/components/FutureGenerationsRoadmap'),
+    { loading: () => <RoadmapSkeleton />, ssr: true }
+);
 
 export default function FutureGenerationsPage() {
     return (

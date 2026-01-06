@@ -1,11 +1,18 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Header from '@/components/Header';
 import MatrixBackground from '@/components/MatrixBackground';
-import DesignChangeNotification from '@/components/DesignChangeNotification';
+import { ClassificationSkeleton } from '@/components/skeletons';
 import BookmarkButton from '@/components/BookmarkButton';
 import Link from 'next/link';
 import { BookOpen, ArrowLeft, Bell, FileText, AlertTriangle, Building2 } from 'lucide-react';
+
+// Dynamic import with shimmer skeleton for faster initial load
+const DesignChangeNotification = dynamic(
+  () => import('@/components/DesignChangeNotification'),
+  { loading: () => <ClassificationSkeleton />, ssr: true }
+);
 
 export default function DesignChangeNotificationPage() {
   return (
@@ -17,7 +24,7 @@ export default function DesignChangeNotificationPage() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Breadcrumb */}
           <div className="mb-6 flex items-center justify-between">
-            <Link 
+            <Link
               href="/tools"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
             >
@@ -39,8 +46,8 @@ export default function DesignChangeNotificationPage() {
                   Design Change Notification Guide
                 </h2>
                 <p className="text-sm text-orange-800 mb-4">
-                  Understanding when design changes require notification to regulatory bodies 
-                  (FDA, EU Notified Bodies) and test labs (NRTL/CB) is critical for compliance. 
+                  Understanding when design changes require notification to regulatory bodies
+                  (FDA, EU Notified Bodies) and test labs (NRTL/CB) is critical for compliance.
                   Early decisions during design can prevent costly re-submissions later.
                 </p>
                 <div className="grid grid-cols-3 gap-3 text-center text-xs">
@@ -70,7 +77,7 @@ export default function DesignChangeNotificationPage() {
                   <BookOpen className="w-5 h-5" />
                   21 CFR 820.30(i)
                 </Link>
-                
+
                 <Link
                   href="/how-to/design-development-iso13485"
                   className="px-4 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium flex items-center gap-2 justify-center"
@@ -176,8 +183,8 @@ export default function DesignChangeNotificationPage() {
             <h3 className="text-lg font-bold text-gray-900 mb-4">21 CFR 820.30(i) - Design Changes</h3>
             <div className="prose prose-sm max-w-none text-gray-700">
               <blockquote className="border-l-4 border-blue-500 pl-4 italic bg-blue-50 p-4 rounded-r-lg">
-                &quot;Each manufacturer shall establish and maintain procedures for the identification, 
-                documentation, validation or where appropriate verification, review, and approval 
+                &quot;Each manufacturer shall establish and maintain procedures for the identification,
+                documentation, validation or where appropriate verification, review, and approval
                 of design changes before their implementation.&quot;
               </blockquote>
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -209,7 +216,7 @@ export default function DesignChangeNotificationPage() {
           <div className="mt-8 bg-purple-50 border border-purple-200 rounded-lg p-6">
             <h3 className="text-lg font-bold text-purple-900 mb-4">Test Lab (NRTL/CB) Notification Guide</h3>
             <p className="text-sm text-purple-800 mb-4">
-              When your product has third-party safety certifications (UL, TÜV, CSA, etc.), many changes 
+              When your product has third-party safety certifications (UL, TÜV, CSA, etc.), many changes
               require notification even if no FDA submission is needed.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -243,7 +250,7 @@ export default function DesignChangeNotificationPage() {
           <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
             <h3 className="text-lg font-bold text-blue-900 mb-4">EU MDR - Significant Changes (MDCG 2020-3)</h3>
             <p className="text-sm text-blue-800 mb-4">
-              Under EU MDR, &quot;significant changes&quot; to certified devices require Notified Body assessment 
+              Under EU MDR, &quot;significant changes&quot; to certified devices require Notified Body assessment
               before implementation. The MDCG 2020-3 guidance provides criteria for determining significance.
             </p>
             <div className="space-y-3">
@@ -262,8 +269,8 @@ export default function DesignChangeNotificationPage() {
               </div>
               <div className="p-3 bg-yellow-50 rounded-lg border border-yellow-300">
                 <p className="text-sm text-yellow-800">
-                  <strong>Important:</strong> For legacy devices transitioning under MDR Article 120, 
-                  you must notify your NB of all significant changes. Failure to do so can result in 
+                  <strong>Important:</strong> For legacy devices transitioning under MDR Article 120,
+                  you must notify your NB of all significant changes. Failure to do so can result in
                   loss of market authorization.
                 </p>
               </div>
@@ -281,7 +288,7 @@ export default function DesignChangeNotificationPage() {
                 <h4 className="font-bold text-gray-900 mb-2">FMEA Calculator</h4>
                 <p className="text-sm text-gray-600">Risk analysis for design changes</p>
               </Link>
-              
+
               <Link
                 href="/tools/regulatory-pathway"
                 className="p-4 bg-white border border-gray-200 rounded-lg hover:border-green-300 hover:shadow-md transition-all"
@@ -289,7 +296,7 @@ export default function DesignChangeNotificationPage() {
                 <h4 className="font-bold text-gray-900 mb-2">Regulatory Pathway Tool</h4>
                 <p className="text-sm text-gray-600">Determine submission requirements</p>
               </Link>
-              
+
               <Link
                 href="/how-to/design-development-iso13485"
                 className="p-4 bg-white border border-gray-200 rounded-lg hover:border-purple-300 hover:shadow-md transition-all"

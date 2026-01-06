@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Search, X, Bookmark, ExternalLink } from 'lucide-react';
 import { KNOWLEDGE_CATEGORIES } from '@/lib/knowledgeBase';
 import { useBookmarks } from '@/contexts/BookmarkContext';
+import { trackSearch } from '@/lib/tracking';
 
 interface SearchResult {
   title: string;
@@ -90,6 +91,11 @@ export default function SmartSearch() {
     setResults(filtered);
     setShowResults(filtered.length > 0);
     setSelectedIndex(0);
+
+    // Track search when results are found
+    if (filtered.length > 0 && query.trim().length >= 3) {
+      trackSearch(query.trim());
+    }
   }, [query]);
 
   // Close on click outside

@@ -1,10 +1,17 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import MatrixBackground from '@/components/MatrixBackground';
-import CyberDeviceClassification from '@/components/CyberDeviceClassification';
+import { ClassificationSkeleton } from '@/components/skeletons';
 import { Shield, ArrowLeft, ExternalLink, AlertTriangle, CheckCircle, FileText, Server, Globe, Lock } from 'lucide-react';
+
+// Dynamic import with shimmer skeleton for faster initial load
+const CyberDeviceClassification = dynamic(
+  () => import('@/components/CyberDeviceClassification'),
+  { loading: () => <ClassificationSkeleton />, ssr: true }
+);
 
 export default function CyberDeviceClassificationPage() {
   return (
@@ -16,7 +23,7 @@ export default function CyberDeviceClassificationPage() {
         <div className="max-w-6xl mx-auto px-6 py-8">
           {/* Breadcrumb */}
           <div className="mb-6">
-            <Link 
+            <Link
               href="/tools"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
             >
@@ -40,8 +47,8 @@ export default function CyberDeviceClassificationPage() {
                 <div>
                   <p className="text-sm font-medium text-red-800">Important Regulatory Update - September 2023</p>
                   <p className="text-sm text-red-700 mt-1">
-                    FDA&apos;s &quot;Cybersecurity in Medical Devices&quot; guidance establishes mandatory requirements 
-                    for &quot;cyber devices&quot; under FD&C Act Section 524B. Premarket submissions must include 
+                    FDA&apos;s &quot;Cybersecurity in Medical Devices&quot; guidance establishes mandatory requirements
+                    for &quot;cyber devices&quot; under FD&C Act Section 524B. Premarket submissions must include
                     comprehensive cybersecurity documentation.
                   </p>
                 </div>
@@ -62,7 +69,7 @@ export default function CyberDeviceClassificationPage() {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Cyber Device Definition</h3>
               <p className="text-sm text-gray-600">
-                A cyber device must meet ALL three criteria: (1) includes software, (2) can connect to internet, 
+                A cyber device must meet ALL three criteria: (1) includes software, (2) can connect to internet,
                 and (3) has cyber-vulnerable characteristics. This is a statutory definition from the FD&C Act.
               </p>
             </div>
@@ -73,7 +80,7 @@ export default function CyberDeviceClassificationPage() {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">SBOM Requirement</h3>
               <p className="text-sm text-gray-600">
-                Software Bill of Materials must include all commercial, open-source, and off-the-shelf 
+                Software Bill of Materials must include all commercial, open-source, and off-the-shelf
                 components. Machine-readable format (SPDX/CycloneDX) required with vulnerability tracking.
               </p>
             </div>
@@ -84,7 +91,7 @@ export default function CyberDeviceClassificationPage() {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Risk-Based Tiers</h3>
               <p className="text-sm text-gray-600">
-                FDA uses two tiers: Standard (lower risk) and Enhanced (higher risk). Enhanced tier 
+                FDA uses two tiers: Standard (lower risk) and Enhanced (higher risk). Enhanced tier
                 requires penetration testing, detailed threat modeling, and more comprehensive documentation.
               </p>
             </div>
@@ -372,7 +379,7 @@ export default function CyberDeviceClassificationPage() {
 
           {/* Back Link */}
           <div className="mt-10 pt-6 border-t border-gray-200">
-            <Link 
+            <Link
               href="/tools"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
             >

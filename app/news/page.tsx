@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 import MatrixBackground from '@/components/MatrixBackground';
 import NewsSidebar from '@/components/NewsSidebar';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Revalidate every hour
 export const revalidate = 3600;
@@ -82,10 +83,13 @@ export default function DailyBriefingPage() {
                                         className="inline-block hover:opacity-80 transition-opacity"
                                         title="Validate our RSS feed"
                                     >
-                                        <img
+                                        <Image
                                             src="/valid-rss-rogers.png"
-                                            alt="[Valid RSS]"
-                                            className="h-8"
+                                            alt="Valid RSS - W3C Validated Feed"
+                                            width={88}
+                                            height={31}
+                                            className="h-8 w-auto"
+                                            loading="lazy"
                                         />
                                     </a>
                                 </div>

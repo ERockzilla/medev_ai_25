@@ -1,13 +1,27 @@
 'use client';
 
+import { useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Header from '@/components/Header';
 import MatrixBackground from '@/components/MatrixBackground';
-import SoftwareRiskClassification from '@/components/SoftwareRiskClassification';
+import { ClassificationSkeleton } from '@/components/skeletons';
 import BookmarkButton from '@/components/BookmarkButton';
 import Link from 'next/link';
 import { BookOpen, ArrowLeft, Code, Shield, AlertTriangle, CheckCircle } from 'lucide-react';
+import { trackToolOpened } from '@/lib/tracking';
+
+// Dynamic import with shimmer skeleton for faster initial load
+const SoftwareRiskClassification = dynamic(
+  () => import('@/components/SoftwareRiskClassification'),
+  { loading: () => <ClassificationSkeleton />, ssr: true }
+);
 
 export default function SoftwareRiskClassPage() {
+  // Track tool usage
+  useEffect(() => {
+    trackToolOpened('software-risk-class');
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 relative">
       <MatrixBackground intensity="low" />
@@ -17,7 +31,7 @@ export default function SoftwareRiskClassPage() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Breadcrumb */}
           <div className="mb-6 flex items-center justify-between">
-            <Link 
+            <Link
               href="/tools"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
             >
@@ -39,8 +53,8 @@ export default function SoftwareRiskClassPage() {
                   IEC 62304 Software Safety Classification
                 </h2>
                 <p className="text-sm text-purple-800 mb-4">
-                  IEC 62304 requires medical device software to be classified based on the potential 
-                  for contributing to hazardous situations. The classification determines the rigor 
+                  IEC 62304 requires medical device software to be classified based on the potential
+                  for contributing to hazardous situations. The classification determines the rigor
                   of software development processes, documentation, and testing required.
                 </p>
                 <div className="grid grid-cols-3 gap-4 text-center">
@@ -67,7 +81,7 @@ export default function SoftwareRiskClassPage() {
                   <BookOpen className="w-5 h-5" />
                   IEC 62304 Standard
                 </Link>
-                
+
                 <Link
                   href="/standards/iec-81001-5-1"
                   className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium flex items-center gap-2 justify-center"
@@ -88,23 +102,23 @@ export default function SoftwareRiskClassPage() {
             <div className="space-y-4 text-sm text-yellow-800">
               <div>
                 <p className="font-bold">IEC 62304:2006/AMD1:2015 - Medical Device Software Life Cycle Processes</p>
-                <p>Defines the framework for software development, including planning, requirements, design, 
-                implementation, testing, and maintenance. The 2015 amendment (AMD1) refined the classification 
-                process and clarified that risk controls can be used to reduce the software safety class.</p>
+                <p>Defines the framework for software development, including planning, requirements, design,
+                  implementation, testing, and maintenance. The 2015 amendment (AMD1) refined the classification
+                  process and clarified that risk controls can be used to reduce the software safety class.</p>
               </div>
-              
+
               <div>
                 <p className="font-bold">FDA Software Guidance</p>
-                <p>FDA recognizes IEC 62304 and expects software safety classification in 510(k) submissions. 
-                The level of documentation required in regulatory submissions generally aligns with the 
-                IEC 62304 class. Class C software typically requires the most extensive documentation.</p>
+                <p>FDA recognizes IEC 62304 and expects software safety classification in 510(k) submissions.
+                  The level of documentation required in regulatory submissions generally aligns with the
+                  IEC 62304 class. Class C software typically requires the most extensive documentation.</p>
               </div>
-              
+
               <div>
                 <p className="font-bold">EU MDR and Software</p>
-                <p>Under EU MDR 2017/745, software is explicitly recognized as a medical device. 
-                Classification rules (Annex VIII, Rule 11) consider intended purpose and risk. 
-                IEC 62304 compliance is presumed to satisfy software-related requirements.</p>
+                <p>Under EU MDR 2017/745, software is explicitly recognized as a medical device.
+                  Classification rules (Annex VIII, Rule 11) consider intended purpose and risk.
+                  IEC 62304 compliance is presumed to satisfy software-related requirements.</p>
               </div>
 
               <div className="mt-4 pt-4 border-t border-yellow-300">
@@ -128,7 +142,7 @@ export default function SoftwareRiskClassPage() {
                 <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mb-3">1</div>
                 <h4 className="font-bold text-blue-900 mb-2">Identify Hazards</h4>
                 <p className="text-xs text-blue-800">
-                  Perform hazard analysis per ISO 14971 to identify all hazardous situations 
+                  Perform hazard analysis per ISO 14971 to identify all hazardous situations
                   the device could contribute to.
                 </p>
               </div>
@@ -137,7 +151,7 @@ export default function SoftwareRiskClassPage() {
                 <div className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold mb-3">2</div>
                 <h4 className="font-bold text-purple-900 mb-2">Map Software to Hazards</h4>
                 <p className="text-xs text-purple-800">
-                  Determine which software items could contribute to each hazardous situation 
+                  Determine which software items could contribute to each hazardous situation
                   through malfunction or incorrect output.
                 </p>
               </div>
@@ -146,7 +160,7 @@ export default function SoftwareRiskClassPage() {
                 <div className="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold mb-3">3</div>
                 <h4 className="font-bold text-orange-900 mb-2">Evaluate Severity</h4>
                 <p className="text-xs text-orange-800">
-                  For each hazardous situation, determine if it could result in death/serious 
+                  For each hazardous situation, determine if it could result in death/serious
                   injury (Class C) or non-serious injury (Class B).
                 </p>
               </div>
@@ -155,7 +169,7 @@ export default function SoftwareRiskClassPage() {
                 <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mb-3">4</div>
                 <h4 className="font-bold text-green-900 mb-2">Consider Risk Controls</h4>
                 <p className="text-xs text-green-800">
-                  Hardware risk controls outside the software item may reduce the class if 
+                  Hardware risk controls outside the software item may reduce the class if
                   they reliably prevent the hazardous situation.
                 </p>
               </div>
@@ -229,7 +243,7 @@ export default function SoftwareRiskClassPage() {
                   Underestimating Severity
                 </h4>
                 <p className="text-sm text-red-700">
-                  Not considering worst-case scenarios or cascading failures. Remember: classification 
+                  Not considering worst-case scenarios or cascading failures. Remember: classification
                   is based on what <em>could</em> happen, not what is <em>likely</em> to happen.
                 </p>
               </div>
@@ -240,7 +254,7 @@ export default function SoftwareRiskClassPage() {
                   Ignoring Indirect Hazards
                 </h4>
                 <p className="text-sm text-red-700">
-                  Software that provides diagnostic information can contribute to hazards through 
+                  Software that provides diagnostic information can contribute to hazards through
                   misdiagnosis, even if it doesn&apos;t directly control therapeutic actions.
                 </p>
               </div>
@@ -251,7 +265,7 @@ export default function SoftwareRiskClassPage() {
                   Claiming Class Reduction Without Evidence
                 </h4>
                 <p className="text-sm text-red-700">
-                  Risk controls that reduce software class must be documented and validated. 
+                  Risk controls that reduce software class must be documented and validated.
                   Hardware controls must be independent of the software being classified.
                 </p>
               </div>
@@ -262,7 +276,7 @@ export default function SoftwareRiskClassPage() {
                   Not Considering SOUP
                 </h4>
                 <p className="text-sm text-red-700">
-                  Third-party libraries, operating systems, and frameworks (SOUP) inherit the 
+                  Third-party libraries, operating systems, and frameworks (SOUP) inherit the
                   class of the software item that uses them for safety-related functions.
                 </p>
               </div>
@@ -329,7 +343,7 @@ export default function SoftwareRiskClassPage() {
                 <h4 className="font-bold text-gray-900 mb-2">IEC 62304 Standard</h4>
                 <p className="text-sm text-gray-600">Complete guide to medical device software lifecycle processes</p>
               </Link>
-              
+
               <Link
                 href="/tools/fmea"
                 className="p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all"
@@ -337,7 +351,7 @@ export default function SoftwareRiskClassPage() {
                 <h4 className="font-bold text-gray-900 mb-2">FMEA Calculator</h4>
                 <p className="text-sm text-gray-600">Risk analysis tool for identifying software hazards</p>
               </Link>
-              
+
               <Link
                 href="/standards/iso-14971"
                 className="p-4 bg-white border border-gray-200 rounded-lg hover:border-red-300 hover:shadow-md transition-all"

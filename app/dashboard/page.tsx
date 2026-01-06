@@ -2,15 +2,22 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import MatrixBackground from '@/components/MatrixBackground';
 import SmartSearch from '@/components/SmartSearch';
-import MedicalDeviceTimeline from '@/components/MedicalDeviceTimeline';
+import { TimelineSkeleton } from '@/components/skeletons';
 import { KNOWLEDGE_CATEGORIES, getTotalArticleCount } from '@/lib/knowledgeBase';
 import { BookOpen, Bookmark, Plus, ChevronRight, ChevronLeft, Trash2, RotateCcw, Sparkles, ArrowRight } from 'lucide-react';
 import { useBookmarks } from '@/contexts/BookmarkContext';
 import FutureGenIcon from '@/components/FutureGenIcon';
+
+// Dynamic import with shimmer skeleton for faster initial load
+const MedicalDeviceTimeline = dynamic(
+  () => import('@/components/MedicalDeviceTimeline'),
+  { loading: () => <TimelineSkeleton />, ssr: true }
+);
 
 export default function DashboardPage() {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);

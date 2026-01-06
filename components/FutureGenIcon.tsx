@@ -1,5 +1,7 @@
 'use client';
 
+import React, { memo } from 'react';
+
 interface FutureGenIconProps {
     className?: string;
     size?: number;
@@ -7,7 +9,8 @@ interface FutureGenIconProps {
 
 // Custom Future Generations icon - represents evolution/growth of AI generations
 // Design: A stylized tree with branches growing upward, symbolizing generational progression
-export default function FutureGenIcon({ className = '', size = 24 }: FutureGenIconProps) {
+// Wrapped in React.memo for performance optimization
+const FutureGenIcon = memo(function FutureGenIcon({ className = '', size = 24 }: FutureGenIconProps) {
     return (
         <svg
             width={size}
@@ -46,4 +49,7 @@ export default function FutureGenIcon({ className = '', size = 24 }: FutureGenIc
             <circle cx="18" cy="4" r="1.5" fill="currentColor" />
         </svg>
     );
-}
+});
+
+export default FutureGenIcon;
+

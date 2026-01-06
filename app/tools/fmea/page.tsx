@@ -1,13 +1,20 @@
 'use client';
 
+import { useEffect } from 'react';
 import Header from '@/components/Header';
 import MatrixBackground from '@/components/MatrixBackground';
 import FMEACalculator from '@/components/FMEACalculator';
 import BookmarkButton from '@/components/BookmarkButton';
 import Link from 'next/link';
 import { BookOpen, Download, ArrowLeft } from 'lucide-react';
+import { trackToolOpened } from '@/lib/tracking';
 
 export default function FMEAPage() {
+  // Track tool usage
+  useEffect(() => {
+    trackToolOpened('fmea');
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 relative">
       <MatrixBackground intensity="low" />
@@ -17,7 +24,7 @@ export default function FMEAPage() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Breadcrumb */}
           <div className="mb-6 flex items-center justify-between">
-            <Link 
+            <Link
               href="/tools"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
             >
@@ -39,8 +46,8 @@ export default function FMEAPage() {
                   What is FMEA?
                 </h2>
                 <p className="text-sm text-blue-800 mb-4">
-                  Failure Mode and Effects Analysis (FMEA) is a systematic method for identifying and preventing 
-                  product and process failures. For medical devices, FMEA is required by ISO 14971 for risk management 
+                  Failure Mode and Effects Analysis (FMEA) is a systematic method for identifying and preventing
+                  product and process failures. For medical devices, FMEA is required by ISO 14971 for risk management
                   and is critical for FDA and EU MDR compliance.
                 </p>
                 <p className="text-sm text-blue-800">
@@ -59,11 +66,13 @@ export default function FMEAPage() {
                   <BookOpen className="w-5 h-5" />
                   Read Complete Guide
                 </Link>
-                
+
                 <a
                   href="/templates/FMEA_Template.xlsx"
                   download
                   className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2 justify-center"
+                  data-umami-event="template_downloaded"
+                  data-umami-event-template="FMEA_Template.xlsx"
                 >
                   <Download className="w-5 h-5" />
                   Download Excel Template
@@ -81,20 +90,20 @@ export default function FMEAPage() {
             <div className="space-y-3 text-sm text-yellow-800">
               <div>
                 <p className="font-bold">ISO 14971:2019 - Medical Device Risk Management</p>
-                <p>Requires systematic risk analysis including hazard identification, risk estimation, 
-                risk evaluation, and risk control. FMEA is an accepted method for meeting these requirements.</p>
+                <p>Requires systematic risk analysis including hazard identification, risk estimation,
+                  risk evaluation, and risk control. FMEA is an accepted method for meeting these requirements.</p>
               </div>
-              
+
               <div>
                 <p className="font-bold">FDA QMSR - Design and Development (ISO 13485 7.3)</p>
-                <p>FDA's Quality Management System Regulation aligns with ISO 13485:2016, requiring risk analysis 
-                as part of design validation per ISO 13485 7.3.6. FMEA documentation supports FDA 510(k) and PMA submissions.</p>
+                <p>FDA's Quality Management System Regulation aligns with ISO 13485:2016, requiring risk analysis
+                  as part of design validation per ISO 13485 7.3.6. FMEA documentation supports FDA 510(k) and PMA submissions.</p>
               </div>
-              
+
               <div>
                 <p className="font-bold">EU MDR Annex I - General Safety Requirements</p>
-                <p>Requires manufacturers to eliminate or reduce risks through inherent safety by design. 
-                FMEA provides evidence of systematic risk assessment.</p>
+                <p>Requires manufacturers to eliminate or reduce risks through inherent safety by design.
+                  FMEA provides evidence of systematic risk assessment.</p>
               </div>
 
               <div className="mt-4 pt-4 border-t border-yellow-300">
@@ -200,7 +209,7 @@ export default function FMEAPage() {
                 <h4 className="font-bold text-gray-900 mb-2">Statistical Distributions</h4>
                 <p className="text-sm text-gray-600">Model failure rates using Weibull and exponential distributions</p>
               </Link>
-              
+
               <Link
                 href="/tools/sample-size"
                 className="p-4 bg-white border border-gray-200 rounded-lg hover:border-green-300 hover:shadow-md transition-all"
@@ -208,7 +217,7 @@ export default function FMEAPage() {
                 <h4 className="font-bold text-gray-900 mb-2">Sample Size Calculator</h4>
                 <p className="text-sm text-gray-600">Determine sample sizes for risk mitigation validation studies</p>
               </Link>
-              
+
               <Link
                 href="/tools/reliability"
                 className="p-4 bg-white border border-gray-200 rounded-lg hover:border-orange-300 hover:shadow-md transition-all opacity-50 cursor-not-allowed"
