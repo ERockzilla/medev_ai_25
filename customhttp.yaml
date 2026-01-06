@@ -1,12 +1,3 @@
-# Redirect non-www to www for all routes
-redirects:
-  - source: "https://medev.ai"
-    target: "https://www.medev.ai"
-    status: "301"
-  - source: "https://medev.ai/<*>"
-    target: "https://www.medev.ai/<*>"
-    status: "301"
-
 customHeaders:
   - pattern: '**/*'
     headers:
