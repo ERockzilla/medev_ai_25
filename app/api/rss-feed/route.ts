@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { fetchRSS, fetchClinicalTrials, NewsItem } from '@/lib/rssFetcher';
 
-// Cache for 30 minutes
-export const revalidate = 1800;
+// Cache for 15 minutes
+export const revalidate = 900;
 
 // RSS sources configuration
 const sources = [
@@ -29,7 +29,7 @@ export async function GET() {
 
         return NextResponse.json(allNews, {
             headers: {
-                'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=3600',
+                'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=900',
             },
         });
     } catch (error) {

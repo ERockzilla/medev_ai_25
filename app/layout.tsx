@@ -3,7 +3,7 @@ import "./globals.css";
 import Providers from "@/components/Providers";
 import StructuredData, { generateOrganizationSchema, generateWebSiteSchema } from "@/components/StructuredData";
 import Analytics from "@/components/Analytics";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+
 
 export const metadata: Metadata = {
   title: {
@@ -94,7 +94,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <Analytics />
-        <SpeedInsights />
+
         <StructuredData data={generateOrganizationSchema()} />
         <StructuredData data={generateWebSiteSchema()} />
         <Providers>

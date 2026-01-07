@@ -97,7 +97,7 @@ const nextConfig: NextConfig = {
             value: [
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // Required for Next.js
-              "connect-src 'self' https://vitals.vercel-insights.com", // Speed Insights
+              "connect-src 'self'", // Speed Insights removed
               "img-src 'self' data: https://unpkg.com https://*.githubusercontent.com",
               "style-src 'self' 'unsafe-inline'",
               "font-src 'self' data:",

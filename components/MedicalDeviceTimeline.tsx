@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, TrendingUp, History, Lightbulb, FlaskConical, Scale, ClipboardCheck, ExternalLink, Zap } from 'lucide-react';
+import { Calendar, TrendingUp, History, Lightbulb, FlaskConical, Scale, ClipboardCheck, ExternalLink, Zap, ChevronDown, ChevronUp } from 'lucide-react';
 
 type TimelineCategory = 'design' | 'regulations' | 'standards' | 'laser';
 
@@ -203,9 +203,24 @@ const TIMELINE_DATA: TimelineEvent[] = [
   { year: '2048', title: 'Regenerative Devices', description: 'Devices that stimulate tissue regeneration and organ repair', category: 'design', impact: 'high', isFuture: true, confidenceLevels: [{ year: 2048, confidence: 19 }, { year: 2057, confidence: 46 }, { year: 2066, confidence: 73 }] },
 ];
 
+type EraFilter = 'ancient' | 'historical' | 'recent' | 'future' | 'all';
+
+const ERA_OPTIONS: { value: EraFilter; label: string; color: string; years: string }[] = [
+  { value: 'ancient', label: 'Ancient', color: 'bg-amber-500', years: 'Pre-1800' },
+  { value: 'historical', label: 'Historical', color: 'bg-gray-400', years: '1800-2010' },
+  { value: 'recent', label: 'Recent Past', color: 'bg-blue-500', years: '2010-2025' },
+  { value: 'future', label: 'Future', color: 'bg-emerald-500', years: '2025+' },
+  { value: 'all', label: 'Full Timeline', color: 'bg-gradient-to-r from-amber-500 via-blue-500 to-emerald-500', years: 'All Eras' },
+];
+
+const ITEMS_PER_PAGE = 10;
+
 export default function MedicalDeviceTimeline() {
   const [activeCategory, setActiveCategory] = useState<TimelineCategory | 'all'>('all');
   const [showFuture, setShowFuture] = useState(true);
+  const [selectedEra, setSelectedEra] = useState<EraFilter>('recent');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
   // Extract year for sorting (handle ranges, BCE dates, decade ranges, and use first confidence level year if available)
   const getYearForSorting = (event: TimelineEvent): number => {
@@ -346,6 +361,61 @@ export default function MedicalDeviceTimeline() {
             </label>
           </div>
         </div>
+
+        {/* Era Selector - Above Timeline */}
+        <div className="mt-4 flex items-center gap-3">
+          <span className="text-sm font-medium text-gray-600">Time Period:</span>
+          <div className="relative">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-[1.02]"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.98) 100%)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9)',
+                border: '1px solid rgba(0,0,0,0.08)',
+              }}
+            >
+              <div className={`w-2.5 h-2.5 rounded-full ${ERA_OPTIONS.find(e => e.value === selectedEra)?.color || 'bg-gray-400'}`} />
+              <span className="text-sm text-gray-800">
+                {ERA_OPTIONS.find(e => e.value === selectedEra)?.label}
+              </span>
+              <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {isDropdownOpen && (
+              <div
+                className="absolute top-full left-0 mt-1 w-56 rounded-lg overflow-hidden z-50"
+                style={{
+                  background: 'rgba(255,255,255,0.98)',
+                  backdropFilter: 'blur(12px)',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)',
+                  border: '1px solid rgba(0,0,0,0.06)',
+                }}
+              >
+                {ERA_OPTIONS.map((era, idx) => (
+                  <button
+                    key={era.value}
+                    onClick={() => {
+                      setSelectedEra(era.value);
+                      setVisibleCount(ITEMS_PER_PAGE);
+                      setIsDropdownOpen(false);
+                    }}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-all duration-150 hover:bg-gray-50 ${selectedEra === era.value ? 'bg-blue-50' : ''} ${idx !== ERA_OPTIONS.length - 1 ? 'border-b border-gray-100' : ''}`}
+                  >
+                    <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${era.color}`} />
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-gray-800">{era.label}</div>
+                      <div className="text-xs text-gray-500">{era.years}</div>
+                    </div>
+                    {selectedEra === era.value && (
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Timeline */}
@@ -355,101 +425,160 @@ export default function MedicalDeviceTimeline() {
 
         {/* Events */}
         <div className="space-y-6">
-          {filteredEvents.map((event, index) => {
-            const era = getCurrentEra(event.year);
-            const isAncient = era === 'ancient';
-            const isHistorical = era === 'historical';
-            const isRecent = era === 'recent';
-            const isFuture = event.isFuture;
+          {(() => {
+            // Filter by era first
+            const eraFiltered = filteredEvents.filter(event => {
+              if (selectedEra === 'all') return true;
+              const era = getCurrentEra(event.year);
+              if (selectedEra === 'ancient') return era === 'ancient';
+              if (selectedEra === 'historical') return era === 'historical';
+              if (selectedEra === 'recent') return era === 'recent';
+              if (selectedEra === 'future') return event.isFuture;
+              return true;
+            });
+            // Show only visibleCount items
+            const displayedEvents = eraFiltered.slice(0, visibleCount);
+            const hasMore = eraFiltered.length > visibleCount;
+            const totalCount = eraFiltered.length;
 
             return (
-              <div key={index} className="relative pl-20">
-                {/* Dot on timeline */}
-                <div className={`absolute left-6 top-2 w-5 h-5 rounded-full border-4 ${isFuture
-                  ? 'border-purple-400 bg-purple-100'
-                  : isRecent
-                    ? 'border-blue-500 bg-blue-200'
-                    : isAncient
-                      ? 'border-amber-500 bg-amber-200'
-                      : 'border-gray-400 bg-gray-200'
-                  }`}></div>
+              <>
+                {displayedEvents.map((event, index) => {
+                  const era = getCurrentEra(event.year);
+                  const isAncient = era === 'ancient';
+                  const isHistorical = era === 'historical';
+                  const isRecent = era === 'recent';
+                  const isFuture = event.isFuture;
 
-                {/* Event Card */}
-                <div className={`border-l-4 rounded-lg p-4 transition-all hover:shadow-md ${categoryColors[event.category]} ${isFuture ? 'relative overflow-hidden' : ''
-                  }`}>
-                  {isFuture && (
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-100 to-transparent opacity-30 rounded-bl-full"></div>
-                  )}
-                  <div className="relative flex items-start justify-between mb-2">
-                    <div className="flex items-center gap-2 flex-wrap flex-1">
-                      {(() => {
-                        const IconComponent = categoryIcons[event.category];
-                        return <IconComponent className={`w-5 h-5 ${isFuture ? 'text-purple-600' : ''}`} />;
-                      })()}
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`px-2 py-1 rounded text-xs font-bold ${isFuture
-                          ? 'bg-gradient-to-r from-purple-100 to-purple-50 text-purple-800 border border-purple-200'
-                          : isRecent
-                            ? 'bg-blue-200 text-blue-900'
-                            : isAncient
-                              ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                              : 'bg-gray-200 text-gray-900'
-                          }`}>
-                          {event.year}
-                        </span>
+                  return (
+                    <div key={index} className="relative pl-20">
+                      {/* Dot on timeline */}
+                      <div className={`absolute left-6 top-2 w-5 h-5 rounded-full border-4 ${isFuture
+                        ? 'border-purple-400 bg-purple-100'
+                        : isRecent
+                          ? 'border-blue-500 bg-blue-200'
+                          : isAncient
+                            ? 'border-amber-500 bg-amber-200'
+                            : 'border-gray-400 bg-gray-200'
+                        }`}></div>
+
+                      {/* Event Card */}
+                      <div className={`border-l-4 rounded-lg p-4 transition-all hover:shadow-md ${categoryColors[event.category]} ${isFuture ? 'relative overflow-hidden' : ''
+                        }`}>
                         {isFuture && (
-                          <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-purple-50 border border-purple-200">
-                            <Lightbulb className="w-3 h-3 text-purple-600" />
-                            <span className="text-xs font-semibold text-purple-700">Future</span>
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-100 to-transparent opacity-30 rounded-bl-full"></div>
+                        )}
+                        <div className="relative flex items-start justify-between mb-2">
+                          <div className="flex items-center gap-2 flex-wrap flex-1">
+                            {(() => {
+                              const IconComponent = categoryIcons[event.category];
+                              return <IconComponent className={`w-5 h-5 ${isFuture ? 'text-purple-600' : ''}`} />;
+                            })()}
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className={`px-2 py-1 rounded text-xs font-bold ${isFuture
+                                ? 'bg-gradient-to-r from-purple-100 to-purple-50 text-purple-800 border border-purple-200'
+                                : isRecent
+                                  ? 'bg-blue-200 text-blue-900'
+                                  : isAncient
+                                    ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                                    : 'bg-gray-200 text-gray-900'
+                                }`}>
+                                {event.year}
+                              </span>
+                              {isFuture && (
+                                <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-purple-50 border border-purple-200">
+                                  <Lightbulb className="w-3 h-3 text-purple-600" />
+                                  <span className="text-xs font-semibold text-purple-700">Future</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          {event.link && (
+                            <a
+                              href={event.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1 text-gray-600 hover:text-gray-900 transition-colors ml-2"
+                              title="Learn more"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                            </a>
+                          )}
+                        </div>
+                        <h3 className="font-bold text-gray-900 mb-1 relative">{event.title}</h3>
+                        <p className="text-sm text-gray-700 mb-2 relative">{event.description}</p>
+                        {event.confidenceLevels && (
+                          <div className="relative mt-3 pt-3 border-t border-purple-100">
+                            <div className="text-xs font-semibold text-purple-700 mb-2">Confidence Timeline:</div>
+                            <div className="space-y-2">
+                              {event.confidenceLevels.map((level, idx) => {
+                                const confidence = level.confidence;
+                                return (
+                                  <div key={idx} className="flex items-center gap-3">
+                                    <div className="flex-1">
+                                      <div className="flex items-center justify-between mb-1">
+                                        <span className="text-xs font-medium text-gray-700">{level.year}</span>
+                                        <span className="text-xs font-semibold text-purple-700">{confidence}%</span>
+                                      </div>
+                                      <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                                        <div
+                                          className="h-full bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 rounded-full transition-all duration-300"
+                                          style={{ width: `${confidence}%` }}
+                                        ></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
                         )}
                       </div>
                     </div>
-                    {event.link && (
-                      <a
-                        href={event.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-gray-600 hover:text-gray-900 transition-colors ml-2"
-                        title="Learn more"
+                  );
+                })}
+
+                {/* Load More / Show Less Buttons */}
+                {(hasMore || visibleCount > ITEMS_PER_PAGE) && (
+                  <div className="flex items-center justify-center gap-3 pt-4">
+                    {visibleCount > ITEMS_PER_PAGE && (
+                      <button
+                        onClick={() => setVisibleCount(ITEMS_PER_PAGE)}
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all"
                       >
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
+                        <ChevronUp className="w-4 h-4" />
+                        Show Less
+                      </button>
+                    )}
+                    {hasMore && (
+                      <button
+                        onClick={() => setVisibleCount(prev => prev + ITEMS_PER_PAGE)}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-[1.02]"
+                        style={{
+                          background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+                          color: 'white',
+                          boxShadow: '0 4px 12px rgba(30,41,59,0.25)',
+                        }}
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                        Load More ({totalCount - visibleCount} remaining)
+                      </button>
+                    )}
+                    {hasMore && (
+                      <button
+                        onClick={() => setVisibleCount(totalCount)}
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all"
+                      >
+                        Show All
+                      </button>
                     )}
                   </div>
-                  <h3 className="font-bold text-gray-900 mb-1 relative">{event.title}</h3>
-                  <p className="text-sm text-gray-700 mb-2 relative">{event.description}</p>
-                  {event.confidenceLevels && (
-                    <div className="relative mt-3 pt-3 border-t border-purple-100">
-                      <div className="text-xs font-semibold text-purple-700 mb-2">Confidence Timeline:</div>
-                      <div className="space-y-2">
-                        {event.confidenceLevels.map((level, idx) => {
-                          const confidence = level.confidence;
-                          return (
-                            <div key={idx} className="flex items-center gap-3">
-                              <div className="flex-1">
-                                <div className="flex items-center justify-between mb-1">
-                                  <span className="text-xs font-medium text-gray-700">{level.year}</span>
-                                  <span className="text-xs font-semibold text-purple-700">{confidence}%</span>
-                                </div>
-                                <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                                  <div
-                                    className="h-full bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 rounded-full transition-all duration-300"
-                                    style={{ width: `${confidence}%` }}
-                                  ></div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
+                )}
+              </>
             );
-          })}
+          })()}
         </div>
+
 
         {/* Era Labels */}
         <div className="mt-8 pl-20 flex items-center justify-center gap-4 text-sm flex-wrap">

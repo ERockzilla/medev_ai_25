@@ -5,8 +5,8 @@ import NewsSidebar from '@/components/NewsSidebar';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// Revalidate every hour
-export const revalidate = 3600;
+// Revalidate every 15 minutes
+export const revalidate = 900;
 
 export default function DailyBriefingPage() {
     return (

@@ -209,7 +209,7 @@ export default function DashboardFeedWidget({ maxItems = 12 }: DashboardFeedWidg
                     href="/news"
                     className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1 justify-center"
                 >
-                    View all {items.length} articles
+                    View all articles
                     <ExternalLink className="w-3 h-3" />
                 </a>
             </div>
