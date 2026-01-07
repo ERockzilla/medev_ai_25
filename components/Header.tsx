@@ -3,15 +3,18 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen, FileText, Scale, Calculator, BarChart3, Sparkles, Briefcase, Menu, X, Rss } from 'lucide-react';
+import { BookOpen, FileText, Scale, Calculator, BarChart3, Sparkles, Briefcase, Menu, X, Rss, Bookmark } from 'lucide-react';
 import AnimatedLogo from './AnimatedLogo';
 import LiveClock from './LiveClock';
 import FutureGenIcon from './FutureGenIcon';
+import { useBookmarks } from '@/contexts/BookmarkContext';
 
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { bookmarks } = useBookmarks();
 
+  // Main nav items (without bookmarks - moved to logo area)
   const navItems = [
     { href: '/', Icon: BookOpen, title: 'Knowledge Center' },
     { href: '/standards', Icon: FileText, title: 'Standards' },
@@ -19,7 +22,6 @@ export default function Header() {
     { href: '/tools', Icon: Calculator, title: 'Tools' },
     { href: '/ai-tools', Icon: Sparkles, title: 'AI Tools' },
     { href: '/regulatory-analysis', Icon: BarChart3, title: 'Analysis' },
-    { href: '/news', Icon: Rss, title: 'News' },
     { href: '/professional-development', Icon: Briefcase, title: 'Professional Development' },
     { href: '/future-generations', Icon: FutureGenIcon, title: 'Future Generations' },
   ];
@@ -45,11 +47,28 @@ export default function Header() {
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <AnimatedLogo size={48} showText={false} />
-              <span className="text-xl font-bold text-white">MEDev.AI</span>
-            </Link>
+            {/* Logo with Bookmark Indicator */}
+            <div className="flex items-center gap-3">
+              <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <AnimatedLogo size={48} showText={false} />
+                <span className="text-xl font-bold text-white">MEDev.AI</span>
+              </Link>
+
+              {/* Modern Bookmark Indicator - Minimal Count */}
+              <Link
+                href="/bookmarks"
+                className="relative flex items-center justify-center min-w-[28px] h-7 px-2 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/20 transition-all group"
+                title={`${bookmarks.length} bookmarks saved`}
+              >
+                <span className="text-xs font-bold text-white">{bookmarks.length}</span>
+                {bookmarks.length > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                  </span>
+                )}
+              </Link>
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-2">
@@ -77,8 +96,20 @@ export default function Header() {
               })}
             </nav>
 
-            {/* Right Side - LinkedIn, Clock & Mobile Menu Button */}
+            {/* Right Side - RSS, LinkedIn, Clock & Mobile Menu Button */}
             <div className="flex items-center gap-3">
+              {/* RSS News Link - Far Right */}
+              <Link
+                href="/news"
+                className={`hidden md:flex items-center justify-center w-9 h-9 rounded-lg transition-all ${pathname === '/news'
+                  ? 'bg-orange-500/30 text-orange-300'
+                  : 'bg-white/10 hover:bg-white/20 text-white'
+                  }`}
+                title="News Feed"
+              >
+                <Rss className="w-5 h-5" />
+              </Link>
+
               {/* Contact Us Button - Hidden on mobile */}
               <a
                 href="https://www.bwtekmed.com/contact-us/"
@@ -139,8 +170,40 @@ export default function Header() {
                   );
                 })}
               </div>
+
+              {/* Quick Links - News & Bookmarks */}
+              <div className="flex gap-2 mt-3">
+                <Link
+                  href="/news"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg transition-all ${isActive('/news')
+                    ? 'bg-orange-500/30 text-orange-300'
+                    : 'bg-white/10 text-white hover:bg-white/20'
+                    }`}
+                >
+                  <Rss className="w-5 h-5" />
+                  <span className="text-sm font-medium">News</span>
+                </Link>
+                <Link
+                  href="/bookmarks"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg transition-all ${isActive('/bookmarks')
+                    ? 'bg-blue-500/30 text-white'
+                    : 'bg-white/10 text-white hover:bg-white/20'
+                    }`}
+                >
+                  <Bookmark className="w-5 h-5" />
+                  <span className="text-sm font-medium">Bookmarks</span>
+                  {bookmarks.length > 0 && (
+                    <span className="ml-1 px-1.5 py-0.5 text-[10px] font-bold bg-green-500 text-white rounded-full">
+                      {bookmarks.length}
+                    </span>
+                  )}
+                </Link>
+              </div>
+
               {/* Contact Us in Mobile Menu */}
-              <div className="mt-4">
+              <div className="mt-3">
                 <a
                   href="https://www.bwtekmed.com/contact-us/"
                   onClick={() => setMobileMenuOpen(false)}

@@ -17,6 +17,8 @@ interface BookmarkContextType {
   isBookmarked: (url: string) => boolean;
   toggleBookmark: (bookmark: Omit<BookmarkItem, 'id' | 'addedAt'>) => void;
   resetToDefaults: () => void;
+  getSiteBookmarks: () => BookmarkItem[];
+  getRSSBookmarks: () => BookmarkItem[];
 }
 
 const BookmarkContext = createContext<BookmarkContextType | undefined>(undefined);
@@ -103,8 +105,27 @@ export function BookmarkProvider({ children }: { children: ReactNode }) {
     setBookmarks(DEFAULT_BOOKMARKS);
   };
 
+  // Filter to get only internal site bookmarks (URLs starting with /)
+  const getSiteBookmarks = () => {
+    return bookmarks.filter(b => b.url.startsWith('/'));
+  };
+
+  // Filter to get only external/RSS bookmarks (URLs not starting with /)
+  const getRSSBookmarks = () => {
+    return bookmarks.filter(b => !b.url.startsWith('/'));
+  };
+
   return (
-    <BookmarkContext.Provider value={{ bookmarks, addBookmark, removeBookmark, isBookmarked, toggleBookmark, resetToDefaults }}>
+    <BookmarkContext.Provider value={{
+      bookmarks,
+      addBookmark,
+      removeBookmark,
+      isBookmarked,
+      toggleBookmark,
+      resetToDefaults,
+      getSiteBookmarks,
+      getRSSBookmarks,
+    }}>
       {children}
     </BookmarkContext.Provider>
   );

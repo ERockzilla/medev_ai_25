@@ -208,3 +208,52 @@ button:hover {
 nextjs-portal {
   display: none !important;
 }
+
+/* Animated border gradient for Knowledge Center */
+@keyframes border-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-border-wrapper {
+  position: relative;
+  padding: 2px;
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg,
+      #3b82f6,
+      #8b5cf6,
+      #06b6d4,
+      #10b981,
+      #3b82f6);
+  background-size: 300% 100%;
+  animation: border-flow 4s ease-in-out infinite;
+}
+
+.animated-border-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem;
+  padding: 2px;
+  background: inherit;
+  background-size: inherit;
+  animation: inherit;
+  filter: blur(8px);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.animated-border-content {
+  background: white;
+  border-radius: calc(0.5rem - 2px);
+  overflow: hidden;
+}
