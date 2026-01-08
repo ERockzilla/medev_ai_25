@@ -47,7 +47,7 @@ export default function Header() {
         {/* Subtle top highlight for 3D effect */}
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
         {/* Dynamic Background Effect */}
-        <HeaderBackground effect="matrix-fast" />
+        <HeaderBackground effect="matrix-pulse" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 relative z-10">
           <div className="flex items-center justify-between">
             {/* Logo with Bookmark Indicator */}

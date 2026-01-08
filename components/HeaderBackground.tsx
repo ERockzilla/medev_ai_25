@@ -10,7 +10,7 @@
 
 import { useEffect, useRef, memo } from 'react';
 
-type BackgroundEffect = 'matrix-fast' | 'neural-network' | 'pulse' | 'data-stream' | 'gradient';
+type BackgroundEffect = 'matrix-fast' | 'neural-network' | 'pulse' | 'data-stream' | 'gradient' | 'matrix-pulse';
 
 interface HeaderBackgroundProps {
     effect?: BackgroundEffect;
@@ -179,7 +179,146 @@ const HeaderBackground = memo(function HeaderBackground({ effect = 'data-stream'
             draw();
         }
 
-        // PULSE - Heartbeat effect
+        // MATRIX PULSE - Combined Matrix Fast + EKG Pulse (Realistic)
+        if (effect === 'matrix-pulse') {
+            // Matrix particles initialization
+            const particles: Array<{ x: number; y: number; text: string; speed: number; opacity: number }> = [];
+
+            const initParticles = () => {
+                particles.length = 0;
+                const rows = Math.floor(canvas.height / 16);
+                for (let i = 0; i < rows * 2; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width * 2 - canvas.width,
+                        y: (i % rows) * 16 + 8,
+                        text: terms[Math.floor(Math.random() * terms.length)],
+                        speed: 1.5 + Math.random() * 3,
+                        opacity: 0.1 + Math.random() * 0.2
+                    });
+                }
+            };
+            initParticles();
+
+            // EKG Variables
+            let ekgX = 0; // Current cursor position
+            const ekgPoints: number[] = new Array(Math.ceil(window.innerWidth * 1.5)).fill(0);
+            let beatState = 0;
+            let timeSinceLastBeat = 0;
+            const baselineY = canvas.height * 0.45;
+
+            // Simplified simulation of P-QRS-T complex
+            const getHeartbeatValue = (t: number) => {
+                // P wave
+                if (t < 10) return -Math.sin(t * Math.PI / 10) * 3;
+                if (t >= 10 && t < 15) return 0;
+                // QRS Complex
+                if (t >= 15 && t < 35) {
+                    const phase = t - 15;
+                    if (phase < 2) return 2; // Q start
+                    if (phase < 5) return 5; // Q dip
+                    if (phase < 10) return -35; // R spike
+                    if (phase < 15) return 10; // S dip
+                    return 0;
+                }
+                if (t >= 35 && t < 45) return 0;
+                // T wave
+                if (t >= 45 && t < 65) return -Math.sin((t - 45) * Math.PI / 20) * 6;
+                return 0;
+            };
+
+            const draw = () => {
+                // Clear with slight fade for trail effect if desired, but solid is cleaner for text
+                ctx.fillStyle = 'rgba(1, 89, 163, 0.12)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // 1. Draw Matrix Text Stream
+                ctx.font = 'bold 9px monospace';
+                particles.forEach(p => {
+                    ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                    ctx.fillText(p.text, p.x, p.y);
+                    p.x += p.speed;
+                    if (p.x > canvas.width + 50) {
+                        p.x = -80;
+                        p.text = terms[Math.floor(Math.random() * terms.length)];
+                    }
+                });
+
+                // 3. Update EKG Data (The "Writer" Head)
+                const writeSpeed = 4;
+                for (let s = 0; s < writeSpeed; s++) {
+                    ekgX++;
+                    if (ekgX >= canvas.width) ekgX = 0;
+
+                    timeSinceLastBeat++;
+                    let yVal = 0;
+
+                    // Trigger beat logic
+                    // Heart rate variability simulation
+                    if (beatState === 0 && timeSinceLastBeat > 120 && Math.random() < 0.02) {
+                        beatState = 1;
+                        timeSinceLastBeat = 0;
+                    }
+
+                    if (beatState > 0) {
+                        yVal = getHeartbeatValue(beatState);
+                        beatState++;
+                        if (beatState > 70) {
+                            beatState = 0;
+                            timeSinceLastBeat = 0;
+                        }
+                    }
+                    yVal += (Math.random() - 0.5) * 1.5;
+
+                    if (ekgX < ekgPoints.length) {
+                        ekgPoints[ekgX] = yVal;
+                    }
+                }
+
+                // 4. Draw EKG Line
+                ctx.lineWidth = 1.8;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = '#00ffcc';
+                ctx.shadowBlur = 4;
+                ctx.shadowColor = 'rgba(0, 255, 204, 0.5)';
+
+                const gap = 60;
+                const drawSegment = (start: number, end: number) => {
+                    if (start >= end) return;
+                    ctx.beginPath();
+                    let started = false;
+                    for (let x = start; x < end; x++) {
+                        if (x >= ekgPoints.length) break;
+                        const y = baselineY + ekgPoints[x];
+                        if (!started) { ctx.moveTo(x, y); started = true; }
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                };
+
+                // Draw solid trace with gap
+                if (ekgX > gap) {
+                    drawSegment(0, ekgX);
+                    drawSegment(ekgX + gap, canvas.width);
+                } else {
+                    drawSegment(ekgX + gap, canvas.width);
+                }
+
+                // Cursor Head
+                const headY = baselineY + ekgPoints[ekgX];
+                ctx.fillStyle = '#fff';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#00ffcc';
+                ctx.beginPath();
+                ctx.arc(ekgX, headY, 2.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+
+                animationId = requestAnimationFrame(draw);
+            };
+            draw();
+        }
+
+        // PULSE - Heartbeat effect (Original)
         if (effect === 'pulse') {
             let phase = 0;
 

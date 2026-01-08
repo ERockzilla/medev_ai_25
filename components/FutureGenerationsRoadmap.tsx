@@ -159,9 +159,9 @@ const GENERATIONS: Generation[] = [
         title: 'The Ethical Governor',
         dateRange: '2040 - 2050',
         concept: 'AI that designs for outcomes, not specifications, with built-in ethical safeguards.',
-        capability: 'You ask for an "outcome" rather than a "device." The AI evaluates requests against a Global Ethical Ontology, ensuring designs benefit humanity equitably.',
+        capability: 'You ask for an "outcome" rather than a "device." The AI evaluates requests against a Global Ethical Ontology, ensuring designs benefit all patients worldwide.',
         positiveImpact: [
-            'Guaranteed equitable access to medical innovations',
+            'Broad access to medical innovations worldwide',
             'Elimination of devices that could be weaponized or misused',
             'Automatic consideration of environmental and sustainability impacts',
             'Built-in protection of patient autonomy and dignity'
@@ -169,7 +169,7 @@ const GENERATIONS: Generation[] = [
         realWorldExamples: [
             'Memory restoration implants (not enhancement) for Alzheimer\'s patients',
             'Prosthetics designed with dignity and psychological well-being in mind',
-            'AI refuses designs that would only benefit wealthy populations',
+            'AI ensures designs are accessible and affordable for all patient populations globally',
             'Sustainable materials and end-of-life considerations built into every design'
         ],
         constraint: 'Consensus on Human Values',
@@ -450,7 +450,7 @@ export default function FutureGenerationsRoadmap() {
             >
                 <div className="flex items-start gap-4">
                     <div
-                        className="flex-shrink-0 p-3 rounded-xl"
+                        className="flex-shrink-0 p-3 rounded-xl hidden sm:flex"
                         style={{
                             background: 'linear-gradient(135deg, rgba(100, 116, 139, 0.15) 0%, rgba(71, 85, 105, 0.1) 100%)',
                             border: '1px solid rgba(100, 116, 139, 0.2)',
@@ -459,53 +459,67 @@ export default function FutureGenerationsRoadmap() {
                         <Clock className="w-6 h-6 text-slate-500" />
                     </div>
                     <div className="flex-1">
-                        <h3 className="text-lg font-bold text-gray-800 mb-2">The Foundation: Generations 1-3 (1990s - 2024)</h3>
+                        <h3 className="text-lg font-bold text-gray-800 mb-2">The Foundation: Generations 1-3 (1976 - 2024)</h3>
                         <p className="text-sm text-gray-600 mb-4">
-                            Before we look forward, it's important to understand how we got here. The first three generations established the foundation for AI-driven medical device development:
+                            Before we look forward, it's important to understand how we got here. The first three generations established the regulatory frameworks, digital infrastructure, and early AI capabilities that make future advancements possible:
                         </p>
-                        <div className="grid md:grid-cols-3 gap-3">
+                        <div className="grid md:grid-cols-3 gap-4">
+                            {/* Gen 1 - Regulatory Foundation */}
                             <div
-                                className="p-3 rounded-lg"
+                                className="p-4 rounded-lg"
                                 style={{
                                     background: 'rgba(100, 116, 139, 0.05)',
                                     border: '1px solid rgba(100, 116, 139, 0.1)',
                                 }}
                             >
-                                <div className="flex items-center gap-2 mb-1">
+                                <div className="flex items-center gap-2 mb-2">
                                     <span className="px-2 py-0.5 rounded text-xs font-bold text-white bg-slate-500">Gen 1</span>
-                                    <span className="text-xs text-gray-500">1990s-2000s</span>
+                                    <span className="text-xs text-gray-500">1976-2000</span>
                                 </div>
-                                <h4 className="font-semibold text-gray-700 text-sm">Manual Era</h4>
-                                <p className="text-xs text-gray-500">Paper-based QMS, manual calculations, individual expertise-driven design</p>
+                                <h4 className="font-semibold text-gray-700 text-sm mb-1">Regulatory Foundation Era</h4>
+                                <p className="text-xs text-gray-600 leading-relaxed">
+                                    Medical Device Amendments (1976) established FDA oversight. ISO 9001/13485 frameworks emerged. Paper-based QMS, manual V&V processes, and device master records. Safe Medical Devices Act (1990) introduced post-market surveillance requirements.
+                                </p>
                             </div>
+                            {/* Gen 2 - Digital Transformation */}
                             <div
-                                className="p-3 rounded-lg"
+                                className="p-4 rounded-lg"
                                 style={{
                                     background: 'rgba(100, 116, 139, 0.05)',
                                     border: '1px solid rgba(100, 116, 139, 0.1)',
                                 }}
                             >
-                                <div className="flex items-center gap-2 mb-1">
+                                <div className="flex items-center gap-2 mb-2">
                                     <span className="px-2 py-0.5 rounded text-xs font-bold text-white bg-slate-500">Gen 2</span>
-                                    <span className="text-xs text-gray-500">2000s-2015</span>
+                                    <span className="text-xs text-gray-500">2000-2015</span>
                                 </div>
-                                <h4 className="font-semibold text-gray-700 text-sm">Digital Era</h4>
-                                <p className="text-xs text-gray-500">eQMS systems, CAD/CAE tools, basic simulation, electronic records</p>
+                                <h4 className="font-semibold text-gray-700 text-sm mb-1">Digital Transformation Era</h4>
+                                <p className="text-xs text-gray-600 leading-relaxed">
+                                    eQMS platforms replaced paper systems. CAD/CAE/FEA simulation tools became standard. 21 CFR Part 11 enabled electronic records. First software-as-medical-device (SaMD) guidance. EU MDR planning began alongside 510(k) electronic submissions.
+                                </p>
                             </div>
+                            {/* Gen 3 - Connected & AI-Ready */}
                             <div
-                                className="p-3 rounded-lg"
+                                className="p-4 rounded-lg"
                                 style={{
                                     background: 'rgba(100, 116, 139, 0.05)',
                                     border: '1px solid rgba(100, 116, 139, 0.1)',
                                 }}
                             >
-                                <div className="flex items-center gap-2 mb-1">
+                                <div className="flex items-center gap-2 mb-2">
                                     <span className="px-2 py-0.5 rounded text-xs font-bold text-white bg-slate-500">Gen 3</span>
                                     <span className="text-xs text-gray-500">2015-2024</span>
                                 </div>
-                                <h4 className="font-semibold text-gray-700 text-sm">Connected Era</h4>
-                                <p className="text-xs text-gray-500">Cloud systems, IoT devices, AI-assisted tools, early machine learning</p>
+                                <h4 className="font-semibold text-gray-700 text-sm mb-1">Connected & AI-Ready Era</h4>
+                                <p className="text-xs text-gray-600 leading-relaxed">
+                                    Cloud-based QMS adoption accelerated. FDA cleared 1,000+ AI/ML-enabled devices (radiology, cardiology, pathology). EU MDR/IVDR implementation. Predetermined Change Control Plans (PCCP) guidance finalized. IoT-connected devices and real-world evidence (RWE) frameworks emerged.
+                                </p>
                             </div>
+                        </div>
+                        <div className="mt-4 p-3 rounded-lg bg-blue-50/50 border border-blue-100">
+                            <p className="text-xs text-blue-800">
+                                <strong>Current Status (2025):</strong> Over 1,200 FDA-authorized AI/ML medical devices. PCCP framework enables adaptive algorithms. EU AI Act classifies medical AI as "high-risk" with 2027 compliance deadline. The stage is set for Generation 4's agentic systems.
+                            </p>
                         </div>
                         <p className="text-xs text-gray-500 mt-3 italic">
                             → The roadmap below explores Gen 4-10: the future of AI-driven medical device engineering.
@@ -545,7 +559,7 @@ export default function FutureGenerationsRoadmap() {
                         <div className="flex flex-col md:flex-row gap-4">
                             {[
                                 { icon: TrendingUp, title: 'Accelerated Innovation', desc: 'From years to months for device development', accent: '#0180A5' },
-                                { icon: Users, title: 'Democratized Access', desc: 'Capabilities for companies of all sizes', accent: '#00AA86' },
+                                { icon: Users, title: 'Expanded Reach', desc: 'Capabilities for companies of all sizes', accent: '#00AA86' },
                                 { icon: Heart, title: 'Patient-Centric Design', desc: 'Optimized for individual outcomes', accent: '#0159A3' },
                             ].map((item, idx) => (
                                 <div
@@ -724,7 +738,7 @@ export default function FutureGenerationsRoadmap() {
                                             </div>
                                             <h4 className="font-bold text-gray-800 mb-1">Phase III: Existential Engineering</h4>
                                             <p className="text-xs text-gray-600 mb-3 max-w-xs ml-auto">
-                                                Aligning creation with human values and ensuring equitable benefit.
+                                                Aligning creation with human values and ensuring widespread benefit.
                                             </p>
                                             <div className="flex gap-1.5 justify-center md:justify-end">
                                                 {[8, 9, 10].map(gen => (
