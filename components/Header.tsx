@@ -7,6 +7,7 @@ import { BookOpen, FileText, Scale, Calculator, BarChart3, Sparkles, Briefcase, 
 import AnimatedLogo from './AnimatedLogo';
 import LiveClock from './LiveClock';
 import FutureGenIcon from './FutureGenIcon';
+import HeaderBackground from './HeaderBackground';
 import { useBookmarks } from '@/contexts/BookmarkContext';
 
 export default function Header() {
@@ -34,7 +35,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 w-full z-50">
+    <header className="sticky top-0 w-full z-50 safe-area-top">
       {/* 3D effect with gradient and shadow layers */}
       <div
         className="relative backdrop-blur-md border-b border-teal-400/30"
@@ -45,7 +46,9 @@ export default function Header() {
       >
         {/* Subtle top highlight for 3D effect */}
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+        {/* Dynamic Background Effect */}
+        <HeaderBackground effect="matrix-fast" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 relative z-10">
           <div className="flex items-center justify-between">
             {/* Logo with Bookmark Indicator */}
             <div className="flex items-center gap-3">
@@ -171,34 +174,18 @@ export default function Header() {
                 })}
               </div>
 
-              {/* Quick Links - News & Bookmarks */}
-              <div className="flex gap-2 mt-3">
+              {/* Quick Links - News Only (Bookmarks accessible via header icon) */}
+              <div className="mt-3">
                 <Link
                   href="/news"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg transition-all ${isActive('/news')
+                  className={`w-full flex items-center justify-center gap-2 p-3 rounded-lg transition-all ${isActive('/news')
                     ? 'bg-orange-500/30 text-orange-300'
                     : 'bg-white/10 text-white hover:bg-white/20'
                     }`}
                 >
                   <Rss className="w-5 h-5" />
-                  <span className="text-sm font-medium">News</span>
-                </Link>
-                <Link
-                  href="/bookmarks"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg transition-all ${isActive('/bookmarks')
-                    ? 'bg-blue-500/30 text-white'
-                    : 'bg-white/10 text-white hover:bg-white/20'
-                    }`}
-                >
-                  <Bookmark className="w-5 h-5" />
-                  <span className="text-sm font-medium">Bookmarks</span>
-                  {bookmarks.length > 0 && (
-                    <span className="ml-1 px-1.5 py-0.5 text-[10px] font-bold bg-green-500 text-white rounded-full">
-                      {bookmarks.length}
-                    </span>
-                  )}
+                  <span className="text-sm font-medium">News Feed</span>
                 </Link>
               </div>
 

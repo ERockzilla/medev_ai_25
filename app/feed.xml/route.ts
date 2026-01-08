@@ -12,8 +12,16 @@ export async function GET() {
         copyright: `To allow for free use of content use a Creative Commons license.`,
     });
 
+    const now = new Date();
+
+    // Filter: Only published items OR scheduled items where date <= today
+    const publishableItems = FEED_ITEMS.filter(item =>
+        item.status === 'published' ||
+        (item.status === 'scheduled' && new Date(item.date) <= now)
+    );
+
     // Sort items by date (newest first)
-    const sortedItems = [...FEED_ITEMS].sort((a, b) =>
+    const sortedItems = [...publishableItems].sort((a, b) =>
         new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 

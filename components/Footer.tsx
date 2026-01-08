@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 
 export default function Footer() {
   return (
-    <footer className="relative w-full bg-slate-950 border-t border-slate-800/50">
+    <footer className="relative w-full bg-slate-950 border-t border-slate-800/50 safe-area-bottom">
       {/* Contact Banner - Most prominent */}
       <div
         className="border-b border-slate-800/50"
@@ -100,28 +100,37 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Platform */}
+          {/* Platform - All Main Navigation */}
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Platform</h4>
             <ul className="space-y-3">
               <FooterLink href="/">Knowledge Center</FooterLink>
-              <FooterLink href="/glossary">Glossary</FooterLink>
-              <FooterLink href="/standards">Standards Database</FooterLink>
+              <FooterLink href="/standards">Standards</FooterLink>
               <FooterLink href="/regulations">Regulations</FooterLink>
               <FooterLink href="/tools">Tools</FooterLink>
+              <FooterLink href="/ai-tools">AI Tools</FooterLink>
+              <FooterLink href="/regulatory-analysis">Analysis</FooterLink>
+              <FooterLink href="/professional-development">Professional Dev</FooterLink>
+              <FooterLink href="/future-generations">Future Generations</FooterLink>
+              <FooterLink href="/news">News Feed</FooterLink>
+              <FooterLink href="/bookmarks">Bookmarks</FooterLink>
             </ul>
           </div>
 
-          {/* Resources */}
+          {/* External Resources */}
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Resources</h4>
             <ul className="space-y-3">
-              <FooterLink href="/standards/iso-13485">ISO 13485 Guide</FooterLink>
-              <FooterLink href="/standards/iso-14971">ISO 14971 Guide</FooterLink>
-              <FooterLink href="/standards/iec-62304">IEC 62304 Guide</FooterLink>
-              <FooterLink href="/regulations/cfr-820">FDA Part 820 Guide</FooterLink>
-              <FooterLink href="/regulations/510k-submission">510(k) Submission</FooterLink>
-              <FooterLink href="/tools/fmea">FMEA Calculator</FooterLink>
+              <FooterLink href="https://www.fda.gov/medical-devices" external>FDA Medical Devices</FooterLink>
+              <FooterLink href="https://www.iso.org/committee/54892.html" external>ISO TC 210</FooterLink>
+              <FooterLink href="https://www.ncbi.nlm.nih.gov/" external>NIH Clinical Research</FooterLink>
+              <FooterLink href="https://huggingface.co/" external>Hugging Face</FooterLink>
+              <FooterLink href="https://ai.google.dev/" external>Google AI Dev</FooterLink>
+              <FooterLink href="https://umami.is/" external>Umami Analytics</FooterLink>
+              <FooterLink href="https://nextjs.org/docs" external>Next.js Docs</FooterLink>
+              <FooterLink href="https://lmstudio.ai/" external>LM Studio</FooterLink>
+              <FooterLink href="https://paperswithcode.com/" external>Papers With Code</FooterLink>
+              <FooterLink href="https://www.connectedpapers.com/" external>Connected Papers</FooterLink>
             </ul>
           </div>
 

@@ -291,7 +291,7 @@ export default function MedicalDeviceTimeline() {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-8">
+    <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-8">
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-3">
@@ -301,11 +301,11 @@ export default function MedicalDeviceTimeline() {
           From early innovations to future predictions: The evolution of medical device design, regulations, quality standards, and laser/photonics technology
         </p>
 
-        {/* Filters */}
-        <div className="flex flex-wrap items-center gap-3">
+        {/* Filters - Horizontal scroll on mobile */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide snap-x snap-mandatory touch-pan-x">
           <button
             onClick={() => setActiveCategory('all')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === 'all'
+            className={`flex-shrink-0 snap-start px-3 md:px-4 py-1.5 md:py-2 rounded-lg font-medium text-sm transition-colors ${activeCategory === 'all'
               ? 'bg-gray-900 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
@@ -314,7 +314,7 @@ export default function MedicalDeviceTimeline() {
           </button>
           <button
             onClick={() => setActiveCategory('design')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === 'design'
+            className={`flex-shrink-0 snap-start px-3 md:px-4 py-1.5 md:py-2 rounded-lg font-medium text-sm transition-colors ${activeCategory === 'design'
               ? 'bg-green-600 text-white'
               : 'bg-green-100 text-green-700 hover:bg-green-200'
               }`}
@@ -323,7 +323,7 @@ export default function MedicalDeviceTimeline() {
           </button>
           <button
             onClick={() => setActiveCategory('regulations')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === 'regulations'
+            className={`flex-shrink-0 snap-start px-3 md:px-4 py-1.5 md:py-2 rounded-lg font-medium text-sm transition-colors ${activeCategory === 'regulations'
               ? 'bg-red-600 text-white'
               : 'bg-red-100 text-red-700 hover:bg-red-200'
               }`}
@@ -332,7 +332,7 @@ export default function MedicalDeviceTimeline() {
           </button>
           <button
             onClick={() => setActiveCategory('standards')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === 'standards'
+            className={`flex-shrink-0 snap-start px-3 md:px-4 py-1.5 md:py-2 rounded-lg font-medium text-sm transition-colors ${activeCategory === 'standards'
               ? 'bg-blue-600 text-white'
               : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
               }`}
@@ -341,7 +341,7 @@ export default function MedicalDeviceTimeline() {
           </button>
           <button
             onClick={() => setActiveCategory('laser')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === 'laser'
+            className={`flex-shrink-0 snap-start px-3 md:px-4 py-1.5 md:py-2 rounded-lg font-medium text-sm transition-colors ${activeCategory === 'laser'
               ? 'bg-yellow-600 text-white'
               : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
               }`}
@@ -349,7 +349,7 @@ export default function MedicalDeviceTimeline() {
             Laser & Photonics
           </button>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="flex-shrink-0 ml-auto hidden md:flex items-center gap-2">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -421,7 +421,7 @@ export default function MedicalDeviceTimeline() {
       {/* Timeline */}
       <div className="relative">
         {/* Vertical Line */}
-        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gray-300 via-blue-300 to-purple-300"></div>
+        <div className="absolute left-4 md:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gray-300 via-blue-300 to-purple-300"></div>
 
         {/* Events */}
         <div className="space-y-6">
@@ -451,9 +451,9 @@ export default function MedicalDeviceTimeline() {
                   const isFuture = event.isFuture;
 
                   return (
-                    <div key={index} className="relative pl-20">
+                    <div key={index} className="relative pl-10 md:pl-20">
                       {/* Dot on timeline */}
-                      <div className={`absolute left-6 top-2 w-5 h-5 rounded-full border-4 ${isFuture
+                      <div className={`absolute left-2 md:left-6 top-2 w-3 h-3 md:w-5 md:h-5 rounded-full border-2 md:border-4 ${isFuture
                         ? 'border-purple-400 bg-purple-100'
                         : isRecent
                           ? 'border-blue-500 bg-blue-200'
@@ -463,7 +463,7 @@ export default function MedicalDeviceTimeline() {
                         }`}></div>
 
                       {/* Event Card */}
-                      <div className={`border-l-4 rounded-lg p-4 transition-all hover:shadow-md ${categoryColors[event.category]} ${isFuture ? 'relative overflow-hidden' : ''
+                      <div className={`border-l-4 rounded-lg p-2 md:p-4 transition-all hover:shadow-md ${categoryColors[event.category]} ${isFuture ? 'relative overflow-hidden' : ''
                         }`}>
                         {isFuture && (
                           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-100 to-transparent opacity-30 rounded-bl-full"></div>
@@ -474,8 +474,8 @@ export default function MedicalDeviceTimeline() {
                               const IconComponent = categoryIcons[event.category];
                               return <IconComponent className={`w-5 h-5 ${isFuture ? 'text-purple-600' : ''}`} />;
                             })()}
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className={`px-2 py-1 rounded text-xs font-bold ${isFuture
+                            <div className="flex items-center gap-1 md:gap-2 flex-wrap">
+                              <span className={`px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-bold ${isFuture
                                 ? 'bg-gradient-to-r from-purple-100 to-purple-50 text-purple-800 border border-purple-200'
                                 : isRecent
                                   ? 'bg-blue-200 text-blue-900'
@@ -505,33 +505,45 @@ export default function MedicalDeviceTimeline() {
                             </a>
                           )}
                         </div>
-                        <h3 className="font-bold text-gray-900 mb-1 relative">{event.title}</h3>
-                        <p className="text-sm text-gray-700 mb-2 relative">{event.description}</p>
+                        <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1 relative">{event.title}</h3>
+                        <p className="text-xs md:text-sm text-gray-700 mb-2 relative">{event.description}</p>
                         {event.confidenceLevels && (
-                          <div className="relative mt-3 pt-3 border-t border-purple-100">
-                            <div className="text-xs font-semibold text-purple-700 mb-2">Confidence Timeline:</div>
-                            <div className="space-y-2">
-                              {event.confidenceLevels.map((level, idx) => {
-                                const confidence = level.confidence;
-                                return (
-                                  <div key={idx} className="flex items-center gap-3">
-                                    <div className="flex-1">
-                                      <div className="flex items-center justify-between mb-1">
-                                        <span className="text-xs font-medium text-gray-700">{level.year}</span>
-                                        <span className="text-xs font-semibold text-purple-700">{confidence}%</span>
-                                      </div>
-                                      <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                                        <div
-                                          className="h-full bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 rounded-full transition-all duration-300"
-                                          style={{ width: `${confidence}%` }}
-                                        ></div>
+                          <>
+                            {/* Desktop: Full confidence timeline */}
+                            <div className="hidden md:block relative mt-3 pt-3 border-t border-purple-100">
+                              <div className="text-xs font-semibold text-purple-700 mb-2">Confidence Timeline:</div>
+                              <div className="space-y-2">
+                                {event.confidenceLevels.map((level, idx) => {
+                                  const confidence = level.confidence;
+                                  return (
+                                    <div key={idx} className="flex items-center gap-3">
+                                      <div className="flex-1">
+                                        <div className="flex items-center justify-between mb-1">
+                                          <span className="text-xs font-medium text-gray-700">{level.year}</span>
+                                          <span className="text-xs font-semibold text-purple-700">{confidence}%</span>
+                                        </div>
+                                        <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                                          <div
+                                            className="h-full bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 rounded-full transition-all duration-300"
+                                            style={{ width: `${confidence}%` }}
+                                          ></div>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                );
-                              })}
+                                  );
+                                })}
+                              </div>
                             </div>
-                          </div>
+                            {/* Mobile: Compact inline badges */}
+                            <div className="md:hidden flex items-center gap-1.5 mt-2 flex-wrap">
+                              <span className="text-[10px] text-purple-600 font-medium">Confidence:</span>
+                              {event.confidenceLevels.slice(0, 2).map((level, idx) => (
+                                <span key={idx} className="px-1.5 py-0.5 bg-purple-50 rounded text-[10px] text-purple-700 font-medium">
+                                  {level.year}: {level.confidence}%
+                                </span>
+                              ))}
+                            </div>
+                          </>
                         )}
                       </div>
                     </div>
@@ -580,8 +592,8 @@ export default function MedicalDeviceTimeline() {
         </div>
 
 
-        {/* Era Labels */}
-        <div className="mt-8 pl-20 flex items-center justify-center gap-4 text-sm flex-wrap">
+        {/* Era Labels - Hidden on mobile */}
+        <div className="hidden md:flex mt-8 pl-20 items-center justify-center gap-4 text-sm flex-wrap">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-amber-500"></div>
             <span className="text-gray-600">Ancient (Pre-1800)</span>

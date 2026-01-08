@@ -59,10 +59,10 @@ export default function DashboardPage() {
                 <SmartSearch />
               </div>
 
-              {/* Future Generations Feature Card - Transparent Glassmorphic Design */}
+              {/* Future Generations Feature Card - Desktop: Full glassmorphic design, Mobile: Hidden */}
               <Link
                 href="/future-generations"
-                className="block mb-8 group"
+                className="hidden md:block mb-8 group"
               >
                 <div
                   className="relative overflow-hidden rounded-2xl transition-all duration-300 hover:scale-[1.01]"
@@ -103,7 +103,7 @@ export default function DashboardPage() {
                     </div>
                     {/* Explore button - SOLID with gradient */}
                     <div
-                      className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
                       style={{
                         background: 'linear-gradient(135deg, #0159A3 0%, #0180A5 50%, #00AA86 100%)',
                         boxShadow: '0 4px 15px rgba(1, 89, 163, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)',

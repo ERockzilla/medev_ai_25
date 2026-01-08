@@ -12,6 +12,8 @@ import { KNOWLEDGE_CATEGORIES, getTotalArticleCount } from '@/lib/knowledgeBase'
 import { BookOpen, Bookmark, ChevronRight, ChevronLeft, ChevronDown, Trash2, Rss, ExternalLink, ArrowRight } from 'lucide-react';
 import { useBookmarks } from '@/contexts/BookmarkContext';
 import FutureGenIcon from '@/components/FutureGenIcon';
+import MobileRSSFeed from '@/components/MobileRSSFeed';
+import LatestArticleBanner from '@/components/LatestArticleBanner';
 
 // Lazy load heavy components for LCP optimization
 const MedicalDeviceTimeline = dynamic(
@@ -69,122 +71,26 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 relative">
+    <div className="min-h-screen bg-gray-50 relative overflow-x-hidden">
       <MatrixBackground intensity="low" />
       <div className="relative z-10">
         <Header />
         <div className="max-w-7xl mx-auto">
           <div className="flex">
             {/* Main Content */}
-            <div className={`flex-1 transition-all duration-300 px-3 sm:px-6 py-4 sm:py-8`}>
+            <div className={`flex-1 min-w-0 transition-all duration-300 px-3 sm:px-6 py-4 sm:py-8`}>
               {/* Smart Search */}
               <div className="mb-4 sm:mb-8">
                 <SmartSearch />
               </div>
 
-              {/* Mobile RSS Preview - Only visible on mobile/tablet */}
-              <div className="lg:hidden mb-4 sm:mb-6">
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                  <div className="px-3 py-2 bg-gradient-to-r from-slate-700 to-slate-600 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Rss className="w-4 h-4 text-orange-400" />
-                      <span className="text-sm font-semibold text-white">Latest News</span>
-                    </div>
-                    <Link
-                      href="/news"
-                      className="text-xs text-white/80 hover:text-white flex items-center gap-1"
-                    >
-                      View all
-                      <ChevronRight className="w-3 h-3" />
-                    </Link>
-                  </div>
-                  <Suspense fallback={
-                    <div className="p-3 space-y-2">
-                      {[...Array(3)].map((_, i) => (
-                        <div key={i} className="animate-pulse">
-                          <div className="h-3 bg-gray-200 rounded w-full mb-1"></div>
-                          <div className="h-2 bg-gray-200 rounded w-20"></div>
-                        </div>
-                      ))}
-                    </div>
-                  }>
-                    <DashboardFeedWidget maxItems={5} />
-                  </Suspense>
-                </div>
+              {/* Mobile RSS Feed - Horizontal scrolling ticker */}
+              <div className="lg:hidden mb-4 sm:mb-6 w-full overflow-hidden">
+                <MobileRSSFeed items={[]} />
               </div>
 
-              {/* Quick Access - Mobile only */}
-              <div className="lg:hidden mb-4 sm:mb-6">
-                <Link
-                  href="/bookmarks"
-                  className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  <div className="flex items-center gap-2">
-                    <Bookmark className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium text-gray-900">My Bookmarks</span>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400" />
-                </Link>
-              </div>
-
-              {/* Future Generations Feature Card */}
-              <Link
-                href="/future-generations"
-                className="block mb-4 sm:mb-6 group"
-              >
-                <div
-                  className="relative overflow-hidden rounded-2xl transition-all duration-300 hover:scale-[1.01]"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(1, 89, 163, 0.15) 0%, rgba(1, 128, 165, 0.12) 50%, rgba(0, 170, 134, 0.15) 100%)',
-                    boxShadow: '0 4px 20px rgba(1, 89, 163, 0.1), inset 0 1px 0 rgba(255,255,255,0.3)',
-                    border: '1px solid rgba(1, 89, 163, 0.25)',
-                    backdropFilter: 'blur(8px)',
-                  }}
-                >
-                  <div
-                    className="absolute top-0 left-0 right-0 h-1/2"
-                    style={{
-                      background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%)',
-                      borderRadius: '16px 16px 0 0',
-                    }}
-                  />
-                  <div className="relative z-10 p-4 sm:p-6 flex items-center justify-between">
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <div
-                        className="p-2 sm:p-3 rounded-xl"
-                        style={{
-                          background: 'rgba(1, 89, 163, 0.1)',
-                          border: '1px solid rgba(1, 89, 163, 0.2)',
-                        }}
-                      >
-                        <FutureGenIcon className="w-6 h-6 sm:w-8 sm:h-8 text-[#0159A3]" />
-                      </div>
-                      <div>
-                        <h3 className="text-base sm:text-xl font-bold text-gray-800">Future Generations Roadmap</h3>
-                        <p className="text-gray-600 text-xs sm:text-sm mt-1 hidden sm:block">
-                          Explore the AI-driven evolution of medical device engineering — from Gen 4 to the Post-Device Era
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
-                      style={{
-                        background: 'linear-gradient(135deg, #0159A3 0%, #0180A5 50%, #00AA86 100%)',
-                        boxShadow: '0 4px 15px rgba(1, 89, 163, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
-                      }}
-                    >
-                      <span className="text-white font-semibold">Explore</span>
-                      <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-px"
-                    style={{
-                      background: 'linear-gradient(90deg, transparent 0%, rgba(1, 89, 163, 0.2) 50%, transparent 100%)',
-                    }}
-                  />
-                </div>
-              </Link>
+              {/* Latest Article Banner - Dynamic from RSS Feed */}
+              <LatestArticleBanner />
 
               {/* Knowledge Base Categories */}
               <div className="animated-border-wrapper">
