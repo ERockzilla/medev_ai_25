@@ -9,9 +9,10 @@ import MatrixBackground from '@/components/MatrixBackground';
 import SmartSearch from '@/components/SmartSearch';
 import { TimelineSkeleton } from '@/components/skeletons';
 import { KNOWLEDGE_CATEGORIES, getTotalArticleCount } from '@/lib/knowledgeBase';
-import { BookOpen, Bookmark, Plus, ChevronRight, ChevronLeft, Trash2, RotateCcw, Sparkles, ArrowRight } from 'lucide-react';
+import { Bookmark, ChevronRight, ChevronLeft, Trash2, ArrowRight } from 'lucide-react';
 import { useBookmarks } from '@/contexts/BookmarkContext';
-import FutureGenIcon from '@/components/FutureGenIcon';
+
+import AnimatedIcon from '@/components/AnimatedIcon';
 
 // Dynamic import with shimmer skeleton for faster initial load
 const MedicalDeviceTimeline = dynamic(
@@ -92,7 +93,7 @@ export default function DashboardPage() {
                           border: '1px solid rgba(1, 89, 163, 0.2)',
                         }}
                       >
-                        <FutureGenIcon className="w-8 h-8 text-[#0159A3]" />
+                        <AnimatedIcon variant="future-gen" size={32} className="text-[#0159A3]" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-gray-800">Future Generations Roadmap</h3>
@@ -212,7 +213,7 @@ export default function DashboardPage() {
                               </div>
                             ) : (
                               <div className="p-8 text-center text-gray-500">
-                                <BookOpen className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                                <AnimatedIcon variant="database" size={48} className="mx-auto mb-3 text-gray-300" />
                                 <p className="text-sm">No articles yet in this category.</p>
                                 <p className="text-xs text-gray-400 mt-1">Content coming soon as we build out Phase 1.</p>
                               </div>
@@ -243,7 +244,7 @@ export default function DashboardPage() {
                   <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Bookmark className="w-5 h-5 text-blue-600" />
+                        <AnimatedIcon variant="book" size={20} className="text-blue-600" />
                         <h3 className="font-bold text-gray-900">Bookmarks</h3>
                       </div>
                       {/* Toggle Button - Inside Header */}
@@ -286,7 +287,7 @@ export default function DashboardPage() {
                       </div>
                     ) : (
                       <div className="text-center py-8 text-gray-500">
-                        <Bookmark className="w-10 h-10 mx-auto mb-3 text-gray-300" />
+                        <AnimatedIcon variant="book" size={40} className="mx-auto mb-3 text-gray-300" />
                         <p className="text-sm">No bookmarks yet</p>
                       </div>
                     )}

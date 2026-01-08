@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import MatrixBackground from '@/components/MatrixBackground';
 import { Calculator, BarChart3, TrendingUp, FileText, Download, Brain, Zap, Code, AlertTriangle, Shield, Scale, Wifi } from 'lucide-react';
+import AnimatedIcon from '@/components/AnimatedIcon';
 import Footer from '@/components/Footer';
 
 const TOOLS = [
@@ -263,14 +264,32 @@ export default function ToolsPage() {
 
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Hero Section */}
+          {/* Hero Section */}
+          <div className="mb-6">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+            >
+              ← Back to Knowledge Center
+            </Link>
+          </div>
+
           <div className="mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Medical Device Tools & Calculators</h1>
-            <p className="text-xl text-gray-600 max-w-3xl">
-              Tools designed to support your development process.</p>
-            <p className="text-sm text-gray-500 mt-2"> 
-             ⚠️ These tools are still under development and have not been validated.
-              Please be sure to double check the results! 
-            </p>
+            <div className="flex items-start gap-4 mb-4">
+              <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-lg flex-shrink-0">
+                <AnimatedIcon variant="calculator" size={32} className="text-blue-600" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold text-gray-900 mb-2">Medical Device Tools & Calculators</h1>
+                <p className="text-xl text-gray-600">
+                  Tools designed to support your development process.
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                  ⚠️ These tools are still under development and have not been validated.
+                  Please be sure to double check the results!
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Quick Stats */}
@@ -297,15 +316,14 @@ export default function ToolsPage() {
           <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
             <div className="flex flex-wrap gap-4 items-center">
               <span className="text-sm font-medium text-gray-700">Filter by:</span>
-              
+
               <div className="flex gap-2">
                 <button
                   onClick={() => setFilterDifficulty(null)}
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                    filterDifficulty === null
+                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${filterDifficulty === null
                       ? 'bg-blue-100 text-blue-700'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
+                    }`}
                 >
                   All Levels
                 </button>
@@ -313,11 +331,10 @@ export default function ToolsPage() {
                   <button
                     key={level}
                     onClick={() => setFilterDifficulty(filterDifficulty === level ? null : level)}
-                    className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                      filterDifficulty === level
+                    className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${filterDifficulty === level
                         ? 'bg-blue-100 text-blue-700'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}
+                      }`}
                   >
                     {level}
                   </button>
@@ -329,21 +346,19 @@ export default function ToolsPage() {
               <div className="flex gap-2">
                 <button
                   onClick={() => setFilterStatus(filterStatus === 'available' ? null : 'available')}
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                    filterStatus === 'available'
+                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${filterStatus === 'available'
                       ? 'bg-green-100 text-green-700'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
+                    }`}
                 >
                   Available Now
                 </button>
                 <button
                   onClick={() => setFilterStatus(filterStatus === 'coming-soon' ? null : 'coming-soon')}
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                    filterStatus === 'coming-soon'
+                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${filterStatus === 'coming-soon'
                       ? 'bg-purple-100 text-purple-700'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
+                    }`}
                 >
                   Coming Soon
                 </button>
@@ -358,16 +373,15 @@ export default function ToolsPage() {
               {filteredTools.map((tool) => {
                 const Icon = tool.icon;
                 const isAvailable = tool.status === 'available';
-                
+
                 return (
                   <Link
                     key={tool.id}
                     href={isAvailable ? tool.href : '#'}
-                    className={`bg-white border-2 rounded-lg p-6 transition-all ${
-                      isAvailable
+                    className={`bg-white border-2 rounded-lg p-6 transition-all ${isAvailable
                         ? `border-${tool.color}-200 hover:border-${tool.color}-400 hover:shadow-lg`
                         : 'border-gray-200 opacity-75 cursor-not-allowed'
-                    }`}
+                      }`}
                     onClick={(e) => !isAvailable && e.preventDefault()}
                   >
                     <div className="flex items-start justify-between mb-4">
@@ -389,10 +403,10 @@ export default function ToolsPage() {
                         </span>
                       </div>
                     </div>
-                    
+
                     <h3 className="text-xl font-bold text-gray-900 mb-2">{tool.title}</h3>
                     <p className="text-sm text-gray-600 mb-4">{tool.description}</p>
-                    
+
                     <ul className="space-y-2">
                       {tool.features.slice(0, 3).map((feature, idx) => (
                         <li key={idx} className="flex items-start gap-2 text-xs text-gray-600">
@@ -420,7 +434,7 @@ export default function ToolsPage() {
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Downloadable Template Packs</h2>
             <p className="text-gray-600 mb-6">Ready-to-use templates for all skill levels</p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {TEMPLATE_PACKS.map((pack, idx) => {
                 const Icon = pack.icon;
@@ -429,10 +443,10 @@ export default function ToolsPage() {
                     <div className={`w-12 h-12 rounded-lg flex items-center justify-center bg-${pack.color}-100 mb-4`}>
                       <Icon className={`w-6 h-6 text-${pack.color}-600`} />
                     </div>
-                    
+
                     <h3 className="text-lg font-bold text-gray-900 mb-2">{pack.title}</h3>
                     <p className="text-sm text-gray-600 mb-4">{pack.description}</p>
-                    
+
                     <ul className="space-y-2 mb-4">
                       {pack.items.map((item, i) => (
                         <li key={i} className="flex items-start gap-2 text-xs text-gray-600">
@@ -443,7 +457,7 @@ export default function ToolsPage() {
                         </li>
                       ))}
                     </ul>
-                    
+
                     <button
                       className={`w-full px-4 py-2 bg-${pack.color}-600 text-white rounded-lg hover:bg-${pack.color}-700 transition-colors font-medium text-sm flex items-center justify-center gap-2`}
                     >
@@ -462,23 +476,23 @@ export default function ToolsPage() {
             <p className="text-gray-700 mb-6">
               Comprehensive guides teaching you how to apply these tools to real medical device development scenarios.
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Link href="/guides/fmea-guide" className="bg-white rounded-lg p-4 hover:shadow-md transition-shadow border border-blue-200">
                 <h3 className="font-bold text-gray-900 mb-2">FMEA for Medical Devices</h3>
                 <p className="text-sm text-gray-600">Complete guide to ISO 14971 risk management using FMEA methodology</p>
               </Link>
-              
+
               <Link href="/guides/distributions-guide" className="bg-white rounded-lg p-4 hover:shadow-md transition-shadow border border-purple-200">
                 <h3 className="font-bold text-gray-900 mb-2">Statistical Distributions</h3>
                 <p className="text-sm text-gray-600">Understanding when to use normal, Weibull, exponential, and gamma distributions</p>
               </Link>
-              
+
               <Link href="/guides/sample-size-guide" className="bg-white rounded-lg p-4 hover:shadow-md transition-shadow border border-green-200">
                 <h3 className="font-bold text-gray-900 mb-2">Sample Size Calculation</h3>
                 <p className="text-sm text-gray-600">FDA-compliant sample size determination for validation studies</p>
               </Link>
-              
+
               <Link href="/guides/laser-safety-guide" className="bg-white rounded-lg p-4 hover:shadow-md transition-shadow border border-red-200">
                 <h3 className="font-bold text-gray-900 mb-2">Laser Safety Calculations</h3>
                 <p className="text-sm text-gray-600">Understanding MPE, NOHD, and laser classification requirements</p>
@@ -486,8 +500,8 @@ export default function ToolsPage() {
             </div>
           </div>
         </div>
-                      {/* Footer */}
-              <Footer />
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );

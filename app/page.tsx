@@ -11,9 +11,9 @@ import { TimelineSkeleton } from '@/components/skeletons';
 import { KNOWLEDGE_CATEGORIES, getTotalArticleCount } from '@/lib/knowledgeBase';
 import { BookOpen, Bookmark, ChevronRight, ChevronLeft, ChevronDown, Trash2, Rss, ExternalLink, ArrowRight } from 'lucide-react';
 import { useBookmarks } from '@/contexts/BookmarkContext';
-import FutureGenIcon from '@/components/FutureGenIcon';
 import MobileRSSFeed from '@/components/MobileRSSFeed';
 import LatestArticleBanner from '@/components/LatestArticleBanner';
+import AnimatedIcon from '@/components/AnimatedIcon';
 
 // Lazy load heavy components for LCP optimization
 const MedicalDeviceTimeline = dynamic(
@@ -184,7 +184,7 @@ export default function DashboardPage() {
                                 </div>
                               ) : (
                                 <div className="p-8 text-center text-gray-500">
-                                  <BookOpen className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                                  <AnimatedIcon variant="database" size={48} className="mx-auto mb-3 text-gray-300" />
                                   <p className="text-sm">No articles yet in this category.</p>
                                   <p className="text-xs text-gray-400 mt-1">Content coming soon as we build out Phase 1.</p>
                                 </div>

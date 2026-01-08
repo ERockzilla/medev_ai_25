@@ -5,8 +5,8 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import MatrixBackground from '@/components/MatrixBackground';
-import { BookOpen, Bookmark, Plus, ChevronRight, ChevronLeft, Trash2 } from 'lucide-react';
 import { Search, Filter, ExternalLink } from 'lucide-react';
+import AnimatedIcon from '@/components/AnimatedIcon';
 
 // Standards data - will be populated as we create content
 const STANDARDS = [
@@ -170,13 +170,13 @@ export default function StandardsPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const filteredStandards = STANDARDS.filter(standard => {
-    const matchesSearch = 
+    const matchesSearch =
       standard.number.toLowerCase().includes(searchQuery.toLowerCase()) ||
       standard.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       standard.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     const matchesCategory = selectedCategory === 'all' || standard.category === selectedCategory;
-    
+
     return matchesSearch && matchesCategory;
   });
 
@@ -189,7 +189,7 @@ export default function StandardsPage() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Breadcrumb */}
           <div className="mb-6">
-            <Link 
+            <Link
               href="/"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
             >
@@ -199,10 +199,17 @@ export default function StandardsPage() {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Standards Database</h1>
-            <p className="text-xl text-gray-600">
-              Comprehensive database of medical device standards with implementation guidance
-            </p>
+            <div className="flex items-start gap-4">
+              <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-lg flex-shrink-0">
+                <AnimatedIcon variant="file" size={32} className="text-blue-600" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold text-gray-900 mb-2">Standards Database</h1>
+                <p className="text-xl text-gray-600">
+                  Comprehensive database of medical device standards with implementation guidance
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Search and Filters */}
@@ -225,11 +232,10 @@ export default function StandardsPage() {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    selectedCategory === category.id
-                      ? `bg-${category.color}-600 text-white`
-                      : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === category.id
+                    ? `bg-${category.color}-600 text-white`
+                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    }`}
                 >
                   {category.label}
                 </button>
@@ -266,7 +272,7 @@ export default function StandardsPage() {
                       </p>
                     </div>
                   </div>
-                  
+
                   <p className="text-sm text-gray-700 mb-4 line-clamp-2">
                     {standard.description}
                   </p>
@@ -285,7 +291,7 @@ export default function StandardsPage() {
             </div>
           ) : (
             <div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
-              <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+              <AnimatedIcon variant="file" size={64} className="mx-auto mb-4 text-gray-300" />
               <h3 className="text-lg font-bold text-gray-900 mb-2">No standards found</h3>
               <p className="text-gray-600 mb-4">
                 Try adjusting your search or filter criteria.
@@ -306,12 +312,12 @@ export default function StandardsPage() {
           <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6">
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center text-white flex-shrink-0">
-                <BookOpen className="w-6 h-6" />
+                <AnimatedIcon variant="file" size={24} />
               </div>
               <div className="flex-1">
                 <h4 className="font-bold text-blue-900 mb-2">Phase 1: Standards Database - In Development</h4>
                 <p className="text-sm text-blue-800 mb-3">
-                  We're building comprehensive standard pages with implementation guidance, visual diagrams, 
+                  We're building comprehensive standard pages with implementation guidance, visual diagrams,
                   and medical laser system examples. Content will be published as it's completed.
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">

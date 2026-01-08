@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen, FileText, Scale, Calculator, BarChart3, Sparkles, Briefcase, Menu, X, Rss, Bookmark } from 'lucide-react';
+import { Menu, X, Rss, Bookmark } from 'lucide-react';
 import AnimatedLogo from './AnimatedLogo';
 import LiveClock from './LiveClock';
-import FutureGenIcon from './FutureGenIcon';
+import AnimatedIcon from './AnimatedIcon';
 import HeaderBackground from './HeaderBackground';
 import { useBookmarks } from '@/contexts/BookmarkContext';
 
@@ -16,15 +16,16 @@ export default function Header() {
   const { bookmarks } = useBookmarks();
 
   // Main nav items (without bookmarks - moved to logo area)
+  // Main nav items with 3D variants
   const navItems = [
-    { href: '/', Icon: BookOpen, title: 'Knowledge Center' },
-    { href: '/standards', Icon: FileText, title: 'Standards' },
-    { href: '/regulations', Icon: Scale, title: 'Regulations' },
-    { href: '/tools', Icon: Calculator, title: 'Tools' },
-    { href: '/ai-tools', Icon: Sparkles, title: 'AI Tools' },
-    { href: '/regulatory-analysis', Icon: BarChart3, title: 'Analysis' },
-    { href: '/professional-development', Icon: Briefcase, title: 'Professional Development' },
-    { href: '/future-generations', Icon: FutureGenIcon, title: 'Future Generations' },
+    { href: '/', variant: 'database' as const, title: 'Knowledge Center' },
+    { href: '/standards', variant: 'file' as const, title: 'Standards' },
+    { href: '/regulations', variant: 'shield' as const, title: 'Regulations' },
+    { href: '/tools', variant: 'calculator' as const, title: 'Tools' },
+    { href: '/ai-tools', variant: 'sparkles' as const, title: 'AI Tools' },
+    { href: '/regulatory-analysis', variant: 'globe' as const, title: 'Analysis' },
+    { href: '/professional-development', variant: 'briefcase' as const, title: 'Professional Development' },
+    { href: '/future-generations', variant: 'future-gen' as const, title: 'Future Generations' },
   ];
 
   const isActive = (href: string) => {
@@ -75,28 +76,25 @@ export default function Header() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-2">
-              {navItems.map((item) => {
-                const Icon = item.Icon;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`relative group p-3 rounded-lg transition-all ${isActive(item.href)
-                      ? 'bg-blue-500/30 text-white'
-                      : 'text-blue-100 hover:bg-white/10 hover:text-white'
-                      }`}
-                  >
-                    <Icon className="w-5 h-5" />
-                    {/* Tooltip */}
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                      {item.title}
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-0">
-                        <div className="border-4 border-transparent border-b-gray-900"></div>
-                      </div>
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`relative group p-3 rounded-lg transition-all ${isActive(item.href)
+                    ? 'bg-blue-500/30 text-white'
+                    : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                    }`}
+                >
+                  <AnimatedIcon variant={item.variant} size={20} className={isActive(item.href) ? 'text-white' : 'text-blue-100 group-hover:text-white'} />
+                  {/* Tooltip */}
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+                    {item.title}
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-0">
+                      <div className="border-4 border-transparent border-b-gray-900"></div>
                     </div>
-                  </Link>
-                );
-              })}
+                  </div>
+                </Link>
+              ))}
             </nav>
 
             {/* Right Side - RSS, LinkedIn, Clock & Mobile Menu Button */}
@@ -155,23 +153,20 @@ export default function Header() {
           {mobileMenuOpen && (
             <nav className="md:hidden mt-4 pb-2 border-t border-blue-500/30 pt-4">
               <div className="grid grid-cols-2 gap-2">
-                {navItems.map((item) => {
-                  const Icon = item.Icon;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 p-3 rounded-lg transition-all ${isActive(item.href)
-                        ? 'bg-blue-500/30 text-white'
-                        : 'text-blue-100 hover:bg-white/10 hover:text-white'
-                        }`}
-                    >
-                      <Icon className="w-5 h-5" />
-                      <span className="text-sm font-medium">{item.title}</span>
-                    </Link>
-                  );
-                })}
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 p-3 rounded-lg transition-all ${isActive(item.href)
+                      ? 'bg-blue-500/30 text-white'
+                      : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                      }`}
+                  >
+                    <AnimatedIcon variant={item.variant} size={20} />
+                    <span className="text-sm font-medium">{item.title}</span>
+                  </Link>
+                ))}
               </div>
 
               {/* Quick Links - News Only (Bookmarks accessible via header icon) */}

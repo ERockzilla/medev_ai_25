@@ -1,30 +1,26 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import Header from '@/components/Header';
 import MatrixBackground from '@/components/MatrixBackground';
 import AIToolCard from '@/components/AIToolCard';
 import AIToolComparison from '@/components/AIToolComparison';
-import { 
-  AI_TOOLS, 
-  CATEGORIES, 
-  PRICING_OPTIONS, 
+import {
+  AI_TOOLS,
+  CATEGORIES,
+  PRICING_OPTIONS,
   getRecommendedTools,
   searchTools,
   type AITool,
-  type PricingTier 
+  type PricingTier
 } from '@/lib/aiToolsData';
-import { 
-  Search, 
-  Filter, 
-  X, 
-  Sparkles, 
-  TrendingUp, 
-  DollarSign, 
-  Building2,
-  Star,
-  GitCompare
+import {
+  Search,
+  Filter,
+  X
 } from 'lucide-react';
+import AnimatedIcon from '@/components/AnimatedIcon';
 import Footer from '@/components/Footer';
 
 export default function AIToolsPage() {
@@ -115,26 +111,41 @@ export default function AIToolsPage() {
       <MatrixBackground intensity="low" />
       <div className="relative z-10">
         <Header />
-        
+
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Header Section */}
+          <div className="mb-6">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+            >
+              ← Back to Knowledge Center
+            </Link>
+          </div>
+
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <Sparkles className="w-8 h-8 text-purple-600" />
-              <h1 className="text-4xl font-bold text-gray-900">AI Tools Directory</h1>
+            <div className="flex items-start gap-4 mb-6">
+              <div className="flex items-center justify-center w-16 h-16 bg-purple-100 rounded-lg flex-shrink-0">
+                <AnimatedIcon variant="sparkles" size={32} className="text-purple-600" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold text-gray-900 mb-2">AI Tools Directory</h1>
+                <p className="text-xl text-gray-600">
+                  Discover the best AI tools for medical device development. Compare solutions and find the right tools for your specific needs.
+                </p>
+              </div>
             </div>
-            <p className="text-lg text-gray-600 max-w-3xl">
-              Discover the best AI tools for medical device development. Compare solutions and find the right tools for your specific needs.
-            </p>
-             <a
+
+            <div className="flex flex-wrap gap-2">
+              <a
                 href="https://lmstudio.ai/"
-                className="hidden md:inline-flex items-center gap-2 px-6 py-3 bg-white text-[#0159A3] font-semibold rounded-lg hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#0159A3] font-semibold rounded-lg hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
               >
                 LM Studio
               </a>
               <a
                 href="https://anythingllm.com/desktop/"
-                className="hidden md:inline-flex items-center gap-2 px-6 py-3 bg-white text-[#0159A3] font-semibold rounded-lg hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#0159A3] font-semibold rounded-lg hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
               >
                 AnythingLLM
               </a>
@@ -142,10 +153,11 @@ export default function AIToolsPage() {
                 href="/llm-setup-guide.txt"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:inline-flex items-center gap-2 px-6 py-3 bg-white text-[#0159A3] font-semibold rounded-lg hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#0159A3] font-semibold rounded-lg hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
               >
                 Guide
               </a>
+            </div>
           </div>
 
           {/* Filters and Search */}
@@ -225,7 +237,7 @@ export default function AIToolsPage() {
             <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <GitCompare className="w-5 h-5 text-blue-600" />
+                  <AnimatedIcon variant="compare" size={20} className="text-blue-600" />
                   <span className="font-semibold text-blue-900">
                     Comparing {comparisonTools.length} tool{comparisonTools.length > 1 ? 's' : ''}
                   </span>
@@ -271,9 +283,9 @@ export default function AIToolsPage() {
               {filteredTools.length > 0 ? (
                 <div className="space-y-4">
                   {filteredTools.map(tool => (
-                    <AIToolCard 
-                      key={tool.id} 
-                      tool={tool} 
+                    <AIToolCard
+                      key={tool.id}
+                      tool={tool}
                       onCompareToggle={() => toggleCompare(tool.id)}
                       isComparing={compareTools.has(tool.id)}
                     />
@@ -299,18 +311,18 @@ export default function AIToolsPage() {
           {!showComparison && (
             <div className="mb-8 space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Recommended Tools</h2>
-              
+
               {/* Best for Startups */}
               <section>
                 <div className="flex items-center gap-2 mb-4">
-                  <TrendingUp className="w-5 h-5 text-green-600" />
+                  <AnimatedIcon variant="growth" size={20} className="text-green-600" />
                   <h3 className="text-xl font-bold text-gray-900">Best for Startups</h3>
                 </div>
                 <div className="space-y-4">
                   {recommendedStartups.map(tool => (
-                    <AIToolCard 
-                      key={tool.id} 
-                      tool={tool} 
+                    <AIToolCard
+                      key={tool.id}
+                      tool={tool}
                       onCompareToggle={() => toggleCompare(tool.id)}
                       isComparing={compareTools.has(tool.id)}
                     />
@@ -321,14 +333,14 @@ export default function AIToolsPage() {
               {/* Best Free Options */}
               <section>
                 <div className="flex items-center gap-2 mb-4">
-                  <DollarSign className="w-5 h-5 text-blue-600" />
+                  <AnimatedIcon variant="dollar" size={20} className="text-blue-600" />
                   <h3 className="text-xl font-bold text-gray-900">Best Free Options</h3>
                 </div>
                 <div className="space-y-4">
                   {recommendedFree.map(tool => (
-                    <AIToolCard 
-                      key={tool.id} 
-                      tool={tool} 
+                    <AIToolCard
+                      key={tool.id}
+                      tool={tool}
                       onCompareToggle={() => toggleCompare(tool.id)}
                       isComparing={compareTools.has(tool.id)}
                     />
@@ -339,14 +351,14 @@ export default function AIToolsPage() {
               {/* Most Popular */}
               <section>
                 <div className="flex items-center gap-2 mb-4">
-                  <Star className="w-5 h-5 text-yellow-600" />
+                  <AnimatedIcon variant="star" size={20} className="text-yellow-600" />
                   <h3 className="text-xl font-bold text-gray-900">Most Popular</h3>
                 </div>
                 <div className="space-y-4">
                   {recommendedPopular.map(tool => (
-                    <AIToolCard 
-                      key={tool.id} 
-                      tool={tool} 
+                    <AIToolCard
+                      key={tool.id}
+                      tool={tool}
                       onCompareToggle={() => toggleCompare(tool.id)}
                       isComparing={compareTools.has(tool.id)}
                     />
@@ -357,14 +369,14 @@ export default function AIToolsPage() {
               {/* Best for Large Companies */}
               <section>
                 <div className="flex items-center gap-2 mb-4">
-                  <Building2 className="w-5 h-5 text-purple-600" />
+                  <AnimatedIcon variant="building" size={20} className="text-purple-600" />
                   <h3 className="text-xl font-bold text-gray-900">Best for Large Companies</h3>
                 </div>
                 <div className="space-y-4">
                   {recommendedLarge.map(tool => (
-                    <AIToolCard 
-                      key={tool.id} 
-                      tool={tool} 
+                    <AIToolCard
+                      key={tool.id}
+                      tool={tool}
                       onCompareToggle={() => toggleCompare(tool.id)}
                       isComparing={compareTools.has(tool.id)}
                     />
@@ -375,8 +387,8 @@ export default function AIToolsPage() {
           )}
         </div>
       </div>
-           {/* Footer */}
-              <Footer />
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

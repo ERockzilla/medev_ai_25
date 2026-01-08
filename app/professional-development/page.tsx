@@ -4,19 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import MatrixBackground from '@/components/MatrixBackground';
-import { 
-  TrendingUp, 
-  GraduationCap, 
-  Award, 
-  Users, 
-  BookOpen, 
-  Briefcase,
+import {
   ExternalLink,
   ChevronRight,
-  Target,
   Zap,
   Globe
 } from 'lucide-react';
+import AnimatedIcon from '@/components/AnimatedIcon';
 import Footer from '@/components/Footer';
 
 export default function ProfessionalDevelopmentPage() {
@@ -31,7 +25,7 @@ export default function ProfessionalDevelopmentPage() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Breadcrumb */}
           <div className="mb-6">
-            <Link 
+            <Link
               href="/"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
             >
@@ -41,13 +35,13 @@ export default function ProfessionalDevelopmentPage() {
 
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-4 mb-2">
-              <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-lg">
-                <Briefcase className="w-10 h-10 text-blue-600" />
+            <div className="flex items-start gap-4">
+              <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-lg flex-shrink-0">
+                <AnimatedIcon variant="briefcase" size={32} className="text-blue-600" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-gray-900">Professional Development</h1>
-                <p className="text-xl text-gray-600 mt-2">
+                <h1 className="text-4xl font-bold text-gray-900 mb-2">Professional Development</h1>
+                <p className="text-xl text-gray-600">
                   Advance your career in medical device development with industry insights, skill pathways, certifications, and networking opportunities
                 </p>
               </div>
@@ -58,53 +52,49 @@ export default function ProfessionalDevelopmentPage() {
           <div className="mb-8 bg-white border border-gray-200 rounded-lg p-2 flex gap-2">
             <button
               onClick={() => setActiveTab('insights')}
-              className={`flex-1 px-4 py-3 rounded-md font-medium transition-colors ${
-                activeTab === 'insights'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
+              className={`flex-1 px-4 py-3 rounded-md font-medium transition-colors ${activeTab === 'insights'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+                }`}
             >
               <div className="flex items-center justify-center gap-2">
-                <TrendingUp className="w-5 h-5" />
+                <AnimatedIcon variant="growth" size={20} />
                 <span>Industry Insights</span>
               </div>
             </button>
             <button
               onClick={() => setActiveTab('skills')}
-              className={`flex-1 px-4 py-3 rounded-md font-medium transition-colors ${
-                activeTab === 'skills'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
+              className={`flex-1 px-4 py-3 rounded-md font-medium transition-colors ${activeTab === 'skills'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+                }`}
             >
               <div className="flex items-center justify-center gap-2">
-                <Target className="w-5 h-5" />
+                <AnimatedIcon variant="target" size={20} />
                 <span>Skill Pathways</span>
               </div>
             </button>
             <button
               onClick={() => setActiveTab('certifications')}
-              className={`flex-1 px-4 py-3 rounded-md font-medium transition-colors ${
-                activeTab === 'certifications'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
+              className={`flex-1 px-4 py-3 rounded-md font-medium transition-colors ${activeTab === 'certifications'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+                }`}
             >
               <div className="flex items-center justify-center gap-2">
-                <Award className="w-5 h-5" />
+                <AnimatedIcon variant="award" size={20} />
                 <span>Certifications</span>
               </div>
             </button>
             <button
               onClick={() => setActiveTab('networking')}
-              className={`flex-1 px-4 py-3 rounded-md font-medium transition-colors ${
-                activeTab === 'networking'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
+              className={`flex-1 px-4 py-3 rounded-md font-medium transition-colors ${activeTab === 'networking'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+                }`}
             >
               <div className="flex items-center justify-center gap-2">
-                <Users className="w-5 h-5" />
+                <AnimatedIcon variant="network" size={20} />
                 <span>Networking</span>
               </div>
             </button>
@@ -117,11 +107,11 @@ export default function ProfessionalDevelopmentPage() {
               <div className="space-y-6">
                 <div className="bg-white border border-gray-200 rounded-lg p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <TrendingUp className="w-6 h-6 text-blue-600" />
+                    <AnimatedIcon variant="growth" size={24} className="text-blue-600" />
                     <h2 className="text-2xl font-bold text-gray-900">Industry Insights & Trends</h2>
                   </div>
                   <p className="text-gray-600 mb-6">
-                    Stay ahead of the curve with the latest trends, market analysis, and industry developments 
+                    Stay ahead of the curve with the latest trends, market analysis, and industry developments
                     shaping the medical device landscape.
                   </p>
 
@@ -483,11 +473,11 @@ export default function ProfessionalDevelopmentPage() {
               <div className="space-y-6">
                 <div className="bg-white border border-gray-200 rounded-lg p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <Target className="w-6 h-6 text-blue-600" />
+                    <AnimatedIcon variant="target" size={24} className="text-blue-600" />
                     <h2 className="text-2xl font-bold text-gray-900">Skill Development Pathways</h2>
                   </div>
                   <p className="text-gray-600 mb-6">
-                    Structured learning paths to build expertise in key areas of medical device development 
+                    Structured learning paths to build expertise in key areas of medical device development
                     and regulatory compliance.
                   </p>
 
@@ -624,7 +614,7 @@ export default function ProfessionalDevelopmentPage() {
               <div className="space-y-6">
                 <div className="bg-white border border-gray-200 rounded-lg p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <Award className="w-6 h-6 text-blue-600" />
+                    <AnimatedIcon variant="award" size={24} className="text-blue-600" />
                     <h2 className="text-2xl font-bold text-gray-900">Certifications & Training</h2>
                   </div>
                   <p className="text-gray-600 mb-6">
@@ -634,7 +624,7 @@ export default function ProfessionalDevelopmentPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Award className="w-6 h-6 text-blue-600" />
+                        <AnimatedIcon variant="award" size={24} className="text-blue-600" />
                         <h3 className="text-lg font-semibold text-gray-900">RAC (Regulatory Affairs Certification)</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -652,7 +642,7 @@ export default function ProfessionalDevelopmentPage() {
 
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Award className="w-6 h-6 text-green-600" />
+                        <AnimatedIcon variant="award" size={24} className="text-green-600" />
                         <h3 className="text-lg font-semibold text-gray-900">ASQ Certifications</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -671,7 +661,7 @@ export default function ProfessionalDevelopmentPage() {
 
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Award className="w-6 h-6 text-purple-600" />
+                        <AnimatedIcon variant="award" size={24} className="text-purple-600" />
                         <h3 className="text-lg font-semibold text-gray-900">ISO 13485 Lead Auditor</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -689,7 +679,7 @@ export default function ProfessionalDevelopmentPage() {
 
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Award className="w-6 h-6 text-orange-600" />
+                        <AnimatedIcon variant="award" size={24} className="text-orange-600" />
                         <h3 className="text-lg font-semibold text-gray-900">IEC 62304 Training</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -708,7 +698,7 @@ export default function ProfessionalDevelopmentPage() {
 
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Award className="w-6 h-6 text-red-600" />
+                        <AnimatedIcon variant="award" size={24} className="text-red-600" />
                         <h3 className="text-lg font-semibold text-gray-900">Six Sigma Certifications</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -726,7 +716,7 @@ export default function ProfessionalDevelopmentPage() {
 
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <GraduationCap className="w-6 h-6 text-indigo-600" />
+                        <AnimatedIcon variant="book" size={24} className="text-indigo-600" />
                         <h3 className="text-lg font-semibold text-gray-900">Online Learning Platforms</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -749,18 +739,18 @@ export default function ProfessionalDevelopmentPage() {
               <div className="space-y-6">
                 <div className="bg-white border border-gray-200 rounded-lg p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <Users className="w-6 h-6 text-blue-600" />
+                    <AnimatedIcon variant="network" size={24} className="text-blue-600" />
                     <h2 className="text-2xl font-bold text-gray-900">Networking & Community Resources</h2>
                   </div>
                   <p className="text-gray-600 mb-6">
-                    Connect with peers, join professional communities, and access valuable networking opportunities 
+                    Connect with peers, join professional communities, and access valuable networking opportunities
                     in the medical device industry.
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Users className="w-6 h-6 text-blue-600" />
+                        <AnimatedIcon variant="network" size={24} className="text-blue-600" />
                         <h3 className="text-lg font-semibold text-gray-900">RAPS (Regulatory Affairs Professionals Society)</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -779,7 +769,7 @@ export default function ProfessionalDevelopmentPage() {
 
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Users className="w-6 h-6 text-green-600" />
+                        <AnimatedIcon variant="network" size={24} className="text-green-600" />
                         <h3 className="text-lg font-semibold text-gray-900">ASQ (American Society for Quality)</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -798,7 +788,7 @@ export default function ProfessionalDevelopmentPage() {
 
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Users className="w-6 h-6 text-purple-600" />
+                        <AnimatedIcon variant="network" size={24} className="text-purple-600" />
                         <h3 className="text-lg font-semibold text-gray-900">AAMI (Association for the Advancement of Medical Instrumentation)</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -817,7 +807,7 @@ export default function ProfessionalDevelopmentPage() {
 
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Users className="w-6 h-6 text-orange-600" />
+                        <AnimatedIcon variant="network" size={24} className="text-orange-600" />
                         <h3 className="text-lg font-semibold text-gray-900">Online Communities</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -849,7 +839,7 @@ export default function ProfessionalDevelopmentPage() {
 
                     <div className="border border-gray-200 rounded-lg p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Briefcase className="w-6 h-6 text-red-600" />
+                        <AnimatedIcon variant="briefcase" size={24} className="text-red-600" />
                         <h3 className="text-lg font-semibold text-gray-900">Career Resources</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-3">
@@ -868,8 +858,8 @@ export default function ProfessionalDevelopmentPage() {
             )}
           </div>
         </div>
-                      {/* Footer */}
-              <Footer />
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );

@@ -4,7 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import MatrixBackground from '@/components/MatrixBackground';
-import { Search, Filter, BookOpen, ExternalLink, Scale, FileText, Globe, Lightbulb, ChevronRight } from 'lucide-react';
+import { Search, Filter, ExternalLink, ChevronRight } from 'lucide-react';
+import AnimatedIcon from '@/components/AnimatedIcon';
 import Footer from '@/components/Footer';
 
 // Regulations data
@@ -146,12 +147,17 @@ export default function RegulationsPage() {
 
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-4xl font-bold text-gray-900">Regulations</h1>
+            <div className="flex items-start gap-4 mb-2">
+              <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-lg flex-shrink-0">
+                <AnimatedIcon variant="shield" size={32} className="text-blue-600" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold text-gray-900 mb-2">Regulations</h1>
+                <p className="text-xl text-gray-600">
+                  Regulations for medical devices - legally binding requirements for market access
+                </p>
+              </div>
             </div>
-            <p className="text-xl text-gray-600">
-              Regulations for medical devices - legally binding requirements for market access
-            </p>
             <div className="mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
               <p className="text-sm text-green-800">
                 <strong>Note:</strong> FDA regulations are legally binding requirements, not voluntary standards.
@@ -181,8 +187,8 @@ export default function RegulationsPage() {
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === category.id
-                      ? `bg-${category.color}-600 text-white`
-                      : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    ? `bg-${category.color}-600 text-white`
+                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
                     }`}
                 >
                   {category.label}
@@ -239,7 +245,7 @@ export default function RegulationsPage() {
             </div>
           ) : (
             <div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
-              <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+              <AnimatedIcon variant="book" size={64} className="mx-auto mb-4 text-gray-300" />
               <h3 className="text-lg font-bold text-gray-900 mb-2">No regulations found</h3>
               <p className="text-gray-600 mb-4">
                 Try adjusting your search or filter criteria.
@@ -259,7 +265,7 @@ export default function RegulationsPage() {
           {/* FDA Guidance Documents Section */}
           <div className="mt-12">
             <div className="flex items-center gap-3 mb-6">
-              <FileText className="w-6 h-6 text-blue-600" />
+              <AnimatedIcon variant="book" size={24} className="text-blue-600" />
               <h2 className="text-2xl font-bold text-gray-900">FDA Guidance Documents</h2>
             </div>
             <p className="text-gray-600 mb-6">
@@ -365,7 +371,7 @@ export default function RegulationsPage() {
           {/* EU MDR/IVDR Section */}
           <div className="mt-12">
             <div className="flex items-center gap-3 mb-6">
-              <Globe className="w-6 h-6 text-purple-600" />
+              <AnimatedIcon variant="network" size={24} className="text-purple-600" />
               <h2 className="text-2xl font-bold text-gray-900">EU MDR/IVDR Regulations</h2>
             </div>
             <p className="text-gray-600 mb-6">
@@ -435,7 +441,7 @@ export default function RegulationsPage() {
           {/* Device-Specific Guidance Section */}
           <div className="mt-12">
             <div className="flex items-center gap-3 mb-6">
-              <Lightbulb className="w-6 h-6 text-orange-600" />
+              <AnimatedIcon variant="sparkles" size={24} className="text-orange-600" />
               <h2 className="text-2xl font-bold text-gray-900">Device-Specific Guidance</h2>
             </div>
             <p className="text-gray-600 mb-6">
@@ -668,7 +674,7 @@ export default function RegulationsPage() {
           <div className="mt-12 bg-green-50 border border-green-200 rounded-lg p-6">
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center text-white flex-shrink-0">
-                <Scale className="w-6 h-6" />
+                <AnimatedIcon variant="shield" size={24} />
               </div>
               <div className="flex-1">
                 <h4 className="font-bold text-green-900 mb-2">FDA Regulations - Legal Requirements</h4>
