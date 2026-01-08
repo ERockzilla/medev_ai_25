@@ -59,8 +59,9 @@ export async function POST(request: NextRequest) {
             headers: {
                 'Content-Type': 'application/json',
                 'User-Agent': request.headers.get('user-agent') || 'medev.ai-proxy',
-                // Forward real client IP via custom header (Vercel won't overwrite this)
-                'X-Client-IP': clientIP,
+                // Forward real client IP via standard headers
+                'X-Forwarded-For': clientIP,
+                'X-Real-IP': clientIP,
             },
             body,
         });

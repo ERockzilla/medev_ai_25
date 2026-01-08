@@ -373,7 +373,7 @@ const HeaderBackground = memo(function HeaderBackground({ effect = 'data-stream'
             className="absolute inset-0 pointer-events-none"
             style={{
                 mixBlendMode: 'screen',
-                opacity: 0.7,
+                opacity: 0.4,
             }}
         />
     );
