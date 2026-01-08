@@ -295,11 +295,8 @@ export default function MedicalDeviceTimeline() {
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-3">
-          <h2 className="text-2xl font-bold text-gray-900">Medical Device Evolution Timeline</h2>
+          <h2 className="text-lg sm:text-2xl font-bold text-gray-900">Medical Device Evolution Timeline</h2>
         </div>
-        <p className="text-gray-600 mb-4">
-          From early innovations to future predictions: The evolution of medical device design, regulations, quality standards, and laser/photonics technology
-        </p>
 
         {/* Filters - Horizontal scroll on mobile */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide snap-x snap-mandatory touch-pan-x">
@@ -420,8 +417,8 @@ export default function MedicalDeviceTimeline() {
 
       {/* Timeline */}
       <div className="relative">
-        {/* Vertical Line */}
-        <div className="absolute left-4 md:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gray-300 via-blue-300 to-purple-300"></div>
+        {/* Vertical Line - stops before the load more/show less buttons */}
+        <div className="absolute left-4 md:left-8 top-0 w-0.5 bg-gradient-to-b from-gray-300 via-blue-300 to-purple-300" style={{ bottom: '60px' }}></div>
 
         {/* Events */}
         <div className="space-y-6">
