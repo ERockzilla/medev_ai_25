@@ -1,7 +1,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { memo } from 'react';
-import GaussianBeamVortex3D from './GaussianBeamVortex3D';
+import dynamic from 'next/dynamic';
+
+// Lazy load the 3D component - only loads when Footer is rendered
+const GaussianBeamVortex3D = dynamic(() => import('./GaussianBeamVortex3D'), {
+  ssr: false, // Disable server-side rendering for WebGL
+  loading: () => (
+    <div className="w-[100px] h-[100px] rounded-full bg-gradient-to-br from-[#0159A3]/20 to-[#00AA86]/20 animate-pulse flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin" />
+    </div>
+  ),
+});
 
 export default function Footer() {
   return (

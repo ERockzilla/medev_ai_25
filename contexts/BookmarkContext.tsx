@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { FEED_ITEMS, FeedItem } from '@/lib/feedConfig';
+import { FEED_ITEMS } from '@/lib/feedConfig';
 
 export interface BookmarkItem {
   id: string;
@@ -24,6 +24,9 @@ interface BookmarkContextType {
 
 const BookmarkContext = createContext<BookmarkContextType | undefined>(undefined);
 
+// Version for default bookmarks - increment when defaults change to force refresh
+const DEFAULTS_VERSION = 2;
+
 // 1. Static curated defaults
 const STATIC_DEFAULTS: BookmarkItem[] = [
   // Standard
@@ -39,36 +42,52 @@ const STATIC_DEFAULTS: BookmarkItem[] = [
   { id: '6', title: 'How To: Design & Development (ISO 13485)', url: '/how-to/design-development-iso13485', type: 'how-to', addedAt: Date.now() },
 ];
 
-// 2. Generate Dynamic RSS Defaults (Top 5 recent articles)
-const now = new Date();
-const rssDefaults: BookmarkItem[] = FEED_ITEMS
-  .filter(item => item.status === 'published' || (item.status === 'scheduled' && new Date(item.date) <= now))
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  .slice(0, 5)
-  .map((item, index) => ({
-    id: `rss-${index + 1}`,
-    title: item.title,
-    url: item.url,
-    type: 'page', // Treat external articles as generic pages
-    addedAt: Date.now(),
-  }));
+// 2. Generate Dynamic RSS Defaults (Top 5 recent published articles)
+function generateRssDefaults(): BookmarkItem[] {
+  const now = new Date();
+  return FEED_ITEMS
+    .filter(item => item.status === 'published' || (item.status === 'scheduled' && new Date(item.date) <= now))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 5)
+    .map((item, index): BookmarkItem => ({
+      id: `rss-${index + 1}`,
+      title: item.title,
+      url: item.url,
+      type: 'page' as const,
+      addedAt: Date.now(),
+    }));
+}
 
-const DEFAULT_BOOKMARKS: BookmarkItem[] = [...STATIC_DEFAULTS, ...rssDefaults];
+function getDefaultBookmarks(): BookmarkItem[] {
+  return [...STATIC_DEFAULTS, ...generateRssDefaults()];
+}
 
 export function BookmarkProvider({ children }: { children: ReactNode }) {
   const [bookmarks, setBookmarks] = useState<BookmarkItem[]>([]);
 
   // Load bookmarks from localStorage
   useEffect(() => {
+    const savedVersion = localStorage.getItem('medev-bookmarks-version');
     const saved = localStorage.getItem('medev-bookmarks');
+
+    // Force refresh if version changed or no version exists
+    if (!savedVersion || parseInt(savedVersion) < DEFAULTS_VERSION) {
+      const defaults = getDefaultBookmarks();
+      setBookmarks(defaults);
+      localStorage.setItem('medev-bookmarks', JSON.stringify(defaults));
+      localStorage.setItem('medev-bookmarks-version', DEFAULTS_VERSION.toString());
+      return;
+    }
+
     if (saved) {
       try {
         setBookmarks(JSON.parse(saved));
       } catch (e) {
-        setBookmarks(DEFAULT_BOOKMARKS);
+        const defaults = getDefaultBookmarks();
+        setBookmarks(defaults);
       }
     } else {
-      setBookmarks(DEFAULT_BOOKMARKS);
+      setBookmarks(getDefaultBookmarks());
     }
   }, []);
 
@@ -107,7 +126,8 @@ export function BookmarkProvider({ children }: { children: ReactNode }) {
 
   const resetToDefaults = () => {
     localStorage.removeItem('medev-bookmarks');
-    setBookmarks(DEFAULT_BOOKMARKS);
+    localStorage.setItem('medev-bookmarks-version', DEFAULTS_VERSION.toString());
+    setBookmarks(getDefaultBookmarks());
   };
 
   // Filter to get only internal site bookmarks (URLs starting with /)

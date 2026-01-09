@@ -47,8 +47,8 @@ export default function Header() {
       >
         {/* Subtle top highlight for 3D effect */}
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-        {/* Dynamic Background Effect */}
-        <HeaderBackground effect="matrix-pulse" />
+        {/* Dynamic Background Effect - Combined neural network, EKG, and laser beams */}
+        <HeaderBackground effect="medical-fusion" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 relative z-10">
           <div className="flex items-center justify-between">
             {/* Logo with Bookmark Indicator */}
@@ -75,17 +75,21 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-2">
+            <nav className="hidden md:flex items-center gap-1">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative group p-3 rounded-lg transition-all ${isActive(item.href)
-                    ? 'bg-blue-500/30 text-white'
-                    : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                  className={`relative group p-3 rounded-lg transition-all backdrop-blur-sm ${isActive(item.href)
+                    ? 'bg-white/20 text-white shadow-lg shadow-white/10'
+                    : 'text-white/90 hover:bg-white/15 hover:text-white hover:shadow-md hover:shadow-white/5'
                     }`}
                 >
-                  <AnimatedIcon variant={item.variant} size={20} className={isActive(item.href) ? 'text-white' : 'text-blue-100 group-hover:text-white'} />
+                  <AnimatedIcon
+                    variant={item.variant}
+                    size={20}
+                    className={`drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] ${isActive(item.href) ? 'text-white' : 'text-white/90 group-hover:text-white'}`}
+                  />
                   {/* Tooltip */}
                   <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
                     {item.title}

@@ -6,11 +6,12 @@
  * - neural-network: Animated connected nodes
  * - pulse: Medical heartbeat effect
  * - data-stream: Fast vertical data particles
+ * - xray-scan: MRI/X-ray style horizontal scan effect
  */
 
 import { useEffect, useRef, memo } from 'react';
 
-type BackgroundEffect = 'matrix-fast' | 'neural-network' | 'pulse' | 'data-stream' | 'gradient' | 'matrix-pulse';
+type BackgroundEffect = 'matrix-fast' | 'neural-network' | 'pulse' | 'data-stream' | 'gradient' | 'matrix-pulse' | 'xray-scan' | 'medical-fusion';
 
 interface HeaderBackgroundProps {
     effect?: BackgroundEffect;
@@ -42,6 +43,9 @@ const HeaderBackground = memo(function HeaderBackground({ effect = 'data-stream'
         window.addEventListener('resize', resizeCanvas);
 
         let animationId: number;
+        let lastFrameTime = 0;
+        const targetFPS = 30; // Reduced from 60fps for performance
+        const frameInterval = 1000 / targetFPS;
 
         const terms = ['ISO', 'FDA', 'QMS', 'AI', 'ML', 'SaMD', 'IEC', '510k', 'MDR', 'IVDR', 'PMA', 'DHF'];
 
@@ -359,6 +363,291 @@ const HeaderBackground = memo(function HeaderBackground({ effect = 'data-stream'
             draw();
         }
 
+        // XRAY-SCAN - MRI/X-ray style horizontal scan effect
+        if (effect === 'xray-scan') {
+            let scanX = 0;
+            let phase = 0;
+            const sliceData: number[] = [];
+
+            // Initialize scan data
+            for (let y = 0; y < canvas.height; y++) {
+                sliceData.push(Math.random() * 0.3);
+            }
+
+            const draw = (timestamp: number) => {
+                // Throttle to target FPS
+                if (timestamp - lastFrameTime < frameInterval) {
+                    animationId = requestAnimationFrame(draw);
+                    return;
+                }
+                lastFrameTime = timestamp;
+
+                // Clear with dark fade
+                ctx.fillStyle = 'rgba(0, 20, 40, 0.08)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw scan lines grid (subtle background)
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)';
+                ctx.lineWidth = 1;
+                for (let y = 0; y < canvas.height; y += 4) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+
+                // Main scanning line
+                const scanWidth = 80;
+                const gradient = ctx.createLinearGradient(scanX - scanWidth, 0, scanX + 20, 0);
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+                gradient.addColorStop(0.5, 'rgba(200, 240, 255, 0.15)');
+                gradient.addColorStop(0.8, 'rgba(100, 200, 255, 0.25)');
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0.4)');
+
+                ctx.fillStyle = gradient;
+                ctx.fillRect(scanX - scanWidth, 0, scanWidth + 20, canvas.height);
+
+                // Scan line edge (bright white line)
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(scanX, 0);
+                ctx.lineTo(scanX, canvas.height);
+                ctx.stroke();
+
+                // Add subtle "tissue" texture at scan position
+                for (let y = 0; y < canvas.height; y += 3) {
+                    const noise = sliceData[y % sliceData.length] * Math.sin(phase * 0.02 + y * 0.1);
+                    const intensity = 0.05 + Math.abs(noise) * 0.1;
+                    ctx.fillStyle = `rgba(150, 220, 255, ${intensity})`;
+                    ctx.fillRect(scanX - 5, y, 8, 2);
+                }
+
+                // Subtle cyan glow behind the scan
+                const glowGradient = ctx.createRadialGradient(
+                    scanX, canvas.height / 2, 0,
+                    scanX, canvas.height / 2, canvas.height
+                );
+                glowGradient.addColorStop(0, 'rgba(0, 200, 255, 0.08)');
+                glowGradient.addColorStop(1, 'rgba(0, 200, 255, 0)');
+                ctx.fillStyle = glowGradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Update scan position
+                scanX += 2;
+                if (scanX > canvas.width + scanWidth) {
+                    scanX = -scanWidth;
+                    // Regenerate slice data
+                    for (let y = 0; y < sliceData.length; y++) {
+                        sliceData[y] = Math.random() * 0.3;
+                    }
+                }
+                phase++;
+
+                animationId = requestAnimationFrame(draw);
+            };
+            animationId = requestAnimationFrame(draw);
+        }
+
+        // MEDICAL-FUSION - Finite element grid + neural network + EKG (crisp lines, no glow)
+        if (effect === 'medical-fusion') {
+            // Grid configuration
+            const gridSpacingX = 40;
+            const gridSpacingY = 20;
+            let gridPhase = 0;
+
+            // Neural network nodes on grid intersections
+            const nodes: Array<{ x: number; y: number; baseX: number; baseY: number }> = [];
+            for (let gx = 0; gx <= canvas.width + gridSpacingX; gx += gridSpacingX) {
+                for (let gy = 0; gy <= canvas.height + gridSpacingY; gy += gridSpacingY) {
+                    nodes.push({
+                        x: gx,
+                        y: gy,
+                        baseX: gx,
+                        baseY: gy
+                    });
+                }
+            }
+
+            // EKG state
+            let ekgX = 0;
+            const ekgPoints: number[] = new Array(Math.ceil(canvas.width * 1.5)).fill(0);
+            let beatState = 0;
+            let timeSinceLastBeat = 0;
+            const baselineY = canvas.height * 0.5;
+
+            // Scan line state
+            let scanX = 0;
+
+            const getHeartbeatValue = (t: number) => {
+                if (t < 10) return -Math.sin(t * Math.PI / 10) * 2;
+                if (t >= 10 && t < 15) return 0;
+                if (t >= 15 && t < 35) {
+                    const phase = t - 15;
+                    if (phase < 2) return 1;
+                    if (phase < 5) return 3;
+                    if (phase < 10) return -18;
+                    if (phase < 15) return 5;
+                    return 0;
+                }
+                if (t >= 35 && t < 45) return 0;
+                if (t >= 45 && t < 65) return -Math.sin((t - 45) * Math.PI / 20) * 3;
+                return 0;
+            };
+
+            const draw = (timestamp: number) => {
+                // Throttle to target FPS
+                if (timestamp - lastFrameTime < frameInterval) {
+                    animationId = requestAnimationFrame(draw);
+                    return;
+                }
+                lastFrameTime = timestamp;
+
+                // Clear completely
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                gridPhase += 0.01;
+
+                // === LAYER 1: Finite Element Grid (subtle mesh) ===
+                ctx.globalAlpha = 0.15;
+                ctx.strokeStyle = 'rgba(0, 200, 180, 0.4)';
+                ctx.lineWidth = 0.5;
+
+                // Horizontal lines
+                for (let y = 0; y <= canvas.height; y += gridSpacingY) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+
+                // Vertical lines
+                for (let x = 0; x <= canvas.width; x += gridSpacingX) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+
+                // === LAYER 2: Neural Network Nodes (subtle dots at intersections) ===
+                ctx.globalAlpha = 0.25;
+
+                // Animate nodes with subtle wave
+                nodes.forEach((n, i) => {
+                    const wave = Math.sin(gridPhase * 2 + i * 0.1) * 1.5;
+                    n.x = n.baseX + wave;
+                    n.y = n.baseY + Math.cos(gridPhase * 1.5 + i * 0.15) * 1;
+                });
+
+                // Draw connections between nearby nodes
+                ctx.strokeStyle = 'rgba(0, 255, 200, 0.2)';
+                ctx.lineWidth = 0.5;
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const dx = nodes[i].x - nodes[j].x;
+                        const dy = nodes[i].y - nodes[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 50 && dist > 20) {
+                            ctx.beginPath();
+                            ctx.moveTo(nodes[i].x, nodes[i].y);
+                            ctx.lineTo(nodes[j].x, nodes[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                // Draw node points
+                ctx.fillStyle = 'rgba(0, 255, 200, 0.3)';
+                nodes.forEach(n => {
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, 1.5, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // === LAYER 3: Scan Line (finite element analysis style) ===
+                ctx.globalAlpha = 0.4;
+                scanX += 1.5;
+                if (scanX > canvas.width + 30) scanX = -30;
+
+                // Sharp scan line, no gradient glow
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(scanX, 0);
+                ctx.lineTo(scanX, canvas.height);
+                ctx.stroke();
+
+                // Trailing fade lines
+                for (let trail = 1; trail <= 4; trail++) {
+                    ctx.strokeStyle = `rgba(0, 200, 180, ${0.15 - trail * 0.03})`;
+                    ctx.beginPath();
+                    ctx.moveTo(scanX - trail * 8, 0);
+                    ctx.lineTo(scanX - trail * 8, canvas.height);
+                    ctx.stroke();
+                }
+
+                // === LAYER 4: EKG Pulse Line (crisp, no blur) ===
+                ctx.globalAlpha = 0.5;
+
+                // Update EKG data
+                for (let s = 0; s < 2; s++) {
+                    ekgX++;
+                    if (ekgX >= canvas.width) ekgX = 0;
+
+                    timeSinceLastBeat++;
+                    let yVal = 0;
+
+                    if (beatState === 0 && timeSinceLastBeat > 120 && Math.random() < 0.02) {
+                        beatState = 1;
+                        timeSinceLastBeat = 0;
+                    }
+
+                    if (beatState > 0) {
+                        yVal = getHeartbeatValue(beatState);
+                        beatState++;
+                        if (beatState > 70) {
+                            beatState = 0;
+                            timeSinceLastBeat = 0;
+                        }
+                    }
+                    yVal += (Math.random() - 0.5) * 0.5;
+
+                    if (ekgX < ekgPoints.length) {
+                        ekgPoints[ekgX] = yVal;
+                    }
+                }
+
+                // Draw EKG line - crisp, no shadow
+                ctx.lineWidth = 1.5;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = '#00ddaa';
+
+                const gap = 50;
+                ctx.beginPath();
+                let started = false;
+                for (let x = 0; x < canvas.width; x++) {
+                    if (x > ekgX && x < ekgX + gap) continue;
+                    if (x >= ekgPoints.length) break;
+
+                    const y = baselineY + ekgPoints[x];
+                    if (!started) { ctx.moveTo(x, y); started = true; }
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Cursor head - small dot
+                const headY = baselineY + ekgPoints[ekgX];
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.beginPath();
+                ctx.arc(ekgX, headY, 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.globalAlpha = 1;
+                animationId = requestAnimationFrame(draw);
+            };
+            animationId = requestAnimationFrame(draw);
+        }
+
+
         return () => {
             cancelAnimationFrame(animationId);
             window.removeEventListener('resize', resizeCanvas);
@@ -373,7 +662,7 @@ const HeaderBackground = memo(function HeaderBackground({ effect = 'data-stream'
             className="absolute inset-0 pointer-events-none"
             style={{
                 mixBlendMode: 'screen',
-                opacity: 0.4,
+                opacity: 0.6, // Increased for better visibility
             }}
         />
     );

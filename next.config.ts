@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
 
+  // Performance optimizations
+  experimental: {
+    optimizeCss: true, // Optimize CSS in production
+  },
+
   // ==========================================================================
   // SECURITY NOTE: Malicious paths like /lander are BLOCKED in proxy.ts
   // Proxy returns 410 GONE - no redirects, no chains, just dead end

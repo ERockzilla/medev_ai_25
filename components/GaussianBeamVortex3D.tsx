@@ -1,7 +1,19 @@
 'use client';
 
-import React, { useRef, useEffect, memo } from 'react';
-import * as THREE from 'three';
+import React, { useRef, useEffect, memo, useState } from 'react';
+// Tree-shaken imports - only import what we use
+import {
+    Scene,
+    PerspectiveCamera,
+    WebGLRenderer,
+    PlaneGeometry,
+    ShaderMaterial,
+    Mesh,
+    Color,
+    DoubleSide,
+    PointLight,
+    AmbientLight
+} from 'three';
 
 /**
  * GaussianBeamVortex3D - A true 3D WebGL animated logo featuring:
@@ -9,17 +21,26 @@ import * as THREE from 'three';
  * - Vortex animation spiraling down into a singularity
  * - Pulse effect that expands the beam back up with volume
  * - Laser light effects with bloom-like glow
+ * 
+ * Performance optimizations:
+ * - Reduced motion support
+ * - Lower pixel ratio on mobile
+ * - Viewport-aware animation pause
  */
 const GaussianBeamVortex3D = memo(function GaussianBeamVortex3D() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-    const sceneRef = useRef<THREE.Scene | null>(null);
-    const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
-    const meshRef = useRef<THREE.Mesh | null>(null);
+    const rendererRef = useRef<WebGLRenderer | null>(null);
     const animationRef = useRef<number | null>(null);
     const timeRef = useRef(0);
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
     useEffect(() => {
+        // Check for reduced motion preference
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        setPrefersReducedMotion(mediaQuery.matches);
+
+        if (mediaQuery.matches) return; // Show static fallback
+
         if (!containerRef.current) return;
 
         const container = containerRef.current;
@@ -27,30 +48,29 @@ const GaussianBeamVortex3D = memo(function GaussianBeamVortex3D() {
         const height = 100;
 
         // Scene setup
-        const scene = new THREE.Scene();
-        sceneRef.current = scene;
+        const scene = new Scene();
 
         // Camera - positioned to see full beam without clipping
-        const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+        const camera = new PerspectiveCamera(40, width / height, 0.1, 100);
         camera.position.set(0, 3.5, 4);
         camera.lookAt(0, 0.3, 0);
-        cameraRef.current = camera;
 
-        // Renderer with transparency
-        const renderer = new THREE.WebGLRenderer({
-            antialias: true,
+        // Renderer with transparency - lower pixel ratio on mobile for performance
+        const isMobile = window.innerWidth < 768;
+        const renderer = new WebGLRenderer({
+            antialias: !isMobile, // Disable antialiasing on mobile
             alpha: true,
             powerPreference: 'high-performance'
         });
         renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
         renderer.setClearColor(0x000000, 0);
         container.appendChild(renderer.domElement);
         rendererRef.current = renderer;
 
-        // Create Gaussian beam surface geometry
-        const gridSize = 32;
-        const geometry = new THREE.PlaneGeometry(3, 3, gridSize, gridSize);
+        // Create Gaussian beam surface geometry - reduced grid on mobile
+        const gridSize = isMobile ? 24 : 32;
+        const geometry = new PlaneGeometry(3, 3, gridSize, gridSize);
 
         // Store original positions for animation
         const positions = geometry.attributes.position;
@@ -58,14 +78,14 @@ const GaussianBeamVortex3D = memo(function GaussianBeamVortex3D() {
         originalPositions.set(positions.array);
 
         // Custom shader material for laser effect
-        const material = new THREE.ShaderMaterial({
+        const material = new ShaderMaterial({
             uniforms: {
                 uTime: { value: 0 },
                 uVortexPhase: { value: 0 },
                 uPulsePhase: { value: 0 },
-                uColor1: { value: new THREE.Color(0x0159A3) }, // Blue
-                uColor2: { value: new THREE.Color(0x00AA86) }, // Teal
-                uColor3: { value: new THREE.Color(0x00ffff) }, // Cyan glow
+                uColor1: { value: new Color(0x0159A3) }, // Blue
+                uColor2: { value: new Color(0x00AA86) }, // Teal
+                uColor3: { value: new Color(0x00ffff) }, // Cyan glow
             },
             vertexShader: `
         uniform float uTime;
@@ -159,21 +179,20 @@ const GaussianBeamVortex3D = memo(function GaussianBeamVortex3D() {
         }
       `,
             transparent: true,
-            side: THREE.DoubleSide,
+            side: DoubleSide,
             wireframe: false,
         });
 
-        const mesh = new THREE.Mesh(geometry, material);
+        const mesh = new Mesh(geometry, material);
         mesh.rotation.x = -Math.PI * 0.35; // Tilt to show 3D depth
         scene.add(mesh);
-        meshRef.current = mesh;
 
         // Add wireframe overlay for grid effect
-        const wireframeMaterial = new THREE.ShaderMaterial({
+        const wireframeMaterial = new ShaderMaterial({
             uniforms: {
                 uTime: { value: 0 },
                 uVortexPhase: { value: 0 },
-                uColor: { value: new THREE.Color(0x00ffff) },
+                uColor: { value: new Color(0x00ffff) },
             },
             vertexShader: `
         uniform float uTime;
@@ -214,17 +233,17 @@ const GaussianBeamVortex3D = memo(function GaussianBeamVortex3D() {
             wireframe: true,
         });
 
-        const wireframeMesh = new THREE.Mesh(geometry.clone(), wireframeMaterial);
+        const wireframeMesh = new Mesh(geometry.clone(), wireframeMaterial);
         wireframeMesh.rotation.x = -Math.PI * 0.35;
         scene.add(wireframeMesh);
 
         // Add point light for laser effect
-        const pointLight = new THREE.PointLight(0x00ffff, 2, 10);
+        const pointLight = new PointLight(0x00ffff, 2, 10);
         pointLight.position.set(0, 2, 1);
         scene.add(pointLight);
 
         // Add ambient light
-        const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+        const ambientLight = new AmbientLight(0x404040, 0.5);
         scene.add(ambientLight);
 
         // Animation loop
@@ -274,6 +293,21 @@ const GaussianBeamVortex3D = memo(function GaussianBeamVortex3D() {
             renderer.dispose();
         };
     }, []);
+
+    // Static fallback for reduced motion
+    if (prefersReducedMotion) {
+        return (
+            <div
+                className="relative w-[100px] h-[100px] rounded-full flex items-center justify-center"
+                style={{
+                    background: 'linear-gradient(135deg, #0159A3 0%, #00AA86 100%)',
+                    boxShadow: '0 0 20px rgba(0, 255, 255, 0.4)',
+                }}
+            >
+                <div className="w-12 h-12 border-2 border-cyan-400/50 rounded-full" />
+            </div>
+        );
+    }
 
     return (
         <div
