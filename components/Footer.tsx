@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { memo } from 'react';
+import GaussianBeamVortex3D from './GaussianBeamVortex3D';
 
 export default function Footer() {
   return (
@@ -145,23 +146,7 @@ export default function Footer() {
             </ul>
 
             {/* Author Attribution for E-E-A-T */}
-            <div className="mt-6 p-4 bg-slate-900/50 rounded-lg border border-slate-800">
-              <div className="text-xs text-slate-500 uppercase tracking-wider mb-2">Created by</div>
-              <a
-                href="https://www.linkedin.com/in/ericdrock/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-white hover:text-teal-400 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#0159A3] to-[#00AA86] flex items-center justify-center text-white font-bold text-sm">
-                  ER
-                </div>
-                <div>
-                  <div className="font-medium">Eric Rock</div>
-                  <div className="text-xs text-slate-400">Medical Device Specialist</div>
-                </div>
-              </a>
-            </div>
+            <BlackHoleEffectWrapper />
           </div>
         </div>
 
@@ -288,3 +273,23 @@ const RSSIcon = memo(function RSSIcon() {
   );
 });
 
+const BlackHoleEffectWrapper = memo(function BlackHoleEffectWrapper() {
+  return (
+    <div className="mt-6 p-5 bg-slate-900/50 rounded-lg border border-slate-800 hover:border-[#0159A3]/50 transition-all duration-300">
+      <a
+        href="https://www.linkedin.com/in/ericdrock/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-4 text-white hover:text-teal-400 transition-colors"
+      >
+        <div className="flex-shrink-0">
+          <GaussianBeamVortex3D />
+        </div>
+        <div className="flex flex-col justify-center">
+          <div className="font-semibold text-lg">Eric Rock</div>
+          <div className="text-sm text-slate-400">Medical Device Specialist</div>
+        </div>
+      </a>
+    </div>
+  );
+});

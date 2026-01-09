@@ -290,6 +290,21 @@ export default function MedicalDeviceTimeline() {
     return 'historical';
   };
 
+  // Filter by era
+  const currentEraEvents = filteredEvents.filter(event => {
+    if (selectedEra === 'all') return true;
+    const era = getCurrentEra(event.year);
+    if (selectedEra === 'ancient') return era === 'ancient';
+    if (selectedEra === 'historical') return era === 'historical';
+    if (selectedEra === 'recent') return era === 'recent';
+    if (selectedEra === 'future') return event.isFuture;
+    return true;
+  });
+
+  const displayedEvents = currentEraEvents.slice(0, visibleCount);
+  const hasMore = currentEraEvents.length > visibleCount;
+  const totalCount = currentEraEvents.length;
+
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-8">
       {/* Header */}
@@ -415,198 +430,176 @@ export default function MedicalDeviceTimeline() {
         </div>
       </div>
 
-      {/* Timeline */}
+      {/* Timeline Content Block */}
       <div className="relative">
-        {/* Vertical Line - stops before the load more/show less buttons */}
-        <div className="absolute left-4 md:left-8 top-0 w-0.5 bg-gradient-to-b from-gray-300 via-blue-300 to-purple-300" style={{ bottom: '60px' }}></div>
+        {/* Vertical Line - contained within this relative block, spans full height */}
+        <div className="absolute left-4 md:left-8 top-0 bottom-6 w-0.5 bg-gradient-to-b from-gray-300 via-blue-300 to-purple-300 rounded-full"></div>
 
         {/* Events */}
-        <div className="space-y-6">
-          {(() => {
-            // Filter by era first
-            const eraFiltered = filteredEvents.filter(event => {
-              if (selectedEra === 'all') return true;
-              const era = getCurrentEra(event.year);
-              if (selectedEra === 'ancient') return era === 'ancient';
-              if (selectedEra === 'historical') return era === 'historical';
-              if (selectedEra === 'recent') return era === 'recent';
-              if (selectedEra === 'future') return event.isFuture;
-              return true;
-            });
-            // Show only visibleCount items
-            const displayedEvents = eraFiltered.slice(0, visibleCount);
-            const hasMore = eraFiltered.length > visibleCount;
-            const totalCount = eraFiltered.length;
+        <div className="space-y-6 pb-6">
+          {displayedEvents.map((event, index) => {
+            const era = getCurrentEra(event.year);
+            const isAncient = era === 'ancient';
+            const isHistorical = era === 'historical';
+            const isRecent = era === 'recent';
+            const isFuture = event.isFuture;
 
             return (
-              <>
-                {displayedEvents.map((event, index) => {
-                  const era = getCurrentEra(event.year);
-                  const isAncient = era === 'ancient';
-                  const isHistorical = era === 'historical';
-                  const isRecent = era === 'recent';
-                  const isFuture = event.isFuture;
+              <div key={index} className="relative pl-10 md:pl-20">
+                {/* Dot on timeline */}
+                <div className={`absolute left-2 md:left-6 top-2 w-3 h-3 md:w-5 md:h-5 rounded-full border-2 md:border-4 z-10 ${isFuture
+                  ? 'border-purple-400 bg-purple-100'
+                  : isRecent
+                    ? 'border-blue-500 bg-blue-200'
+                    : isAncient
+                      ? 'border-amber-500 bg-amber-200'
+                      : 'border-gray-400 bg-gray-200'
+                  }`}></div>
 
-                  return (
-                    <div key={index} className="relative pl-10 md:pl-20">
-                      {/* Dot on timeline */}
-                      <div className={`absolute left-2 md:left-6 top-2 w-3 h-3 md:w-5 md:h-5 rounded-full border-2 md:border-4 ${isFuture
-                        ? 'border-purple-400 bg-purple-100'
-                        : isRecent
-                          ? 'border-blue-500 bg-blue-200'
-                          : isAncient
-                            ? 'border-amber-500 bg-amber-200'
-                            : 'border-gray-400 bg-gray-200'
-                        }`}></div>
-
-                      {/* Event Card */}
-                      <div className={`border-l-4 rounded-lg p-2 md:p-4 transition-all hover:shadow-md ${categoryColors[event.category]} ${isFuture ? 'relative overflow-hidden' : ''
-                        }`}>
+                {/* Event Card */}
+                <div className={`border-l-4 rounded-lg p-3 md:p-4 transition-all hover:shadow-md ${categoryColors[event.category]} ${isFuture ? 'relative overflow-hidden' : ''
+                  }`}>
+                  {isFuture && (
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-100 to-transparent opacity-30 rounded-bl-full"></div>
+                  )}
+                  <div className="relative flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-2 flex-wrap flex-1">
+                      {(() => {
+                        const IconComponent = categoryIcons[event.category];
+                        return <IconComponent className={`w-5 h-5 ${isFuture ? 'text-purple-600' : ''}`} />;
+                      })()}
+                      <div className="flex items-center gap-1 md:gap-2 flex-wrap">
+                        <span className={`px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-bold ${isFuture
+                          ? 'bg-gradient-to-r from-purple-100 to-purple-50 text-purple-800 border border-purple-200'
+                          : isRecent
+                            ? 'bg-blue-200 text-blue-900'
+                            : isAncient
+                              ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                              : 'bg-gray-200 text-gray-900'
+                          }`}>
+                          {event.year}
+                        </span>
                         {isFuture && (
-                          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-100 to-transparent opacity-30 rounded-bl-full"></div>
-                        )}
-                        <div className="relative flex items-start justify-between mb-2">
-                          <div className="flex items-center gap-2 flex-wrap flex-1">
-                            {(() => {
-                              const IconComponent = categoryIcons[event.category];
-                              return <IconComponent className={`w-5 h-5 ${isFuture ? 'text-purple-600' : ''}`} />;
-                            })()}
-                            <div className="flex items-center gap-1 md:gap-2 flex-wrap">
-                              <span className={`px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-bold ${isFuture
-                                ? 'bg-gradient-to-r from-purple-100 to-purple-50 text-purple-800 border border-purple-200'
-                                : isRecent
-                                  ? 'bg-blue-200 text-blue-900'
-                                  : isAncient
-                                    ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                                    : 'bg-gray-200 text-gray-900'
-                                }`}>
-                                {event.year}
-                              </span>
-                              {isFuture && (
-                                <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-purple-50 border border-purple-200">
-                                  <Lightbulb className="w-3 h-3 text-purple-600" />
-                                  <span className="text-xs font-semibold text-purple-700">Future</span>
-                                </div>
-                              )}
-                            </div>
+                          <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-purple-50 border border-purple-200">
+                            <Lightbulb className="w-3 h-3 text-purple-600" />
+                            <span className="text-xs font-semibold text-purple-700">Future</span>
                           </div>
-                          {event.link && (
-                            <a
-                              href={event.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-1 text-gray-600 hover:text-gray-900 transition-colors ml-2"
-                              title="Learn more"
-                            >
-                              <ExternalLink className="w-4 h-4" />
-                            </a>
-                          )}
-                        </div>
-                        <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1 relative">{event.title}</h3>
-                        <p className="text-xs md:text-sm text-gray-700 mb-2 relative">{event.description}</p>
-                        {event.confidenceLevels && (
-                          <>
-                            {/* Desktop: Full confidence timeline */}
-                            <div className="hidden md:block relative mt-3 pt-3 border-t border-purple-100">
-                              <div className="text-xs font-semibold text-purple-700 mb-2">Confidence Timeline:</div>
-                              <div className="space-y-2">
-                                {event.confidenceLevels.map((level, idx) => {
-                                  const confidence = level.confidence;
-                                  return (
-                                    <div key={idx} className="flex items-center gap-3">
-                                      <div className="flex-1">
-                                        <div className="flex items-center justify-between mb-1">
-                                          <span className="text-xs font-medium text-gray-700">{level.year}</span>
-                                          <span className="text-xs font-semibold text-purple-700">{confidence}%</span>
-                                        </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                                          <div
-                                            className="h-full bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 rounded-full transition-all duration-300"
-                                            style={{ width: `${confidence}%` }}
-                                          ></div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                            {/* Mobile: Compact inline badges */}
-                            <div className="md:hidden flex items-center gap-1.5 mt-2 flex-wrap">
-                              <span className="text-[10px] text-purple-600 font-medium">Confidence:</span>
-                              {event.confidenceLevels.slice(0, 2).map((level, idx) => (
-                                <span key={idx} className="px-1.5 py-0.5 bg-purple-50 rounded text-[10px] text-purple-700 font-medium">
-                                  {level.year}: {level.confidence}%
-                                </span>
-                              ))}
-                            </div>
-                          </>
                         )}
                       </div>
                     </div>
-                  );
-                })}
-
-                {/* Load More / Show Less Buttons */}
-                {(hasMore || visibleCount > ITEMS_PER_PAGE) && (
-                  <div className="flex items-center justify-center gap-3 pt-4">
-                    {visibleCount > ITEMS_PER_PAGE && (
-                      <button
-                        onClick={() => setVisibleCount(ITEMS_PER_PAGE)}
-                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all"
+                    {event.link && (
+                      <a
+                        href={event.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-gray-600 hover:text-gray-900 transition-colors ml-2"
+                        title="Learn more"
                       >
-                        <ChevronUp className="w-4 h-4" />
-                        Show Less
-                      </button>
-                    )}
-                    {hasMore && (
-                      <button
-                        onClick={() => setVisibleCount(prev => prev + ITEMS_PER_PAGE)}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-[1.02]"
-                        style={{
-                          background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-                          color: 'white',
-                          boxShadow: '0 4px 12px rgba(30,41,59,0.25)',
-                        }}
-                      >
-                        <ChevronDown className="w-4 h-4" />
-                        Load More ({totalCount - visibleCount} remaining)
-                      </button>
-                    )}
-                    {hasMore && (
-                      <button
-                        onClick={() => setVisibleCount(totalCount)}
-                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all"
-                      >
-                        Show All
-                      </button>
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
                     )}
                   </div>
-                )}
-              </>
+                  <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1 relative">{event.title}</h3>
+                  <p className="text-xs md:text-sm text-gray-700 mb-2 relative">{event.description}</p>
+                  {event.confidenceLevels && (
+                    <>
+                      {/* Desktop: Full confidence timeline */}
+                      <div className="hidden md:block relative mt-3 pt-3 border-t border-purple-100">
+                        <div className="text-xs font-semibold text-purple-700 mb-2">Confidence Timeline:</div>
+                        <div className="space-y-2">
+                          {event.confidenceLevels.map((level, idx) => {
+                            const confidence = level.confidence;
+                            return (
+                              <div key={idx} className="flex items-center gap-3">
+                                <div className="flex-1">
+                                  <div className="flex items-center justify-between mb-1">
+                                    <span className="text-xs font-medium text-gray-700">{level.year}</span>
+                                    <span className="text-xs font-semibold text-purple-700">{confidence}%</span>
+                                  </div>
+                                  <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                                    <div
+                                      className="h-full bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 rounded-full transition-all duration-300"
+                                      style={{ width: `${confidence}%` }}
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      {/* Mobile: Compact inline badges */}
+                      <div className="md:hidden flex items-center gap-1.5 mt-2 flex-wrap">
+                        <span className="text-[10px] text-purple-600 font-medium">Confidence:</span>
+                        {event.confidenceLevels.slice(0, 2).map((level, idx) => (
+                          <span key={idx} className="px-1.5 py-0.5 bg-purple-50 rounded text-[10px] text-purple-700 font-medium">
+                            {level.year}: {level.confidence}%
+                          </span>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
             );
-          })()}
+          })}
         </div>
+      </div>
 
+      {/* Pagination Controls - Separated from Timeline */}
+      {(hasMore || visibleCount > ITEMS_PER_PAGE) && (
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-6 border-t border-gray-100 mt-2">
+          {visibleCount > ITEMS_PER_PAGE && (
+            <button
+              onClick={() => setVisibleCount(ITEMS_PER_PAGE)}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 transition-all shadow-sm"
+            >
+              <ChevronUp className="w-4 h-4" />
+              Show Less
+            </button>
+          )}
 
-        {/* Era Labels - Hidden on mobile */}
-        <div className="hidden md:flex mt-8 pl-20 items-center justify-center gap-4 text-sm flex-wrap">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-            <span className="text-gray-600">Ancient (Pre-1800)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-            <span className="text-gray-600">Historical (1800-2010)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-            <span className="text-gray-600">Recent Past (2010-2025)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-purple-400"></div>
-            <span className="text-gray-600">Future Projections (2025+)</span>
-          </div>
+          {hasMore && (
+            <button
+              onClick={() => setVisibleCount(prev => prev + ITEMS_PER_PAGE)}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-bold text-white rounded-lg transition-all duration-200 hover:scale-[1.02] shadow-md hover:shadow-lg"
+              style={{
+                background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+              }}
+            >
+              <ChevronDown className="w-4 h-4" />
+              Load More ({totalCount - visibleCount} remaining)
+            </button>
+          )}
+
+          {hasMore && (
+            <button
+              onClick={() => setVisibleCount(totalCount)}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 transition-all shadow-sm"
+            >
+              Show All
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Era Labels - Hidden on mobile */}
+      <div className="hidden md:flex mt-8 pl-20 items-center justify-center gap-4 text-sm flex-wrap">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+          <span className="text-gray-600">Ancient (Pre-1800)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-gray-400"></div>
+          <span className="text-gray-600">Historical (1800-2010)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+          <span className="text-gray-600">Recent Past (2010-2025)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-purple-400"></div>
+          <span className="text-gray-600">Future Projections (2025+)</span>
         </div>
       </div>
     </div>

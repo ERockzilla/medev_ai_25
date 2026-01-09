@@ -11,8 +11,8 @@ export default function FDAESTARTemplatePage() {
         organization: 'FDA',
         effectiveDate: '2023 (Mandatory for most 510(k)s)',
         category: 'premarket',
-        regulationUrl: 'https://www.fda.gov/medical-devices/premarket-submissions/estartemplate',
-        guidanceUrl: 'https://www.fda.gov/medical-devices/premarket-submissions/estartemplate',
+        regulationUrl: 'https://www.fda.gov/medical-devices/how-study-and-market-your-device/estar-program',
+        guidanceUrl: 'https://www.fda.gov/medical-devices/how-study-and-market-your-device/estar-program',
       }}
       overview={{
         scope: 'eSTAR (electronic Submission Template And Resource) is FDA\'s structured electronic submission template for 510(k) premarket notifications. eSTAR provides a guided, interactive format for preparing 510(k) submissions with built-in validation checks and automatic organization. FDA strongly recommends eSTAR for all 510(k) submissions, and it may become mandatory for certain device types.',
