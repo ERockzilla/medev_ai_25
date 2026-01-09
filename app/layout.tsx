@@ -98,7 +98,9 @@ export default function RootLayout({
         <StructuredData data={generateOrganizationSchema()} />
         <StructuredData data={generateWebSiteSchema()} />
         <Providers>
-          {children}
+          <main id="main-content">
+            {children}
+          </main>
         </Providers>
       </body>
     </html>

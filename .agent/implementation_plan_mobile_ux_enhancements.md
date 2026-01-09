@@ -18,6 +18,44 @@ This plan outlines enhancements to improve the mobile experience and add dynamic
 
 ---
 
+## Phase 0: Deployment Prerequisites ✅
+
+### Overview
+Address security vulnerabilities, dependency updates, and pre-deployment checks to ensure successful AWS Amplify builds.
+
+### Task 0.1: Fix Security Vulnerabilities ✅
+**Completed:** 2026-01-08
+**Issue:** Preact 10.27.0 - 10.27.2 had a high severity JSON VNode Injection vulnerability (GHSA-36hm-qxxp-pg3m)
+**Resolution:** Ran `npm audit fix` to update preact to patched version
+
+**Pre-Deployment Checklist:**
+```bash
+# Always run before deployment
+npm audit              # Check for vulnerabilities
+npm audit fix          # Auto-fix if any found
+npm run build          # Verify build succeeds locally
+```
+
+### Task 0.2: Dependency Health Checks
+**Complexity:** 1/10
+
+Before each deployment, ensure:
+- [ ] `npm audit` returns 0 vulnerabilities
+- [ ] `npm run build` completes without errors
+- [ ] No TypeScript errors in build output
+- [ ] All environment variables are set in Amplify
+
+### Task 0.3: Known Deployment Issues & Solutions
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| High severity vulnerability | Outdated preact | `npm audit fix` |
+| Build timeout | Large bundle/slow CSS optimization | Increase build timeout in Amplify |
+| Missing env vars | Not configured in Amplify | Add to Amplify Console > Environment variables |
+| TypeScript errors | Type mismatches | Fix locally before push |
+
+---
+
 ## Phase 1: Dynamic Header Background Effects
 
 ### Overview

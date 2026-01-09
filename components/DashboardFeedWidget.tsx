@@ -151,13 +151,14 @@ export default function DashboardFeedWidget({ maxItems = 12 }: DashboardFeedWidg
     }
 
     return (
-        <div
+        <section
             ref={containerRef}
             tabIndex={0}
             onKeyDown={handleKeyDown}
             className="focus:outline-none h-full flex flex-col"
-            role="listbox"
-            aria-label="RSS Feed items"
+            role="feed"
+            aria-label="RSS news articles"
+            aria-busy={loading}
         >
             {/* Feed Items - fills available space */}
             <div className="flex-1 overflow-y-auto divide-y divide-gray-100">
@@ -213,6 +214,6 @@ export default function DashboardFeedWidget({ maxItems = 12 }: DashboardFeedWidg
                     <ExternalLink className="w-3 h-3" />
                 </a>
             </div>
-        </div>
+        </section>
     );
 }

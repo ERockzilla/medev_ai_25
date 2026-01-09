@@ -19,7 +19,7 @@ interface MobileRSSFeedProps {
 // Animated incoming data icon - shows streaming signal bars
 function LiveSignalIcon() {
     return (
-        <div className="flex items-center gap-[2px]" aria-label="Live feed">
+        <div className="flex items-center gap-[2px]" role="img" aria-label="Live feed indicator">
             <span className="w-[3px] h-2 bg-emerald-400 rounded-sm animate-pulse" style={{ animationDelay: '0ms' }} />
             <span className="w-[3px] h-3 bg-emerald-400 rounded-sm animate-pulse" style={{ animationDelay: '150ms' }} />
             <span className="w-[3px] h-4 bg-emerald-400 rounded-sm animate-pulse" style={{ animationDelay: '300ms' }} />
@@ -135,7 +135,7 @@ export default function MobileRSSFeed({ items: propItems, autoScrollSpeed = 3000
     if (items.length === 0) return null;
 
     return (
-        <div className="w-full min-w-0 bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <section aria-label="RSS News Feed" className="w-full min-w-0 bg-white border border-gray-200 rounded-lg overflow-hidden">
             <div className="flex items-center justify-between px-3 py-2 bg-gradient-to-r from-slate-800 to-slate-700">
                 <div className="flex items-center gap-2">
                     <LiveSignalIcon />
@@ -186,6 +186,6 @@ export default function MobileRSSFeed({ items: propItems, autoScrollSpeed = 3000
                     </a>
                 ))}
             </div>
-        </div>
+        </section>
     );
 }

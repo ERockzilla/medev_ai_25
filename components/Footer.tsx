@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { memo } from 'react';
@@ -40,7 +42,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#0159A3] font-semibold rounded-lg hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 Contact Us
               </a>
@@ -77,7 +79,7 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-            <p className="text-slate-400 text-sm leading-relaxed mb-6">
+            <p className="text-slate-300 text-sm leading-relaxed mb-6">
               Actionable intelligence for medical device professionals. Navigate compliance,
               design, and development with confidence.
             </p>
@@ -176,6 +178,7 @@ export default function Footer() {
                 width={180}
                 height={48}
                 className="h-12 w-auto object-contain"
+                style={{ width: 'auto', height: 'auto' }}
                 loading="lazy"
               />
             </a>
@@ -184,10 +187,10 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-slate-800/50 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-slate-500 text-sm">
+          <p className="text-slate-400 text-sm">
             © {new Date().getFullYear()} medev.ai. All rights reserved.
           </p>
-          <div className="flex items-center gap-6 text-slate-500 text-sm">
+          <div className="flex items-center gap-6 text-slate-400 text-sm">
             <span>Built for medical device professionals</span>
             <span className="hidden md:inline">•</span>
             <span className="hidden md:inline">ISO 13485 Focused</span>
@@ -206,7 +209,7 @@ const FooterLink = memo(function FooterLink({ href, children, external = false }
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-slate-400 hover:text-white text-sm transition-colors inline-flex items-center gap-1 hover:translate-x-1 transform duration-200"
+          className="text-slate-300 hover:text-white text-sm transition-colors inline-flex items-center gap-1 hover:translate-x-1 transform duration-200"
         >
           {children}
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -221,7 +224,7 @@ const FooterLink = memo(function FooterLink({ href, children, external = false }
     <li>
       <Link
         href={href}
-        className="text-slate-400 hover:text-white text-sm transition-colors inline-block hover:translate-x-1 transform duration-200"
+        className="text-slate-300 hover:text-white text-sm transition-colors inline-block hover:translate-x-1 transform duration-200"
       >
         {children}
       </Link>
