@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, TrendingUp, History, Lightbulb, FlaskConical, Scale, ClipboardCheck, ExternalLink, Zap, ChevronDown, ChevronUp } from 'lucide-react';
+import { Lightbulb, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 
 type TimelineCategory = 'design' | 'regulations' | 'standards' | 'laser';
 
@@ -205,12 +205,12 @@ const TIMELINE_DATA: TimelineEvent[] = [
 
 type EraFilter = 'ancient' | 'historical' | 'recent' | 'future' | 'all';
 
-const ERA_OPTIONS: { value: EraFilter; label: string; color: string; years: string }[] = [
-  { value: 'ancient', label: 'Ancient', color: 'bg-amber-500', years: 'Pre-1800' },
-  { value: 'historical', label: 'Historical', color: 'bg-gray-400', years: '1800-2010' },
-  { value: 'recent', label: 'Recent Past', color: 'bg-blue-500', years: '2010-2025' },
-  { value: 'future', label: 'Future', color: 'bg-emerald-500', years: '2025+' },
-  { value: 'all', label: 'Full Timeline', color: 'bg-gradient-to-r from-amber-500 via-blue-500 to-emerald-500', years: 'All Eras' },
+const ERA_OPTIONS: { value: EraFilter; label: string; borderColor: string; bgColor: string; years: string }[] = [
+  { value: 'ancient', label: 'Ancient', borderColor: 'border-amber-500', bgColor: 'bg-amber-200', years: 'Pre-1800' },
+  { value: 'historical', label: 'Historical', borderColor: 'border-gray-400', bgColor: 'bg-gray-200', years: '1800-2010' },
+  { value: 'recent', label: 'Recent Past', borderColor: 'border-blue-500', bgColor: 'bg-blue-200', years: '2010-2025' },
+  { value: 'future', label: 'Future', borderColor: 'border-purple-400', bgColor: 'bg-purple-100', years: '2025+' },
+  { value: 'all', label: 'Full Timeline', borderColor: 'border-gray-400', bgColor: 'bg-gradient-to-r from-amber-200 via-blue-200 to-purple-100', years: 'All Eras' },
 ];
 
 const ITEMS_PER_PAGE = 10;
@@ -264,12 +264,7 @@ export default function MedicalDeviceTimeline() {
     laser: 'border-yellow-500 bg-yellow-50 text-yellow-700',
   };
 
-  const categoryIcons = {
-    design: FlaskConical,
-    regulations: Scale,
-    standards: ClipboardCheck,
-    laser: Zap,
-  };
+
 
   const getCurrentEra = (year: string) => {
     if (year.includes('-')) {
@@ -296,7 +291,7 @@ export default function MedicalDeviceTimeline() {
     const era = getCurrentEra(event.year);
     if (selectedEra === 'ancient') return era === 'ancient';
     if (selectedEra === 'historical') return era === 'historical';
-    if (selectedEra === 'recent') return era === 'recent';
+    if (selectedEra === 'recent') return era === 'recent' && !event.isFuture;
     if (selectedEra === 'future') return event.isFuture;
     return true;
   });
@@ -374,10 +369,9 @@ export default function MedicalDeviceTimeline() {
           </div>
         </div>
 
-        {/* Era Selector - Above Timeline */}
-        <div className="mt-4 flex items-center gap-3">
-          <span className="text-sm font-medium text-gray-600">Time Period:</span>
-          <div className="relative">
+        {/* Era Selector - Left aligned */}
+        <div className="mt-4">
+          <div className="relative inline-block">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-[1.02]"
@@ -387,7 +381,10 @@ export default function MedicalDeviceTimeline() {
                 border: '1px solid rgba(0,0,0,0.08)',
               }}
             >
-              <div className={`w-2.5 h-2.5 rounded-full ${ERA_OPTIONS.find(e => e.value === selectedEra)?.color || 'bg-gray-400'}`} />
+              {(() => {
+                const era = ERA_OPTIONS.find(e => e.value === selectedEra);
+                return <div className={`w-3 h-3 rounded-full border-2 ${era?.borderColor || 'border-gray-400'} ${era?.bgColor || 'bg-gray-200'}`} />;
+              })()}
               <span className="text-sm text-gray-800">
                 {ERA_OPTIONS.find(e => e.value === selectedEra)?.label}
               </span>
@@ -414,7 +411,7 @@ export default function MedicalDeviceTimeline() {
                     }}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-all duration-150 hover:bg-gray-50 ${selectedEra === era.value ? 'bg-blue-50' : ''} ${idx !== ERA_OPTIONS.length - 1 ? 'border-b border-gray-100' : ''}`}
                   >
-                    <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${era.color}`} />
+                    <div className={`w-3 h-3 rounded-full border-2 flex-shrink-0 ${era.borderColor} ${era.bgColor}`} />
                     <div className="flex-1">
                       <div className="text-sm font-medium text-gray-800">{era.label}</div>
                       <div className="text-xs text-gray-500">{era.years}</div>
@@ -464,10 +461,6 @@ export default function MedicalDeviceTimeline() {
                   )}
                   <div className="relative flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2 flex-wrap flex-1">
-                      {(() => {
-                        const IconComponent = categoryIcons[event.category];
-                        return <IconComponent className={`w-5 h-5 ${isFuture ? 'text-purple-600' : ''}`} />;
-                      })()}
                       <div className="flex items-center gap-1 md:gap-2 flex-wrap">
                         <span className={`px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[10px] md:text-xs font-bold ${isFuture
                           ? 'bg-gradient-to-r from-purple-100 to-purple-50 text-purple-800 border border-purple-200'

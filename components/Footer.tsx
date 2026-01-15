@@ -300,7 +300,7 @@ const BlackHoleEffectWrapper = memo(function BlackHoleEffectWrapper() {
         </div>
         <div className="flex flex-col justify-center">
           <div className="font-semibold text-lg">Eric Rock</div>
-          <div className="text-sm text-slate-400">What up Paul?!</div>
+          <div className="text-sm text-slate-400">Medical Systems Specialist</div>
         </div>
       </a>
     </div>
