@@ -122,10 +122,10 @@ export default function RegulatoryPathwayPage() {
                     <td className="px-4 py-3 text-center text-sm text-red-700">Usually</td>
                   </tr>
                   <tr className="hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm font-medium text-gray-900">FDA User Fee (2024)</td>
-                    <td className="px-4 py-3 text-center text-sm text-green-700">~$21,000</td>
-                    <td className="px-4 py-3 text-center text-sm text-blue-700">~$124,000</td>
-                    <td className="px-4 py-3 text-center text-sm text-red-700">~$425,000</td>
+                    <td className="px-4 py-3 text-sm font-medium text-gray-900">FDA User Fee (FY2026)</td>
+                    <td className="px-4 py-3 text-center text-sm text-green-700">$26,067</td>
+                    <td className="px-4 py-3 text-center text-sm text-blue-700">$173,782</td>
+                    <td className="px-4 py-3 text-center text-sm text-red-700">$579,272</td>
                   </tr>
                   <tr className="hover:bg-gray-50">
                     <td className="px-4 py-3 text-sm font-medium text-gray-900">Review Timeline</td>

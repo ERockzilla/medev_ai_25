@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Download, AlertTriangle, Info, CheckCircle, RotateCcw, FileText, Scale, ExternalLink, Beaker, Smartphone, Monitor } from 'lucide-react';
+import { Download, AlertTriangle, Info, CheckCircle, RotateCcw, FileText, Scale, ExternalLink, Beaker, Smartphone, Monitor, Building2 } from 'lucide-react';
 
 type PathwayType =
   // 510(k) Variants
@@ -35,6 +35,7 @@ interface PathwayResult {
   description: string;
   timeline: string;
   userFee: string;
+  smallBusinessFee?: string;
   whenToUse: string[];
   requirements: string[];
   advantages: string[];
@@ -57,7 +58,8 @@ const PATHWAY_DATA: Record<PathwayType, PathwayResult> = {
     fdaLink: 'https://www.fda.gov/medical-devices/premarket-submissions-selecting-and-preparing-correct-submission/premarket-notification-510k',
     description: 'Standard 510(k) submission demonstrating substantial equivalence to a predicate device.',
     timeline: '90-180 days (FDA goal: 90 days)',
-    userFee: '~$22,500 (FY2025)',
+    userFee: '$26,067 (FY2026)',
+    smallBusinessFee: '$6,517 (FY2026)',
     whenToUse: [
       'Device has a valid predicate',
       'Same intended use as predicate',
@@ -94,7 +96,8 @@ const PATHWAY_DATA: Record<PathwayType, PathwayResult> = {
     fdaLink: 'https://www.fda.gov/medical-devices/premarket-notification-510k/special-510k-program',
     description: 'Expedited review for modifications to your own legally marketed device with design controls.',
     timeline: '30 days (FDA goal)',
-    userFee: '~$22,500 (FY2025)',
+    userFee: '$26,067 (FY2026)',
+    smallBusinessFee: '$6,517 (FY2026)',
     whenToUse: [
       'Modification to your own cleared device',
       'Change doesn\'t affect intended use',
@@ -128,30 +131,32 @@ const PATHWAY_DATA: Record<PathwayType, PathwayResult> = {
     clinicalDataRequired: 'never',
     regulation: '21 CFR 807 Subpart E',
     fdaLink: 'https://www.fda.gov/medical-devices/premarket-notification-510k/abbreviated-510k-program',
-    description: 'Relies on FDA guidance, special controls, or recognized standards for substantial equivalence.',
+    description: 'Limited pathway that relies on FDA-published performance criteria or special controls as the PRIMARY basis for substantial equivalence. Only available for specific device types.',
     timeline: '60-90 days',
-    userFee: '~$22,500 (FY2025)',
+    userFee: '$26,067 (FY2026)',
+    smallBusinessFee: '$6,517 (FY2026)',
     whenToUse: [
-      'FDA guidance document applies to your device',
-      'Special controls have been established',
-      'Recognized consensus standards apply',
-      'Can demonstrate conformance to standards',
+      'FDA has published device-specific performance criteria',
+      'Special controls establish specific requirements for your device type',
+      'You can demonstrate conformance as primary SE basis',
+      'Device is on FDA\'s list of eligible device types',
     ],
     requirements: [
-      'Declaration of conformance to guidance/standard',
-      'Summary report referencing guidance',
+      'Declaration of conformance to FDA criteria',
+      'Summary report referencing specific guidance',
       'Conformance test data or certification',
       'Comparison to predicate',
     ],
     advantages: [
-      'Streamlined if guidance/standards apply',
-      'Clear acceptance criteria',
-      'May reduce testing burden',
+      'Streamlined review when applicable',
+      'Clear FDA-defined acceptance criteria',
+      'May reduce testing compared to Traditional',
     ],
     limitations: [
-      'Must have applicable guidance or standard',
+      'Very limited device type applicability',
+      'Most devices NOT eligible',
       'Still need predicate device',
-      'Limited applicability',
+      'Check FDA list before assuming eligibility',
     ],
   },
   '510k-safety-performance': {
@@ -162,29 +167,32 @@ const PATHWAY_DATA: Record<PathwayType, PathwayResult> = {
     clinicalDataRequired: 'never',
     regulation: '21 CFR 807 Subpart E',
     fdaLink: 'https://www.fda.gov/medical-devices/premarket-notification-510k/safety-and-performance-based-pathway',
-    description: 'Uses FDA-identified performance criteria to demonstrate substantial equivalence without direct predicate comparison.',
+    description: 'Limited pathway using FDA-published performance criteria to demonstrate SE without direct predicate comparison. Only for specific device types listed by FDA.',
     timeline: '60-90 days',
-    userFee: '~$22,500 (FY2025)',
+    userFee: '$26,067 (FY2026)',
+    smallBusinessFee: '$6,517 (FY2026)',
     whenToUse: [
-      'FDA has published performance criteria for device type',
-      'Device meets all identified performance criteria',
+      'Device type is on FDA\'s published eligibility list',
+      'FDA has published specific performance criteria',
+      'Device meets ALL identified performance criteria',
       'Want to avoid direct predicate testing comparison',
     ],
     requirements: [
-      'Performance testing to FDA criteria',
+      'Performance testing to FDA-specified criteria',
       'Declaration of meeting all criteria',
       'Device description',
       'Labeling',
     ],
     advantages: [
-      'No need for head-to-head predicate testing',
-      'Clear performance benchmarks',
+      'No head-to-head predicate testing needed',
+      'Clear FDA-defined performance benchmarks',
       'Potentially faster review',
     ],
     limitations: [
-      'Only available for specific device types',
-      'Must meet ALL FDA criteria',
-      'Limited device coverage currently',
+      'Very limited device type eligibility',
+      'Must meet ALL FDA criteria exactly',
+      'Check FDA eligibility list first',
+      'Most devices NOT eligible',
     ],
   },
   'de-novo': {
@@ -197,7 +205,8 @@ const PATHWAY_DATA: Record<PathwayType, PathwayResult> = {
     fdaLink: 'https://www.fda.gov/medical-devices/premarket-submissions-selecting-and-preparing-correct-submission/de-novo-classification-request',
     description: 'Classification pathway for novel devices with no predicate that are low-to-moderate risk.',
     timeline: '150 days (FDA goal)',
-    userFee: '~$140,000 (FY2025)',
+    userFee: '$173,782 (FY2026)',
+    smallBusinessFee: '$43,446 (FY2026)',
     whenToUse: [
       'Novel device with no predicate',
       'Low-to-moderate risk profile',
@@ -233,7 +242,8 @@ const PATHWAY_DATA: Record<PathwayType, PathwayResult> = {
     fdaLink: 'https://www.fda.gov/medical-devices/premarket-submissions-selecting-and-preparing-correct-submission/premarket-approval-pma',
     description: 'Most stringent pathway for Class III devices requiring clinical evidence of safety and effectiveness.',
     timeline: '180 days FDA review + clinical trial time (often 1-5 years total)',
-    userFee: '~$445,000 (FY2025)',
+    userFee: '$579,272 (FY2026)',
+    smallBusinessFee: '$144,818 (FY2026)',
     whenToUse: [
       'Class III device',
       'Life-sustaining or life-supporting',
@@ -261,7 +271,7 @@ const PATHWAY_DATA: Record<PathwayType, PathwayResult> = {
   },
   'pma-supplement': {
     pathway: 'PMA Supplement',
-    fullName: 'PMA Supplement (180-day, Real-Time, Special)',
+    fullName: 'PMA Supplement (180-day, Real-Time, Panel-Track)',
     color: 'orange',
     category: 'premarket',
     clinicalDataRequired: 'sometimes',
@@ -269,7 +279,8 @@ const PATHWAY_DATA: Record<PathwayType, PathwayResult> = {
     fdaLink: 'https://www.fda.gov/medical-devices/premarket-approval-pma/pma-supplements-and-amendments',
     description: 'For modifications to PMA-approved devices. Different types based on change significance.',
     timeline: '30-180 days depending on type',
-    userFee: 'Varies by type ($10,000-$100,000+)',
+    userFee: '$40,549-$463,418 (FY2026)',
+    smallBusinessFee: '$10,137-$115,855 (FY2026)',
     whenToUse: [
       'Modification to PMA-approved device',
       'Type depends on change significance',
@@ -480,7 +491,8 @@ const PATHWAY_DATA: Record<PathwayType, PathwayResult> = {
     fdaLink: 'https://www.fda.gov/medical-devices/premarket-approval-pma/product-development-protocol-pdp',
     description: 'Alternative PMA pathway with early FDA agreement on development activities for well-understood device types.',
     timeline: 'Similar to PMA (1-5 years)',
-    userFee: '~$445,000 (FY2025)',
+    userFee: '$579,272 (FY2026)',
+    smallBusinessFee: '$144,818 (FY2026)',
     whenToUse: [
       'Class III device',
       'Well-understood device type',
@@ -621,18 +633,25 @@ interface MobileCardFlowProps {
   step: string;
   setStep: (step: 'diagram' | 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'q6' | 'q7' | 'clinical-warning' | 'result') => void;
   handleAnswer: (question: string, answer: string, nextStep: 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'q6' | 'q7' | 'clinical-warning' | 'result', pathway?: PathwayType) => void;
-  handleAnswerWithWarning: (question: string, answer: string, nextStep: 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'q6' | 'q7' | 'clinical-warning' | 'result', pathway?: PathwayType, triggerWarning?: boolean) => void;
   answers: Record<string, string>;
 }
 
-function MobileCardFlow({ step, setStep, handleAnswer, handleAnswerWithWarning, answers }: MobileCardFlowProps) {
-  const steps = [
+function MobileCardFlow({ step, setStep, handleAnswer, answers }: MobileCardFlowProps) {
+  // Steps vary based on path taken - predicate path is shorter
+  const predicatePath = [
     { id: 'q1', title: 'Predicate Device', question: 'Does a legally marketed predicate device exist?' },
-    { id: 'q2', title: 'Device Class', question: 'What is the risk classification of your novel device?' },
-    { id: 'q3', title: 'Rare Disease', question: 'Is the device for a rare condition (≤8,000 patients/year)?' },
     { id: 'q4', title: 'Own Device Modification', question: 'Are you modifying your own previously cleared device?' },
-    { id: 'q5', title: 'FDA Guidance', question: 'Is there FDA guidance or recognized standard?' },
   ];
+  
+  const novelPath = [
+    { id: 'q1', title: 'Predicate Device', question: 'Does a legally marketed predicate device exist?' },
+    { id: 'q2', title: 'Risk Level', question: 'What is the risk classification of your novel device?' },
+    { id: 'q3', title: 'Rare Disease', question: 'Is the device for a rare condition (≤8,000 patients/year)?' },
+  ];
+  
+  // Determine which path based on answers
+  const isNovelPath = answers['Predicate exists?'] === 'No - Novel device';
+  const steps = isNovelPath ? novelPath : predicatePath;
 
   const currentStepIndex = steps.findIndex(s => s.id === step);
 
@@ -668,7 +687,7 @@ function MobileCardFlow({ step, setStep, handleAnswer, handleAnswerWithWarning, 
 
       {step === 'q1' && (
         <div className="p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-          <div className="text-xs text-yellow-600 font-semibold mb-1">STEP 1 OF 5</div>
+          <div className="text-xs text-yellow-600 font-semibold mb-1">STEP 1</div>
           <h4 className="font-bold text-yellow-900 mb-2">Predicate Device</h4>
           <p className="text-yellow-800 mb-4">Does a legally marketed predicate device exist for your device?</p>
           <div className="space-y-2">
@@ -679,7 +698,7 @@ function MobileCardFlow({ step, setStep, handleAnswer, handleAnswerWithWarning, 
               YES - Predicate exists
             </button>
             <button
-              onClick={() => handleAnswerWithWarning('Predicate exists?', 'No - Novel device', 'clinical-warning', undefined, true)}
+              onClick={() => handleAnswer('Predicate exists?', 'No - Novel device', 'clinical-warning')}
               className="w-full py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium"
             >
               NO - Novel device
@@ -715,8 +734,8 @@ function MobileCardFlow({ step, setStep, handleAnswer, handleAnswerWithWarning, 
 
       {step === 'q2' && (
         <div className="p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-          <div className="text-xs text-yellow-600 font-semibold mb-1">STEP 2 OF 5</div>
-          <h4 className="font-bold text-yellow-900 mb-2">Device Class</h4>
+          <div className="text-xs text-yellow-600 font-semibold mb-1">STEP 2 OF 3</div>
+          <h4 className="font-bold text-yellow-900 mb-2">Risk Level</h4>
           <p className="text-yellow-800 mb-4">What is the risk classification of your novel device?</p>
           <div className="space-y-2">
             <button
@@ -743,7 +762,7 @@ function MobileCardFlow({ step, setStep, handleAnswer, handleAnswerWithWarning, 
 
       {step === 'q3' && (
         <div className="p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-          <div className="text-xs text-yellow-600 font-semibold mb-1">STEP 3 OF 5</div>
+          <div className="text-xs text-yellow-600 font-semibold mb-1">STEP 3 OF 3</div>
           <h4 className="font-bold text-yellow-900 mb-2">Rare Disease</h4>
           <p className="text-yellow-800 mb-4">Is the device intended to treat a rare disease or condition (≤8,000 patients/year)?</p>
           <div className="space-y-2">
@@ -765,7 +784,7 @@ function MobileCardFlow({ step, setStep, handleAnswer, handleAnswerWithWarning, 
 
       {step === 'q4' && (
         <div className="p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-          <div className="text-xs text-yellow-600 font-semibold mb-1">STEP 2 OF 5</div>
+          <div className="text-xs text-yellow-600 font-semibold mb-1">STEP 2 OF 2</div>
           <h4 className="font-bold text-yellow-900 mb-2">Own Device Modification</h4>
           <p className="text-yellow-800 mb-4">Are you modifying your own previously cleared device?</p>
           <div className="space-y-2">
@@ -776,34 +795,15 @@ function MobileCardFlow({ step, setStep, handleAnswer, handleAnswerWithWarning, 
               YES - Own device (Special 510(k))
             </button>
             <button
-              onClick={() => handleAnswer('Own device?', 'No', 'q5')}
-              className="w-full py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 font-medium"
-            >
-              NO - Different manufacturer
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 'q5' && (
-        <div className="p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-          <div className="text-xs text-yellow-600 font-semibold mb-1">STEP 3 OF 5</div>
-          <h4 className="font-bold text-yellow-900 mb-2">FDA Guidance</h4>
-          <p className="text-yellow-800 mb-4">Is there an FDA-recognized guidance or standard for this device type?</p>
-          <div className="space-y-2">
-            <button
-              onClick={() => handleAnswer('Guidance exists?', 'Yes', 'result', '510k-abbreviated')}
-              className="w-full py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 font-medium"
-            >
-              YES - Abbreviated 510(k)
-            </button>
-            <button
-              onClick={() => handleAnswer('Guidance exists?', 'No', 'result', '510k-traditional')}
+              onClick={() => handleAnswer('Own device?', 'No', 'result', '510k-traditional')}
               className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
             >
-              NO - Traditional 510(k)
+              NO → Traditional 510(k)
             </button>
           </div>
+          <p className="text-xs text-yellow-700 mt-3 italic">
+            Note: Abbreviated 510(k) may apply for limited device types with FDA-published performance criteria.
+          </p>
         </div>
       )}
 
@@ -826,22 +826,27 @@ export default function RegulatoryPathwayTool() {
   const [step, setStep] = useState<'diagram' | 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'q6' | 'q7' | 'clinical-warning' | 'result'>('diagram');
   const [selectedPathway, setSelectedPathway] = useState<PathwayType | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [showClinicalWarning, setShowClinicalWarning] = useState(false);
+  const [isSmallBusiness, setIsSmallBusiness] = useState(false);
 
   // Mobile detection and view mode
   const [isMobile, setIsMobile] = useState(false);
-  const [mobileViewMode, setMobileViewMode] = useState<'zoom' | 'cards'>('zoom');
+  const [mobileViewMode, setMobileViewMode] = useState<'zoom' | 'cards'>('cards');
 
-  // Detect mobile and load saved preference
+  // Detect mobile and load saved preferences
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // Load saved preference
+    // Load saved preferences
     const savedMode = localStorage.getItem('pathwayViewMode');
     if (savedMode === 'zoom' || savedMode === 'cards') {
       setMobileViewMode(savedMode);
+    }
+    
+    const savedSmallBiz = localStorage.getItem('isSmallBusiness');
+    if (savedSmallBiz === 'true') {
+      setIsSmallBusiness(true);
     }
 
     return () => window.removeEventListener('resize', checkMobile);
@@ -853,29 +858,28 @@ export default function RegulatoryPathwayTool() {
     localStorage.setItem('pathwayViewMode', mode);
   };
 
+  // Toggle small business and save preference
+  const handleSmallBusinessToggle = () => {
+    const newValue = !isSmallBusiness;
+    setIsSmallBusiness(newValue);
+    localStorage.setItem('isSmallBusiness', String(newValue));
+  };
+
   const result = selectedPathway ? PATHWAY_DATA[selectedPathway] : null;
 
-  // Check if user indicated no predicate exists - trigger clinical warning
-  const handleAnswerWithWarning = (question: string, answer: string, nextStep: 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'q6' | 'q7' | 'clinical-warning' | 'result', pathway?: PathwayType, triggerWarning?: boolean) => {
+  // Handle answer selection and navigate to next step
+  const handleAnswer = (question: string, answer: string, nextStep: 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'q6' | 'q7' | 'clinical-warning' | 'result', pathway?: PathwayType) => {
     setAnswers({ ...answers, [question]: answer });
     if (pathway) {
       setSelectedPathway(pathway);
     }
-    if (triggerWarning) {
-      setShowClinicalWarning(true);
-    }
     setStep(nextStep);
-  };
-
-  const handleAnswer = (question: string, answer: string, nextStep: 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'q6' | 'q7' | 'clinical-warning' | 'result', pathway?: PathwayType) => {
-    handleAnswerWithWarning(question, answer, nextStep, pathway, false);
   };
 
   const reset = () => {
     setStep('diagram');
     setSelectedPathway(null);
     setAnswers({});
-    setShowClinicalWarning(false);
   };
 
   // Helper function to get color classes for pathway cards
@@ -901,6 +905,12 @@ export default function RegulatoryPathwayTool() {
   const exportAssessment = () => {
     if (!result) return;
 
+    const feeSection = isSmallBusiness && result.smallBusinessFee
+      ? `User Fee (Small Business): ${result.smallBusinessFee}
+Standard Fee: ${result.userFee}`
+      : `User Fee: ${result.userFee}${result.smallBusinessFee ? `
+Small Business Fee: ${result.smallBusinessFee}` : ''}`;
+
     const report = `FDA REGULATORY PATHWAY ASSESSMENT
 ==================================
 Generated: ${new Date().toISOString()}
@@ -913,7 +923,7 @@ ${result.fullName}
 ${result.description}
 
 Timeline: ${result.timeline}
-User Fee: ${result.userFee}
+${feeSection}
 
 WHEN TO USE THIS PATHWAY
 ------------------------
@@ -934,12 +944,20 @@ ${result.limitations.map(l => `• ${l}`).join('\n')}
 DECISION PATH
 -------------
 ${Object.entries(answers).map(([q, a]) => `${q}: ${a}`).join('\n')}
+${isSmallBusiness ? '\nSmall Business Rate Applied: Yes' : ''}
+
+SMALL BUSINESS FEE INFORMATION
+------------------------------
+Businesses with gross receipts ≤$100M may qualify for reduced fees
+through FDA's Small Business Determination (SBD) Program.
+Learn more: https://www.fda.gov/medical-devices/device-registration-and-listing/reduced-medical-device-user-fees-small-business-determination-sbd-program
 
 IMPORTANT DISCLAIMERS
 --------------------
 This is preliminary guidance only. Final pathway determination 
 requires consideration of device-specific factors. FDA has final 
 authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
+User fees shown are FY2026 MDUFA rates.
 `;
 
     const blob = new Blob([report], { type: 'text/plain' });
@@ -959,7 +977,23 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900">FDA Regulatory Pathway Decision Tool</h2>
           <p className="text-gray-600 mt-1 text-sm sm:text-base">Determine the appropriate FDA submission pathway for your device</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap justify-end">
+          {/* Small Business Toggle */}
+          <button
+            onClick={handleSmallBusinessToggle}
+            className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 transition-colors border ${
+              isSmallBusiness
+                ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
+            }`}
+            title="Toggle small business fees (≤$100M gross receipts)"
+          >
+            <Building2 className="w-4 h-4" />
+            <span className="hidden sm:inline">Small Business</span>
+            <span className="sm:hidden">SB</span>
+            {isSmallBusiness && <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />}
+          </button>
+
           {/* Mobile View Toggle - Only shown on mobile */}
           {isMobile && (
             <div className="flex items-center bg-gray-100 rounded-lg p-1">
@@ -1164,7 +1198,6 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
             step={step}
             setStep={setStep}
             handleAnswer={handleAnswer}
-            handleAnswerWithWarning={handleAnswerWithWarning}
             answers={answers}
           />
         )}
@@ -1188,7 +1221,7 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
                 YES - Predicate exists
               </button>
               <button
-                onClick={() => handleAnswerWithWarning('Predicate exists?', 'No - Novel device', 'clinical-warning', undefined, true)}
+                onClick={() => handleAnswer('Predicate exists?', 'No - Novel device', 'clinical-warning')}
                 className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium"
               >
                 NO - Novel device
@@ -1362,7 +1395,7 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
 
         {(!isMobile || mobileViewMode === 'zoom') && step === 'q4' && (
           <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-            <h4 className="font-bold text-yellow-900 mb-2">Question 4: Your Own Device?</h4>
+            <h4 className="font-bold text-yellow-900 mb-2">Question 2: Your Own Device?</h4>
             <p className="text-yellow-800 mb-4">
               Are you <strong>modifying your own</strong> previously cleared device (and have design controls)?
             </p>
@@ -1374,35 +1407,16 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
                 YES → Special 510(k)
               </button>
               <button
-                onClick={() => handleAnswer('Own device modification?', 'No', 'q5')}
-                className="flex-1 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 font-medium"
-              >
-                NO - Different predicate
-              </button>
-            </div>
-          </div>
-        )}
-
-        {(!isMobile || mobileViewMode === 'zoom') && step === 'q5' && (
-          <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-            <h4 className="font-bold text-yellow-900 mb-2">Question 5: Guidance or Standard?</h4>
-            <p className="text-yellow-800 mb-4">
-              Is there an FDA <strong>guidance document</strong> or <strong>recognized standard</strong> for your device type?
-            </p>
-            <div className="flex gap-4">
-              <button
-                onClick={() => handleAnswer('Guidance/standard available?', 'Yes', 'result', '510k-abbreviated')}
-                className="flex-1 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 font-medium"
-              >
-                YES → Abbreviated 510(k)
-              </button>
-              <button
-                onClick={() => handleAnswer('Guidance/standard available?', 'No', 'result', '510k-traditional')}
+                onClick={() => handleAnswer('Own device modification?', 'No', 'result', '510k-traditional')}
                 className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
               >
                 NO → Traditional 510(k)
               </button>
             </div>
+            <p className="text-xs text-yellow-700 mt-4 italic">
+              Note: Abbreviated 510(k) may be available for limited device types where FDA has published specific performance criteria. 
+              Check FDA&apos;s list of eligible device types.
+            </p>
           </div>
         )}
 
@@ -1488,8 +1502,20 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
                 <p className="text-lg font-bold text-gray-900">{result.timeline}</p>
               </div>
               <div className="p-3 bg-white rounded-lg">
-                <p className="text-sm font-medium text-gray-600">User Fee</p>
-                <p className="text-lg font-bold text-gray-900">{result.userFee}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-sm font-medium text-gray-600">User Fee</p>
+                  {isSmallBusiness && result.smallBusinessFee && (
+                    <span className="px-1.5 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-medium rounded">
+                      SB Rate
+                    </span>
+                  )}
+                </div>
+                <p className={`text-lg font-bold ${isSmallBusiness && result.smallBusinessFee ? 'text-emerald-700' : 'text-gray-900'}`}>
+                  {isSmallBusiness && result.smallBusinessFee ? result.smallBusinessFee : result.userFee}
+                </p>
+                {isSmallBusiness && result.smallBusinessFee && (
+                  <p className="text-xs text-gray-500 mt-1 line-through">{result.userFee} standard</p>
+                )}
               </div>
             </div>
           </div>
@@ -1644,6 +1670,85 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
         </div>
       </div>
 
+      {/* Small Business Information */}
+      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 md:p-6">
+        <div className="flex items-start gap-3">
+          <Building2 className="w-6 h-6 text-emerald-600 flex-shrink-0 mt-0.5 hidden md:block" />
+          <div className="flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <Building2 className="w-5 h-5 text-emerald-600 md:hidden" />
+              <h3 className="text-base md:text-lg font-bold text-emerald-900">Small Business Fee Reductions</h3>
+              <span className="px-2 py-0.5 bg-emerald-200 text-emerald-800 text-[10px] font-medium rounded-full">
+                Save up to 75%
+              </span>
+            </div>
+            <p className="text-sm text-emerald-800 mt-2">
+              FDA&apos;s Small Business Determination (SBD) Program offers significantly reduced user fees for businesses with ≤$100M gross receipts.
+            </p>
+            
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+              <div className="p-3 bg-white rounded-lg border border-emerald-200">
+                <h4 className="font-semibold text-emerald-900 text-sm">Qualification Requirements</h4>
+                <ul className="mt-2 text-xs text-emerald-800 space-y-1.5">
+                  <li className="flex items-start gap-1.5">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span>Gross receipts or sales ≤$100 million</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span>Apply through CDRH&apos;s SBD Program</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span>Get certified before submission</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="p-3 bg-white rounded-lg border border-emerald-200">
+                <h4 className="font-semibold text-emerald-900 text-sm">Additional Benefits</h4>
+                <ul className="mt-2 text-xs text-emerald-800 space-y-1.5">
+                  <li className="flex items-start gap-1.5">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span>First PMA fee waiver (≤$30M receipts)</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span>Registration fee waiver (≤$1M)</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span>~75% off most submission fees</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <a
+                href="https://www.fda.gov/medical-devices/device-registration-and-listing/reduced-medical-device-user-fees-small-business-determination-sbd-program"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 active:bg-emerald-800 transition-colors text-sm font-medium"
+              >
+                <Building2 className="w-4 h-4" />
+                SBD Program Details
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              <a
+                href="https://www.fda.gov/medical-devices/device-advice-comprehensive-regulatory-assistance/medical-device-user-fee-amendments-mdufa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 border border-emerald-600 text-emerald-700 rounded-lg hover:bg-emerald-100 active:bg-emerald-200 transition-colors text-sm font-medium"
+              >
+                FY2026 Fee Schedule
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Disclaimer */}
       <div className="bg-gray-100 border border-gray-300 rounded-lg p-4">
         <div className="flex items-start gap-3">
@@ -1653,7 +1758,7 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
             <p className="text-xs text-gray-600 mt-1">
               This tool provides preliminary guidance only. FDA has final authority on pathway requirements.
               Pre-Submission (Q-Sub) meetings with FDA are recommended for novel or complex devices.
-              User fees are approximate and subject to change.
+              User fees shown are FY2026 MDUFA rates and subject to annual adjustment.
             </p>
           </div>
         </div>
