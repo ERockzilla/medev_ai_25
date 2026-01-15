@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Download, AlertTriangle, Info, CheckCircle, RotateCcw, FileText, Scale, ArrowRight, ExternalLink, Beaker } from 'lucide-react';
+import { Download, AlertTriangle, Info, CheckCircle, RotateCcw, FileText, Scale, ExternalLink, Beaker, Smartphone, Monitor } from 'lucide-react';
 
 type PathwayType =
   // 510(k) Variants
@@ -688,6 +688,31 @@ function MobileCardFlow({ step, setStep, handleAnswer, handleAnswerWithWarning, 
         </div>
       )}
 
+      {/* Clinical Warning Step for Mobile */}
+      {step === 'clinical-warning' && (
+        <div className="p-4 bg-amber-50 border-2 border-amber-400 rounded-lg">
+          <div className="flex items-start gap-3 mb-3">
+            <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <h4 className="font-bold text-amber-900">Clinical Evidence Required</h4>
+              <p className="text-sm text-amber-800 mt-1">
+                Without a predicate device, FDA will require clinical evidence demonstrating safety and effectiveness.
+              </p>
+            </div>
+          </div>
+          <div className="p-3 bg-white rounded border border-amber-200 mb-3">
+            <p className="text-xs text-amber-700 font-medium mb-1">Recommended: Pre-Submission (Q-Sub) Meeting</p>
+            <p className="text-xs text-amber-600">Get FDA feedback on clinical evidence requirements before submission.</p>
+          </div>
+          <button
+            onClick={() => setStep('q2')}
+            className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
+          >
+            I Understand - Continue
+          </button>
+        </div>
+      )}
+
       {step === 'q2' && (
         <div className="p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
           <div className="text-xs text-yellow-600 font-semibold mb-1">STEP 2 OF 5</div>
@@ -783,7 +808,7 @@ function MobileCardFlow({ step, setStep, handleAnswer, handleAnswerWithWarning, 
       )}
 
       {/* Show answered questions summary */}
-      {Object.keys(answers).length > 0 && step !== 'diagram' && step !== 'result' && (
+      {Object.keys(answers).length > 0 && step !== 'diagram' && step !== 'result' && step !== 'clinical-warning' && (
         <div className="p-3 bg-gray-50 rounded-lg">
           <p className="text-xs text-gray-500 font-semibold mb-2">Your Answers:</p>
           {Object.entries(answers).map(([q, a]) => (
@@ -929,20 +954,52 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">FDA Regulatory Pathway Decision Tool</h2>
-          <p className="text-gray-600 mt-1">Determine the appropriate FDA submission pathway for your device</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">FDA Regulatory Pathway Decision Tool</h2>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">Determine the appropriate FDA submission pathway for your device</p>
         </div>
-        {step === 'result' && (
-          <button
-            onClick={exportAssessment}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-          >
-            <Download className="w-4 h-4" />
-            Export Assessment
-          </button>
-        )}
+        <div className="flex items-center gap-2">
+          {/* Mobile View Toggle - Only shown on mobile */}
+          {isMobile && (
+            <div className="flex items-center bg-gray-100 rounded-lg p-1">
+              <button
+                onClick={() => handleViewModeChange('cards')}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1.5 transition-colors ${
+                  mobileViewMode === 'cards'
+                    ? 'bg-white text-blue-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+                title="Card View"
+              >
+                <Smartphone className="w-4 h-4" />
+                <span className="hidden xs:inline">Cards</span>
+              </button>
+              <button
+                onClick={() => handleViewModeChange('zoom')}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1.5 transition-colors ${
+                  mobileViewMode === 'zoom'
+                    ? 'bg-white text-blue-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+                title="Full View"
+              >
+                <Monitor className="w-4 h-4" />
+                <span className="hidden xs:inline">Full</span>
+              </button>
+            </div>
+          )}
+          {step === 'result' && (
+            <button
+              onClick={exportAssessment}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 text-sm sm:text-base"
+            >
+              <Download className="w-4 h-4" />
+              <span className="hidden sm:inline">Export Assessment</span>
+              <span className="sm:hidden">Export</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Visual Decision Tree */}
@@ -1073,8 +1130,8 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
           </div>
         )}
 
-        {/* Progressive Assessment Flow (shown during assessment) */}
-        {step !== 'diagram' && step !== 'result' && (
+        {/* Progressive Assessment Flow (shown during assessment - hidden on mobile card view) */}
+        {step !== 'diagram' && step !== 'result' && (!isMobile || mobileViewMode === 'zoom') && (
           <div className="mb-6">
             {/* Path History */}
             <div className="flex flex-col items-center mb-4">
@@ -1100,762 +1157,507 @@ authority. Consider Pre-Submission (Q-Sub) meeting with FDA.
             </div>
           </div>
         )}
-        <defs>
-          <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-            <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280" />
-          </marker>
-        </defs>
 
-        {/* ===== LEGEND ===== */}
-        <rect x="10" y="10" width="180" height="100" rx="4" fill="#f9fafb" stroke="#e5e7eb" />
-        <text x="20" y="28" className="text-[10px] font-bold" fill="#374151">LEGEND</text>
-        <rect x="20" y="38" width="12" height="12" fill="#dcfce7" stroke="#16a34a" />
-        <text x="38" y="48" className="text-[9px]" fill="#374151">510(k) Pathways</text>
-        <rect x="20" y="54" width="12" height="12" fill="#f3e8ff" stroke="#9333ea" />
-        <text x="38" y="64" className="text-[9px]" fill="#374151">De Novo / Novel</text>
-        <rect x="20" y="70" width="12" height="12" fill="#fecaca" stroke="#dc2626" />
-        <text x="38" y="80" className="text-[9px]" fill="#374151">PMA (Class III)</text>
-        <rect x="20" y="86" width="12" height="12" fill="#fef3c7" stroke="#f59e0b" />
-        <text x="38" y="96" className="text-[9px]" fill="#374151">IDE (Clinical Study)</text>
-
-        {/* ===== START NODE ===== */}
-        <rect x="450" y="10" width="200" height="45" rx="8" fill="#e0f2fe" stroke="#0284c7" strokeWidth="2" />
-        <text x="550" y="28" textAnchor="middle" className="text-sm font-bold" fill="#0369a1">NEW MEDICAL DEVICE</text>
-        <text x="550" y="43" textAnchor="middle" className="text-[10px]" fill="#0369a1">What is your objective?</text>
-
-        {/* Arrow down from start */}
-        <line x1="550" y1="55" x2="550" y2="80" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-
-        {/* ===== Q1: PURPOSE - CLINICAL STUDY OR MARKETING ===== */}
-        <polygon
-          points="550,85 680,130 550,175 420,130"
-          fill={step === 'q1' ? '#fef3c7' : '#f3f4f6'}
-          stroke={step === 'q1' ? '#f59e0b' : '#9ca3af'}
-          strokeWidth="2"
-        />
-        <text x="550" y="125" textAnchor="middle" className="text-xs" fill="#374151">
-          <tspan x="550" dy="0">Clinical Study</tspan>
-          <tspan x="550" dy="12">or Marketing?</tspan>
-        </text>
-
-        {/* ===== LEFT BRANCH: CLINICAL STUDY (IDE) ===== */}
-        <line x1="420" y1="130" x2="200" y2="130" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="310" y="120" textAnchor="middle" className="text-xs font-bold" fill="#f59e0b">CLINICAL STUDY</text>
-
-        {/* IDE Branch Box */}
-        <rect x="50" y="110" width="150" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" strokeWidth="2" />
-        <text x="125" y="127" textAnchor="middle" className="text-xs font-bold" fill="#b45309">IDE REQUIRED</text>
-        <text x="125" y="140" textAnchor="middle" className="text-[10px]" fill="#b45309">21 CFR 812</text>
-
-        {/* Arrow down to SR/NSR determination */}
-        <line x1="125" y1="150" x2="125" y2="180" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-
-        {/* SR/NSR Decision Diamond */}
-        <polygon
-          points="125,185 200,220 125,255 50,220"
-          fill={step === 'q6' ? '#fef3c7' : '#f3f4f6'}
-          stroke={step === 'q6' ? '#f59e0b' : '#9ca3af'}
-          strokeWidth="2"
-        />
-        <text x="125" y="215" textAnchor="middle" className="text-[10px]" fill="#374151">
-          <tspan x="125" dy="0">Significant</tspan>
-          <tspan x="125" dy="11">Risk?</tspan>
-        </text>
-
-        {/* IDE-SR (Significant Risk) */}
-        <line x1="50" y1="220" x2="50" y2="290" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="60" y="255" className="text-[10px] font-bold" fill="#dc2626">YES</text>
-        <rect x="10" y="295" width="100" height="50" rx="6" fill="#fecaca" stroke="#dc2626" strokeWidth="2" />
-        <text x="60" y="315" textAnchor="middle" className="text-xs font-bold" fill="#b91c1c">IDE-SR</text>
-        <text x="60" y="328" textAnchor="middle" className="text-[9px]" fill="#b91c1c">FDA + IRB approval</text>
-        <text x="60" y="339" textAnchor="middle" className="text-[9px]" fill="#b91c1c">30-day review</text>
-
-        {/* IDE-NSR (Non-Significant Risk) */}
-        <line x1="200" y1="220" x2="200" y2="290" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="210" y="255" className="text-[10px] font-bold" fill="#16a34a">NO</text>
-        <rect x="145" y="295" width="110" height="50" rx="6" fill="#fef9c3" stroke="#ca8a04" strokeWidth="2" />
-        <text x="200" y="315" textAnchor="middle" className="text-xs font-bold" fill="#a16207">IDE-NSR</text>
-        <text x="200" y="328" textAnchor="middle" className="text-[9px]" fill="#a16207">IRB only</text>
-        <text x="200" y="339" textAnchor="middle" className="text-[9px]" fill="#a16207">No FDA submission</text>
-
-        {/* IDE-Exempt note */}
-        <rect x="60" y="360" width="190" height="30" rx="4" fill="#f3f4f6" stroke="#9ca3af" strokeDasharray="4" />
-        <text x="155" y="380" textAnchor="middle" className="text-[9px]" fill="#6b7280">Also check: IDE Exempt (812.2(c))</text>
-
-        {/* ===== RIGHT BRANCH: MARKETING (Main Flow) ===== */}
-        <line x1="550" y1="175" x2="550" y2="210" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="565" y="195" className="text-xs font-bold" fill="#2563eb">MARKETING</text>
-
-        {/* ===== Q2: PREDICATE EXISTS? ===== */}
-        <polygon
-          points="550,215 680,260 550,305 420,260"
-          fill={step === 'q1' || step === 'clinical-warning' ? '#fef3c7' : '#f3f4f6'}
-          stroke={step === 'q1' || step === 'clinical-warning' ? '#f59e0b' : '#9ca3af'}
-          strokeWidth="2"
-        />
-        <text x="550" y="255" textAnchor="middle" className="text-xs" fill="#374151">
-          <tspan x="550" dy="0">Predicate</tspan>
-          <tspan x="550" dy="12">device exists?</tspan>
-        </text>
-
-        {/* ===== LEFT: NO PREDICATE (Novel Device) ===== */}
-        <line x1="420" y1="260" x2="280" y2="260" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="350" y="250" textAnchor="middle" className="text-xs font-bold" fill="#dc2626">NO - NOVEL</text>
-
-        {/* Novel Device - Risk Assessment */}
-        <polygon
-          points="280,260 345,295 280,330 215,295"
-          fill={step === 'q2' ? '#fef3c7' : '#f3f4f6'}
-          stroke={step === 'q2' ? '#f59e0b' : '#9ca3af'}
-          strokeWidth="2"
-        />
-        <text x="280" y="292" textAnchor="middle" className="text-[10px]" fill="#374151">
-          <tspan x="280" dy="0">Device</tspan>
-          <tspan x="280" dy="11">Class?</tspan>
-        </text>
-
-        {/* Class III - High Risk -> PMA */}
-        <line x1="215" y1="295" x2="160" y2="295" stroke="#6b7280" strokeWidth="2" />
-        <line x1="160" y1="295" x2="160" y2="400" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="185" y="285" className="text-[10px] font-bold" fill="#dc2626">III</text>
-        <rect x="105" y="405" width="110" height="50" rx="6" fill="#fecaca" stroke="#dc2626" strokeWidth="2" />
-        <text x="160" y="425" textAnchor="middle" className="text-sm font-bold" fill="#b91c1c">PMA</text>
-        <text x="160" y="440" textAnchor="middle" className="text-[9px]" fill="#b91c1c">Clinical trials required</text>
-        <text x="160" y="450" textAnchor="middle" className="text-[9px]" fill="#b91c1c">~$445K fee</text>
-
-        {/* Class II - Moderate Risk */}
-        <line x1="280" y1="330" x2="280" y2="365" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="295" y="350" className="text-[10px] font-bold" fill="#9333ea">II</text>
-
-        {/* Class II - Rare disease check */}
-        <polygon
-          points="280,370 340,400 280,430 220,400"
-          fill={step === 'q3' ? '#fef3c7' : '#f3f4f6'}
-          stroke={step === 'q3' ? '#f59e0b' : '#9ca3af'}
-          strokeWidth="2"
-        />
-        <text x="280" y="397" textAnchor="middle" className="text-[10px]" fill="#374151">
-          <tspan x="280" dy="0">Rare ≤8k</tspan>
-          <tspan x="280" dy="11">pts/yr?</tspan>
-        </text>
-
-        {/* HDE for rare */}
-        <line x1="220" y1="400" x2="180" y2="400" stroke="#6b7280" strokeWidth="2" />
-        <line x1="180" y1="400" x2="180" y2="480" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="195" y="390" className="text-[10px] font-bold" fill="#0d9488">YES</text>
-        <rect x="130" y="485" width="100" height="45" rx="6" fill="#ccfbf1" stroke="#0d9488" strokeWidth="2" />
-        <text x="180" y="505" textAnchor="middle" className="text-xs font-bold" fill="#0f766e">HDE</text>
-        <text x="180" y="518" textAnchor="middle" className="text-[9px]" fill="#0f766e">No user fees</text>
-
-        {/* De Novo */}
-        <line x1="280" y1="430" x2="280" y2="485" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="295" y="460" className="text-[10px] font-bold" fill="#9333ea">NO</text>
-        <rect x="230" y="485" width="100" height="55" rx="6" fill="#f3e8ff" stroke="#9333ea" strokeWidth="2" />
-        <text x="280" y="505" textAnchor="middle" className="text-xs font-bold" fill="#7e22ce">De Novo</text>
-        <text x="280" y="518" textAnchor="middle" className="text-[9px]" fill="#7e22ce">Creates new regulation</text>
-        <text x="280" y="531" textAnchor="middle" className="text-[9px]" fill="#7e22ce">~$140K fee</text>
-
-        {/* Class I - Low Risk -> Exempt check */}
-        <line x1="345" y1="295" x2="380" y2="295" stroke="#6b7280" strokeWidth="2" />
-        <line x1="380" y1="295" x2="380" y2="405" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="365" y="285" className="text-[10px] font-bold" fill="#16a34a">I</text>
-        <rect x="340" y="410" width="80" height="40" rx="6" fill="#f3f4f6" stroke="#6b7280" strokeWidth="2" />
-        <text x="380" y="428" textAnchor="middle" className="text-xs font-bold" fill="#374151">Exempt?</text>
-        <text x="380" y="442" textAnchor="middle" className="text-[9px]" fill="#6b7280">Check 21 CFR</text>
-
-        {/* ===== RIGHT: YES PREDICATE (510(k) Path) ===== */}
-        <line x1="550" y1="305" x2="550" y2="360" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="565" y="335" className="text-xs font-bold" fill="#16a34a">YES</text>
-
-        {/* 510(k) Type Selection */}
-        <rect x="475" y="365" width="150" height="35" rx="6" fill="#dcfce7" stroke="#16a34a" strokeWidth="2" />
-        <text x="550" y="387" textAnchor="middle" className="text-xs font-bold" fill="#15803d">510(k) PATHWAY</text>
-
-        {/* Arrow down to 510(k) type question */}
-        <line x1="550" y1="400" x2="550" y2="430" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-
-        {/* Q4: Own device modification? */}
-        <polygon
-          points="550,435 650,470 550,505 450,470"
-          fill={step === 'q4' ? '#fef3c7' : '#f3f4f6'}
-          stroke={step === 'q4' ? '#f59e0b' : '#9ca3af'}
-          strokeWidth="2"
-        />
-        <text x="550" y="467" textAnchor="middle" className="text-[10px]" fill="#374151">
-          <tspan x="550" dy="0">Modifying</tspan>
-          <tspan x="550" dy="11">own device?</tspan>
-        </text>
-
-        {/* Special 510(k) */}
-        <line x1="650" y1="470" x2="750" y2="470" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="700" y="460" className="text-[10px] font-bold" fill="#2563eb">YES</text>
-        <rect x="755" y="445" width="100" height="50" rx="6" fill="#dbeafe" stroke="#2563eb" strokeWidth="2" />
-        <text x="805" y="465" textAnchor="middle" className="text-xs font-bold" fill="#1d4ed8">Special</text>
-        <text x="805" y="478" textAnchor="middle" className="text-xs font-bold" fill="#1d4ed8">510(k)</text>
-        <text x="805" y="490" textAnchor="middle" className="text-[9px]" fill="#1d4ed8">30 days</text>
-
-        {/* Continue to standard/abbreviated */}
-        <line x1="550" y1="505" x2="550" y2="540" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="565" y="525" className="text-[10px] font-bold" fill="#ca8a04">NO</text>
-
-        {/* Q5: Guidance/Standard available? */}
-        <polygon
-          points="550,545 650,580 550,615 450,580"
-          fill={step === 'q5' ? '#fef3c7' : '#f3f4f6'}
-          stroke={step === 'q5' ? '#f59e0b' : '#9ca3af'}
-          strokeWidth="2"
-        />
-        <text x="550" y="577" textAnchor="middle" className="text-[10px]" fill="#374151">
-          <tspan x="550" dy="0">FDA Guidance/</tspan>
-          <tspan x="550" dy="11">Standard?</tspan>
-        </text>
-
-        {/* Abbreviated 510(k) */}
-        <line x1="650" y1="580" x2="750" y2="580" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="700" y="570" className="text-[10px] font-bold" fill="#0891b2">YES</text>
-        <rect x="755" y="555" width="100" height="50" rx="6" fill="#cffafe" stroke="#0891b2" strokeWidth="2" />
-        <text x="805" y="575" textAnchor="middle" className="text-xs font-bold" fill="#0e7490">Abbreviated</text>
-        <text x="805" y="588" textAnchor="middle" className="text-xs font-bold" fill="#0e7490">510(k)</text>
-        <text x="805" y="600" textAnchor="middle" className="text-[9px]" fill="#0e7490">60-90 days</text>
-
-        {/* Traditional 510(k) */}
-        <line x1="550" y1="615" x2="550" y2="655" stroke="#6b7280" strokeWidth="2" markerEnd="url(#arrow)" />
-        <text x="565" y="638" className="text-[10px] font-bold" fill="#16a34a">NO</text>
-        <rect x="475" y="655" width="150" height="40" rx="6" fill="#dcfce7" stroke="#16a34a" strokeWidth="2" />
-        <text x="550" y="673" textAnchor="middle" className="text-xs font-bold" fill="#15803d">Traditional 510(k)</text>
-        <text x="550" y="688" textAnchor="middle" className="text-[9px]" fill="#15803d">90-180 days • ~$22.5K</text>
-
-        {/* Clinical Warning Note */}
-        {showClinicalWarning && (
-          <g>
-            <rect x="250" y="545" width="180" height="50" rx="6" fill="#fef3c7" stroke="#f59e0b" strokeWidth="2" />
-            <text x="340" y="565" textAnchor="middle" className="text-[10px] font-bold" fill="#b45309">⚠ Q-Sub Recommended</text>
-            <text x="340" y="580" textAnchor="middle" className="text-[9px]" fill="#b45309">Get FDA feedback on</text>
-            <text x="340" y="590" textAnchor="middle" className="text-[9px]" fill="#b45309">clinical evidence needs</text>
-          </g>
+        {/* Mobile Card Flow - Simplified vertical flow for mobile */}
+        {isMobile && mobileViewMode === 'cards' && step !== 'diagram' && step !== 'result' && (
+          <MobileCardFlow
+            step={step}
+            setStep={setStep}
+            handleAnswer={handleAnswer}
+            handleAnswerWithWarning={handleAnswerWithWarning}
+            answers={answers}
+          />
         )}
 
-        {/* Current step indicators */}
-        {step === 'q1' && <circle cx="550" cy="130" r="6" fill="#f59e0b"><animate attributeName="r" values="6;9;6" dur="1s" repeatCount="indefinite" /></circle>}
-        {step === 'clinical-warning' && <circle cx="550" cy="260" r="6" fill="#f59e0b"><animate attributeName="r" values="6;9;6" dur="1s" repeatCount="indefinite" /></circle>}
-        {step === 'q2' && <circle cx="280" cy="295" r="6" fill="#f59e0b"><animate attributeName="r" values="6;9;6" dur="1s" repeatCount="indefinite" /></circle>}
-        {step === 'q3' && <circle cx="280" cy="400" r="6" fill="#f59e0b"><animate attributeName="r" values="6;9;6" dur="1s" repeatCount="indefinite" /></circle>}
-        {step === 'q4' && <circle cx="550" cy="470" r="6" fill="#f59e0b"><animate attributeName="r" values="6;9;6" dur="1s" repeatCount="indefinite" /></circle>}
-        {step === 'q5' && <circle cx="550" cy="580" r="6" fill="#f59e0b"><animate attributeName="r" values="6;9;6" dur="1s" repeatCount="indefinite" /></circle>}
-        {step === 'q6' && <circle cx="125" cy="220" r="6" fill="#f59e0b"><animate attributeName="r" values="6;9;6" dur="1s" repeatCount="indefinite" /></circle>}
-      </svg>
-    </div>
-      </div >
-        )
-}
-
-{/* Interactive Questions */ }
-{
-  step === 'diagram' && (
-    <div className="mt-6 text-center">
-      <button
-        onClick={() => setStep('q1')}
-        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-      >
-        Start Pathway Assessment
-      </button>
-    </div>
-  )
-}
-
-{
-  step === 'q1' && (
-    <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-      <h4 className="font-bold text-yellow-900 mb-2">Question 1: Predicate Device</h4>
-      <p className="text-yellow-800 mb-4">
-        Does a legally marketed <strong>predicate device</strong> exist for your device?
-      </p>
-      <p className="text-sm text-yellow-700 mb-4">
-        A predicate is a device marketed before 1976, or cleared via 510(k), De Novo, or reclassification
-        that has the same intended use and similar technology.
-      </p>
-      <div className="flex gap-4">
-        <button
-          onClick={() => handleAnswer('Predicate exists?', 'Yes', 'q4')}
-          className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
-        >
-          YES - Predicate exists
-        </button>
-        <button
-          onClick={() => handleAnswerWithWarning('Predicate exists?', 'No - Novel device', 'clinical-warning', undefined, true)}
-          className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium"
-        >
-          NO - Novel device
-        </button>
-      </div>
-    </div>
-  )
-}
-
-{/* Clinical Evidence Precursor Warning - Shows when no predicate exists */ }
-{
-  step === 'clinical-warning' && (
-    <div className="mt-6 space-y-4">
-      <div className="p-6 bg-amber-50 border-2 border-amber-400 rounded-lg">
-        <div className="flex items-start gap-3">
-          <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
-          <div className="flex-1">
-            <h4 className="font-bold text-amber-900 text-lg">
-              Clinical Evidence Assessment Required
-            </h4>
-            <p className="text-amber-800 mt-2">
-              Without a predicate device, FDA will require clinical evidence demonstrating safety and effectiveness.
-              The level of evidence depends on your device&apos;s risk profile and intended use.
+        {/* Desktop / Zoom mode Interactive Questions */}
+        {(!isMobile || mobileViewMode === 'zoom') && step === 'q1' && (
+          <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
+            <h4 className="font-bold text-yellow-900 mb-2">Question 1: Predicate Device</h4>
+            <p className="text-yellow-800 mb-4">
+              Does a legally marketed <strong>predicate device</strong> exist for your device?
             </p>
+            <p className="text-sm text-yellow-700 mb-4">
+              A predicate is a device marketed before 1976, or cleared via 510(k), De Novo, or reclassification
+              that has the same intended use and similar technology.
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => handleAnswer('Predicate exists?', 'Yes', 'q4')}
+                className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
+              >
+                YES - Predicate exists
+              </button>
+              <button
+                onClick={() => handleAnswerWithWarning('Predicate exists?', 'No - Novel device', 'clinical-warning', undefined, true)}
+                className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium"
+              >
+                NO - Novel device
+              </button>
+            </div>
+          </div>
+        )}
 
-            {/* Basic Assessment Overview */}
-            <div className="mt-4 p-4 bg-white rounded-lg border border-amber-200">
-              <h5 className="font-semibold text-gray-900 flex items-center gap-2">
-                <Beaker className="w-4 h-4" />
-                Evidence Considerations
-              </h5>
-              <ul className="mt-2 space-y-1 text-sm text-gray-700">
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
-                  Device risk classification (I, II, III)
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
-                  Intended patient population and use environment
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
-                  Duration of use/exposure
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
-                  Available bench and animal study data
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
-                  Similar device performance history
-                </li>
-              </ul>
+        {/* Clinical Evidence Precursor Warning - Shows when no predicate exists */}
+        {(!isMobile || mobileViewMode === 'zoom') && step === 'clinical-warning' && (
+          <div className="mt-6 space-y-4">
+            <div className="p-6 bg-amber-50 border-2 border-amber-400 rounded-lg">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <h4 className="font-bold text-amber-900 text-lg">
+                    Clinical Evidence Assessment Required
+                  </h4>
+                  <p className="text-amber-800 mt-2">
+                    Without a predicate device, FDA will require clinical evidence demonstrating safety and effectiveness.
+                    The level of evidence depends on your device&apos;s risk profile and intended use.
+                  </p>
+
+                  {/* Basic Assessment Overview */}
+                  <div className="mt-4 p-4 bg-white rounded-lg border border-amber-200">
+                    <h5 className="font-semibold text-gray-900 flex items-center gap-2">
+                      <Beaker className="w-4 h-4" />
+                      Evidence Considerations
+                    </h5>
+                    <ul className="mt-2 space-y-1 text-sm text-gray-700">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
+                        Device risk classification (I, II, III)
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
+                        Intended patient population and use environment
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
+                        Duration of use/exposure
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
+                        Available bench and animal study data
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
+                        Similar device performance history
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Q-Sub Recommendation */}
+                  <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <h5 className="font-semibold text-blue-900 flex items-center gap-2">
+                      <Info className="w-4 h-4" />
+                      Recommended: Pre-Submission (Q-Sub) Meeting
+                    </h5>
+                    <p className="text-sm text-blue-800 mt-1">
+                      For novel devices, FDA strongly recommends submitting a Pre-Submission (Q-Sub) to obtain feedback on:
+                    </p>
+                    <ul className="mt-2 text-sm text-blue-800 space-y-1">
+                      <li className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-blue-600" />
+                        Required clinical evidence type and scope
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-blue-600" />
+                        Appropriate regulatory pathway
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-blue-600" />
+                        Study design and endpoints
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-blue-600" />
+                        Acceptance criteria
+                      </li>
+                    </ul>
+                    <a
+                      href="https://www.fda.gov/medical-devices/premarket-submissions-selecting-and-preparing-correct-submission/pre-submissions-and-meetings-medical-device-submissions"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 hover:underline text-sm mt-3 inline-flex items-center gap-1"
+                    >
+                      Learn more about Q-Sub process
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+
+                  {/* Contact CTA */}
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    <Link
+                      href="/contact"
+                      className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors font-medium"
+                    >
+                      Contact Us for Guidance
+                    </Link>
+                    <a
+                      href="https://www.fda.gov/medical-devices/device-advice-comprehensive-regulatory-assistance"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 border border-amber-600 text-amber-700 rounded-lg hover:bg-amber-50 transition-colors font-medium inline-flex items-center gap-1"
+                    >
+                      FDA Device Advice
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Q-Sub Recommendation */}
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <h5 className="font-semibold text-blue-900 flex items-center gap-2">
-                <Info className="w-4 h-4" />
-                Recommended: Pre-Submission (Q-Sub) Meeting
-              </h5>
-              <p className="text-sm text-blue-800 mt-1">
-                For novel devices, FDA strongly recommends submitting a Pre-Submission (Q-Sub) to obtain feedback on:
-              </p>
-              <ul className="mt-2 text-sm text-blue-800 space-y-1">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-600" />
-                  Required clinical evidence type and scope
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-600" />
-                  Appropriate regulatory pathway
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-600" />
-                  Study design and endpoints
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-600" />
-                  Acceptance criteria
-                </li>
-              </ul>
-              <a
-                href="https://www.fda.gov/medical-devices/premarket-submissions-selecting-and-preparing-correct-submission/pre-submissions-and-meetings-medical-device-submissions"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 hover:underline text-sm mt-3 inline-flex items-center gap-1"
+            {/* Continue Button */}
+            <div className="text-center">
+              <button
+                onClick={() => setStep('q2')}
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
               >
-                Learn more about Q-Sub process
-                <ExternalLink className="w-3 h-3" />
-              </a>
+                I Understand - Continue Assessment
+              </button>
             </div>
+          </div>
+        )}
 
-            {/* Contact CTA */}
-            <div className="mt-4 flex flex-wrap gap-3">
-              <Link
-                href="/contact"
-                className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors font-medium"
+        {(!isMobile || mobileViewMode === 'zoom') && step === 'q2' && (
+          <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
+            <h4 className="font-bold text-yellow-900 mb-2">Question 2: Risk Level</h4>
+            <p className="text-yellow-800 mb-4">
+              Is your novel device <strong>high risk</strong> (life-sustaining, life-supporting, or presents substantial risk)?
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => handleAnswer('High risk?', 'Yes', 'result', 'pma')}
+                className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium"
               >
-                Contact Us for Guidance
-              </Link>
-              <a
-                href="https://www.fda.gov/medical-devices/device-advice-comprehensive-regulatory-assistance"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 border border-amber-600 text-amber-700 rounded-lg hover:bg-amber-50 transition-colors font-medium inline-flex items-center gap-1"
+                YES - High risk → PMA
+              </button>
+              <button
+                onClick={() => handleAnswer('High risk?', 'No - Low/moderate risk', 'q3')}
+                className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
               >
-                FDA Device Advice
-                <ExternalLink className="w-3 h-3" />
-              </a>
+                NO - Low/moderate risk
+              </button>
             </div>
+          </div>
+        )}
+
+        {(!isMobile || mobileViewMode === 'zoom') && step === 'q3' && (
+          <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
+            <h4 className="font-bold text-yellow-900 mb-2">Question 3: Rare Disease</h4>
+            <p className="text-yellow-800 mb-4">
+              Does your device treat a <strong>rare condition</strong> affecting fewer than 8,000 patients/year in the US?
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => handleAnswer('Rare disease?', 'Yes - <8,000/year', 'result', 'hde')}
+                className="flex-1 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium"
+              >
+                YES - Rare disease → HDE
+              </button>
+              <button
+                onClick={() => handleAnswer('Rare disease?', 'No', 'result', 'de-novo')}
+                className="flex-1 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-medium"
+              >
+                NO → De Novo
+              </button>
+            </div>
+          </div>
+        )}
+
+        {(!isMobile || mobileViewMode === 'zoom') && step === 'q4' && (
+          <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
+            <h4 className="font-bold text-yellow-900 mb-2">Question 4: Your Own Device?</h4>
+            <p className="text-yellow-800 mb-4">
+              Are you <strong>modifying your own</strong> previously cleared device (and have design controls)?
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => handleAnswer('Own device modification?', 'Yes - with design controls', 'result', '510k-special')}
+                className="flex-1 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
+              >
+                YES → Special 510(k)
+              </button>
+              <button
+                onClick={() => handleAnswer('Own device modification?', 'No', 'q5')}
+                className="flex-1 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 font-medium"
+              >
+                NO - Different predicate
+              </button>
+            </div>
+          </div>
+        )}
+
+        {(!isMobile || mobileViewMode === 'zoom') && step === 'q5' && (
+          <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
+            <h4 className="font-bold text-yellow-900 mb-2">Question 5: Guidance or Standard?</h4>
+            <p className="text-yellow-800 mb-4">
+              Is there an FDA <strong>guidance document</strong> or <strong>recognized standard</strong> for your device type?
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => handleAnswer('Guidance/standard available?', 'Yes', 'result', '510k-abbreviated')}
+                className="flex-1 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 font-medium"
+              >
+                YES → Abbreviated 510(k)
+              </button>
+              <button
+                onClick={() => handleAnswer('Guidance/standard available?', 'No', 'result', '510k-traditional')}
+                className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
+              >
+                NO → Traditional 510(k)
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step !== 'diagram' && step !== 'result' && (!isMobile || mobileViewMode === 'zoom') && (
+          <button
+            onClick={reset}
+            className="mt-4 text-sm text-gray-600 hover:text-gray-900 font-medium flex items-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Start Over
+          </button>
+        )}
+
+        {/* Mobile Card View - Start Over Button */}
+        {isMobile && mobileViewMode === 'cards' && step !== 'diagram' && step !== 'result' && (
+          <button
+            onClick={reset}
+            className="mt-4 w-full py-2 text-sm text-gray-600 hover:text-gray-900 font-medium flex items-center justify-center gap-2 border border-gray-200 rounded-lg"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Start Over
+          </button>
+        )}
+      </div>
+
+      {/* Special Pathways - Now as HTML for better responsiveness */}
+      <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6">
+        <h3 className="text-lg font-bold text-gray-900 mb-4">Special Pathways</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+            <p className="font-bold text-amber-900 text-sm">Breakthrough</p>
+            <p className="text-xs text-amber-700 mt-1">Priority review for life-threatening conditions</p>
+          </div>
+          <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg">
+            <p className="font-bold text-rose-900 text-sm">EUA</p>
+            <p className="text-xs text-rose-700 mt-1">Emergency Use Authorization only</p>
+          </div>
+          <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+            <p className="font-bold text-slate-900 text-sm">Custom Device</p>
+            <p className="text-xs text-slate-700 mt-1">≤5 units/year, specific patient</p>
+          </div>
+          <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
+            <p className="font-bold text-indigo-900 text-sm">PDP</p>
+            <p className="text-xs text-indigo-700 mt-1">Product Development Protocol</p>
+          </div>
+          <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg col-span-2 md:col-span-1">
+            <p className="font-bold text-emerald-900 text-sm">Safety & Perf. 510(k)</p>
+            <p className="text-xs text-emerald-700 mt-1">FDA-published criteria pathway</p>
           </div>
         </div>
       </div>
 
-      {/* Continue Button */}
-      <div className="text-center">
-        <button
-          onClick={() => setStep('q2')}
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-        >
-          I Understand - Continue Assessment
-        </button>
-      </div>
-    </div>
-  )
-}
+      {/* Result Display */}
+      {step === 'result' && result && (
+        <div className="space-y-6">
+          {/* Result Banner */}
+          <div className={`p-6 rounded-lg border-2 ${result.color === 'green' ? 'bg-green-50 border-green-300' :
+            result.color === 'blue' ? 'bg-blue-50 border-blue-300' :
+              result.color === 'cyan' ? 'bg-cyan-50 border-cyan-300' :
+                result.color === 'purple' ? 'bg-purple-50 border-purple-300' :
+                  result.color === 'red' ? 'bg-red-50 border-red-300' :
+                    result.color === 'orange' ? 'bg-orange-50 border-orange-300' :
+                      result.color === 'teal' ? 'bg-teal-50 border-teal-300' :
+                        'bg-gray-50 border-gray-300'
+            }`}>
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900">{result.pathway}</h3>
+                <p className="text-gray-600">{result.fullName}</p>
+                <p className="text-gray-700 mt-2">{result.description}</p>
+              </div>
+              <Scale className={`w-12 h-12 ${result.color === 'green' ? 'text-green-600' :
+                result.color === 'blue' ? 'text-blue-600' :
+                  result.color === 'purple' ? 'text-purple-600' :
+                    result.color === 'red' ? 'text-red-600' :
+                      'text-gray-600'
+                }`} />
+            </div>
 
-{
-  step === 'q2' && (
-    <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-      <h4 className="font-bold text-yellow-900 mb-2">Question 2: Risk Level</h4>
-      <p className="text-yellow-800 mb-4">
-        Is your novel device <strong>high risk</strong> (life-sustaining, life-supporting, or presents substantial risk)?
-      </p>
-      <div className="flex gap-4">
-        <button
-          onClick={() => handleAnswer('High risk?', 'Yes', 'result', 'pma')}
-          className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium"
-        >
-          YES - High risk → PMA
-        </button>
-        <button
-          onClick={() => handleAnswer('High risk?', 'No - Low/moderate risk', 'q3')}
-          className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
-        >
-          NO - Low/moderate risk
-        </button>
-      </div>
-    </div>
-  )
-}
+            <div className="mt-4 grid grid-cols-2 gap-4">
+              <div className="p-3 bg-white rounded-lg">
+                <p className="text-sm font-medium text-gray-600">Timeline</p>
+                <p className="text-lg font-bold text-gray-900">{result.timeline}</p>
+              </div>
+              <div className="p-3 bg-white rounded-lg">
+                <p className="text-sm font-medium text-gray-600">User Fee</p>
+                <p className="text-lg font-bold text-gray-900">{result.userFee}</p>
+              </div>
+            </div>
+          </div>
 
-{
-  step === 'q3' && (
-    <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-      <h4 className="font-bold text-yellow-900 mb-2">Question 3: Rare Disease</h4>
-      <p className="text-yellow-800 mb-4">
-        Does your device treat a <strong>rare condition</strong> affecting fewer than 8,000 patients/year in the US?
-      </p>
-      <div className="flex gap-4">
-        <button
-          onClick={() => handleAnswer('Rare disease?', 'Yes - <8,000/year', 'result', 'hde')}
-          className="flex-1 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium"
-        >
-          YES - Rare disease → HDE
-        </button>
-        <button
-          onClick={() => handleAnswer('Rare disease?', 'No', 'result', 'de-novo')}
-          className="flex-1 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-medium"
-        >
-          NO → De Novo
-        </button>
-      </div>
-    </div>
-  )
-}
+          {/* When to Use */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <h4 className="font-bold text-gray-900 mb-3">When to Use This Pathway</h4>
+            <ul className="space-y-2">
+              {result.whenToUse.map((item, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-{
-  step === 'q4' && (
-    <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-      <h4 className="font-bold text-yellow-900 mb-2">Question 4: Your Own Device?</h4>
-      <p className="text-yellow-800 mb-4">
-        Are you <strong>modifying your own</strong> previously cleared device (and have design controls)?
-      </p>
-      <div className="flex gap-4">
-        <button
-          onClick={() => handleAnswer('Own device modification?', 'Yes - with design controls', 'result', '510k-special')}
-          className="flex-1 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
-        >
-          YES → Special 510(k)
-        </button>
-        <button
-          onClick={() => handleAnswer('Own device modification?', 'No', 'q5')}
-          className="flex-1 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 font-medium"
-        >
-          NO - Different predicate
-        </button>
-      </div>
-    </div>
-  )
-}
+          {/* Requirements */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <FileText className="w-5 h-5" />
+              Submission Requirements
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {result.requirements.map((req, idx) => (
+                <div key={idx} className="flex items-start gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
+                  <span className="text-sm text-gray-700">{req}</span>
+                </div>
+              ))}
+            </div>
+          </div>
 
-{
-  step === 'q5' && (
-    <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
-      <h4 className="font-bold text-yellow-900 mb-2">Question 5: Guidance or Standard?</h4>
-      <p className="text-yellow-800 mb-4">
-        Is there an FDA <strong>guidance document</strong> or <strong>recognized standard</strong> for your device type?
-      </p>
-      <div className="flex gap-4">
-        <button
-          onClick={() => handleAnswer('Guidance/standard available?', 'Yes', 'result', '510k-abbreviated')}
-          className="flex-1 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 font-medium"
-        >
-          YES → Abbreviated 510(k)
-        </button>
-        <button
-          onClick={() => handleAnswer('Guidance/standard available?', 'No', 'result', '510k-traditional')}
-          className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
-        >
-          NO → Traditional 510(k)
-        </button>
-      </div>
-    </div>
-  )
-}
+          {/* Advantages & Limitations */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+              <h4 className="font-bold text-green-900 mb-3">Advantages</h4>
+              <ul className="space-y-2">
+                {result.advantages.map((adv, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-sm text-green-800">
+                    <span className="text-green-600">✓</span>
+                    <span>{adv}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-{
-  step !== 'diagram' && step !== 'result' && (
-    <button
-      onClick={reset}
-      className="mt-4 text-sm text-gray-600 hover:text-gray-900 font-medium flex items-center gap-2"
-    >
-      <RotateCcw className="w-4 h-4" />
-      Start Over
-    </button>
-  )
-}
-    </div >
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+              <h4 className="font-bold text-yellow-900 mb-3">Limitations</h4>
+              <ul className="space-y-2">
+                {result.limitations.map((lim, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-sm text-yellow-800">
+                    <span className="text-yellow-600">!</span>
+                    <span>{lim}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
 
-  {/* Special Pathways - Now as HTML for better responsiveness */ }
-  < div className = "bg-white border border-gray-200 rounded-lg p-4 md:p-6" >
-    <h3 className="text-lg font-bold text-gray-900 mb-4">Special Pathways</h3>
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-      <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
-        <p className="font-bold text-amber-900 text-sm">Breakthrough</p>
-        <p className="text-xs text-amber-700 mt-1">Priority review for life-threatening conditions</p>
-      </div>
-      <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg">
-        <p className="font-bold text-rose-900 text-sm">EUA</p>
-        <p className="text-xs text-rose-700 mt-1">Emergency Use Authorization only</p>
-      </div>
-      <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-        <p className="font-bold text-slate-900 text-sm">Custom Device</p>
-        <p className="text-xs text-slate-700 mt-1">≤5 units/year, specific patient</p>
-      </div>
-      <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
-        <p className="font-bold text-indigo-900 text-sm">PDP</p>
-        <p className="text-xs text-indigo-700 mt-1">Product Development Protocol</p>
-      </div>
-      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg col-span-2 md:col-span-1">
-        <p className="font-bold text-emerald-900 text-sm">Safety & Perf. 510(k)</p>
-        <p className="text-xs text-emerald-700 mt-1">FDA-published criteria pathway</p>
-      </div>
-    </div>
-  </div >
+          <button
+            onClick={reset}
+            className="w-full py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium flex items-center justify-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Assess Another Device
+          </button>
+        </div>
+      )}
 
-  {/* Result Display */ }
-{
-  step === 'result' && result && (
-    <div className="space-y-6">
-      {/* Result Banner */}
-      <div className={`p-6 rounded-lg border-2 ${result.color === 'green' ? 'bg-green-50 border-green-300' :
-        result.color === 'blue' ? 'bg-blue-50 border-blue-300' :
-          result.color === 'cyan' ? 'bg-cyan-50 border-cyan-300' :
-            result.color === 'purple' ? 'bg-purple-50 border-purple-300' :
-              result.color === 'red' ? 'bg-red-50 border-red-300' :
-                result.color === 'orange' ? 'bg-orange-50 border-orange-300' :
-                  result.color === 'teal' ? 'bg-teal-50 border-teal-300' :
-                    'bg-gray-50 border-gray-300'
-        }`}>
-        <div className="flex items-start justify-between">
+      {/* All Pathways Reference - Categorized */}
+      <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <h3 className="text-lg font-bold text-gray-900 mb-4">All FDA Regulatory Pathways</h3>
+
+        {/* Premarket Pathways */}
+        <div className="mb-6">
+          <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-3">Premarket Submission Pathways</h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {Object.entries(PATHWAY_DATA)
+              .filter(([, pathway]) => pathway.category === 'premarket')
+              .map(([key, pathway]) => (
+                <div
+                  key={key}
+                  className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md ${selectedPathway === key ? 'ring-2 ring-blue-400' : ''
+                    } ${getPathwayColorClasses(pathway.color)}`}
+                  onClick={() => {
+                    setSelectedPathway(key as PathwayType);
+                    setStep('result');
+                  }}
+                >
+                  <p className="font-bold text-sm text-gray-900">{pathway.pathway}</p>
+                  <p className="text-xs text-gray-600 mt-1">{pathway.timeline}</p>
+                  <span className={`inline-block mt-2 text-[10px] px-1.5 py-0.5 rounded ${pathway.clinicalDataRequired === 'always' ? 'bg-red-100 text-red-700' :
+                    pathway.clinicalDataRequired === 'usually' ? 'bg-orange-100 text-orange-700' :
+                      pathway.clinicalDataRequired === 'sometimes' ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-green-100 text-green-700'
+                    }`}>
+                    Clinical: {pathway.clinicalDataRequired}
+                  </span>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        {/* Special Pathways */}
+        <div className="mb-6">
+          <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-3">Special Pathways</h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {Object.entries(PATHWAY_DATA)
+              .filter(([, pathway]) => pathway.category === 'special')
+              .map(([key, pathway]) => (
+                <div
+                  key={key}
+                  className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md ${selectedPathway === key ? 'ring-2 ring-blue-400' : ''
+                    } ${getPathwayColorClasses(pathway.color)}`}
+                  onClick={() => {
+                    setSelectedPathway(key as PathwayType);
+                    setStep('result');
+                  }}
+                >
+                  <p className="font-bold text-sm text-gray-900">{pathway.pathway}</p>
+                  <p className="text-xs text-gray-600 mt-1">{pathway.timeline}</p>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        {/* Investigational Pathways (21 CFR 812) */}
+        <div>
+          <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-3">Investigational Pathways (21 CFR 812)</h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {Object.entries(PATHWAY_DATA)
+              .filter(([, pathway]) => pathway.category === 'investigational')
+              .map(([key, pathway]) => (
+                <div
+                  key={key}
+                  className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md ${selectedPathway === key ? 'ring-2 ring-blue-400' : ''
+                    } ${getPathwayColorClasses(pathway.color)}`}
+                  onClick={() => {
+                    setSelectedPathway(key as PathwayType);
+                    setStep('result');
+                  }}
+                >
+                  <p className="font-bold text-sm text-gray-900">{pathway.pathway}</p>
+                  <p className="text-xs text-gray-600 mt-1">{pathway.timeline}</p>
+                  {pathway.regulation && (
+                    <p className="text-[10px] text-gray-500 mt-1">{pathway.regulation}</p>
+                  )}
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Disclaimer */}
+      <div className="bg-gray-100 border border-gray-300 rounded-lg p-4">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-gray-600 flex-shrink-0 mt-0.5" />
           <div>
-            <h3 className="text-2xl font-bold text-gray-900">{result.pathway}</h3>
-            <p className="text-gray-600">{result.fullName}</p>
-            <p className="text-gray-700 mt-2">{result.description}</p>
-          </div>
-          <Scale className={`w-12 h-12 ${result.color === 'green' ? 'text-green-600' :
-            result.color === 'blue' ? 'text-blue-600' :
-              result.color === 'purple' ? 'text-purple-600' :
-                result.color === 'red' ? 'text-red-600' :
-                  'text-gray-600'
-            }`} />
-        </div>
-
-        <div className="mt-4 grid grid-cols-2 gap-4">
-          <div className="p-3 bg-white rounded-lg">
-            <p className="text-sm font-medium text-gray-600">Timeline</p>
-            <p className="text-lg font-bold text-gray-900">{result.timeline}</p>
-          </div>
-          <div className="p-3 bg-white rounded-lg">
-            <p className="text-sm font-medium text-gray-600">User Fee</p>
-            <p className="text-lg font-bold text-gray-900">{result.userFee}</p>
+            <p className="text-sm font-medium text-gray-700">Important Disclaimer</p>
+            <p className="text-xs text-gray-600 mt-1">
+              This tool provides preliminary guidance only. FDA has final authority on pathway requirements.
+              Pre-Submission (Q-Sub) meetings with FDA are recommended for novel or complex devices.
+              User fees are approximate and subject to change.
+            </p>
           </div>
         </div>
       </div>
-
-      {/* When to Use */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h4 className="font-bold text-gray-900 mb-3">When to Use This Pathway</h4>
-        <ul className="space-y-2">
-          {result.whenToUse.map((item, idx) => (
-            <li key={idx} className="flex items-start gap-2">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span className="text-gray-700">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Requirements */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-          <FileText className="w-5 h-5" />
-          Submission Requirements
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {result.requirements.map((req, idx) => (
-            <div key={idx} className="flex items-start gap-2">
-              <span className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
-              <span className="text-sm text-gray-700">{req}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Advantages & Limitations */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-          <h4 className="font-bold text-green-900 mb-3">Advantages</h4>
-          <ul className="space-y-2">
-            {result.advantages.map((adv, idx) => (
-              <li key={idx} className="flex items-start gap-2 text-sm text-green-800">
-                <span className="text-green-600">✓</span>
-                <span>{adv}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <h4 className="font-bold text-yellow-900 mb-3">Limitations</h4>
-          <ul className="space-y-2">
-            {result.limitations.map((lim, idx) => (
-              <li key={idx} className="flex items-start gap-2 text-sm text-yellow-800">
-                <span className="text-yellow-600">!</span>
-                <span>{lim}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <button
-        onClick={reset}
-        className="w-full py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium flex items-center justify-center gap-2"
-      >
-        <RotateCcw className="w-4 h-4" />
-        Assess Another Device
-      </button>
     </div>
-  )
-}
-
-{/* All Pathways Reference - Categorized */ }
-<div className="bg-white border border-gray-200 rounded-lg p-6">
-  <h3 className="text-lg font-bold text-gray-900 mb-4">All FDA Regulatory Pathways</h3>
-
-  {/* Premarket Pathways */}
-  <div className="mb-6">
-    <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-3">Premarket Submission Pathways</h4>
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      {Object.entries(PATHWAY_DATA)
-        .filter(([, pathway]) => pathway.category === 'premarket')
-        .map(([key, pathway]) => (
-          <div
-            key={key}
-            className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md ${selectedPathway === key ? 'ring-2 ring-blue-400' : ''
-              } ${getPathwayColorClasses(pathway.color)}`}
-            onClick={() => {
-              setSelectedPathway(key as PathwayType);
-              setStep('result');
-            }}
-          >
-            <p className="font-bold text-sm text-gray-900">{pathway.pathway}</p>
-            <p className="text-xs text-gray-600 mt-1">{pathway.timeline}</p>
-            <span className={`inline-block mt-2 text-[10px] px-1.5 py-0.5 rounded ${pathway.clinicalDataRequired === 'always' ? 'bg-red-100 text-red-700' :
-              pathway.clinicalDataRequired === 'usually' ? 'bg-orange-100 text-orange-700' :
-                pathway.clinicalDataRequired === 'sometimes' ? 'bg-yellow-100 text-yellow-700' :
-                  'bg-green-100 text-green-700'
-              }`}>
-              Clinical: {pathway.clinicalDataRequired}
-            </span>
-          </div>
-        ))}
-    </div>
-  </div>
-
-  {/* Special Pathways */}
-  <div className="mb-6">
-    <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-3">Special Pathways</h4>
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      {Object.entries(PATHWAY_DATA)
-        .filter(([, pathway]) => pathway.category === 'special')
-        .map(([key, pathway]) => (
-          <div
-            key={key}
-            className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md ${selectedPathway === key ? 'ring-2 ring-blue-400' : ''
-              } ${getPathwayColorClasses(pathway.color)}`}
-            onClick={() => {
-              setSelectedPathway(key as PathwayType);
-              setStep('result');
-            }}
-          >
-            <p className="font-bold text-sm text-gray-900">{pathway.pathway}</p>
-            <p className="text-xs text-gray-600 mt-1">{pathway.timeline}</p>
-          </div>
-        ))}
-    </div>
-  </div>
-
-  {/* Investigational Pathways (21 CFR 812) */}
-  <div>
-    <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-3">Investigational Pathways (21 CFR 812)</h4>
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      {Object.entries(PATHWAY_DATA)
-        .filter(([, pathway]) => pathway.category === 'investigational')
-        .map(([key, pathway]) => (
-          <div
-            key={key}
-            className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md ${selectedPathway === key ? 'ring-2 ring-blue-400' : ''
-              } ${getPathwayColorClasses(pathway.color)}`}
-            onClick={() => {
-              setSelectedPathway(key as PathwayType);
-              setStep('result');
-            }}
-          >
-            <p className="font-bold text-sm text-gray-900">{pathway.pathway}</p>
-            <p className="text-xs text-gray-600 mt-1">{pathway.timeline}</p>
-            {pathway.regulation && (
-              <p className="text-[10px] text-gray-500 mt-1">{pathway.regulation}</p>
-            )}
-          </div>
-        ))}
-    </div>
-  </div>
-</div>
-
-{/* Disclaimer */ }
-<div className="bg-gray-100 border border-gray-300 rounded-lg p-4">
-  <div className="flex items-start gap-3">
-    <AlertTriangle className="w-5 h-5 text-gray-600 flex-shrink-0 mt-0.5" />
-    <div>
-      <p className="text-sm font-medium text-gray-700">Important Disclaimer</p>
-      <p className="text-xs text-gray-600 mt-1">
-        This tool provides preliminary guidance only. FDA has final authority on pathway requirements.
-        Pre-Submission (Q-Sub) meetings with FDA are recommended for novel or complex devices.
-        User fees are approximate and subject to change.
-      </p>
-    </div>
-  </div>
-</div>
-    </div >
   );
 }
