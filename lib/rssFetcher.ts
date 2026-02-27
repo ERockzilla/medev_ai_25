@@ -82,7 +82,7 @@ export async function fetchRSS(url: string, sourceName: string, category?: strin
                 'User-Agent': 'Mozilla/5.0 (compatible; medev.ai/1.0; +https://medev.ai)',
                 'Accept': 'application/rss+xml, application/xml, text/xml, application/json, */*',
             },
-            next: { revalidate: 900 }, // Revalidate every 15 minutes
+            cache: 'no-store', // Always fetch fresh — caching handled at API route level
         });
 
         clearTimeout(timeoutId);
@@ -130,7 +130,7 @@ export async function fetchClinicalTrials(): Promise<NewsItem[]> {
                 'Accept': 'application/json',
                 'User-Agent': 'medev.ai/1.0',
             },
-            next: { revalidate: 900 },
+            cache: 'no-store',
         });
 
         clearTimeout(timeoutId);

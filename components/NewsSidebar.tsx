@@ -1,5 +1,18 @@
-import { fetchRSS, fetchClinicalTrials, NewsItem } from '@/lib/rssFetcher';
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
 import FeedFilter from './FeedFilter';
+import { RefreshCw, Loader2 } from 'lucide-react';
+
+interface NewsItem {
+    title: string;
+    link: string;
+    pubDate: string;
+    source: string;
+    contentSnippet?: string;
+    thumbnail?: string;
+    category?: string;
+}
 
 // Source color mapping for visual distinction
 const sourceColors: Record<string, string> = {
@@ -22,42 +35,126 @@ const DEFAULT_THUMBNAIL = 'data:image/svg+xml,' + encodeURIComponent(`
 </svg>
 `);
 
-export default async function NewsSidebar() {
-    // Define multiple sources for comprehensive coverage
-    const sources = [
-        // Tech/AI feeds
-        { url: 'https://hnrss.org/frontpage', name: 'Hacker News' },
-        { url: 'https://www.reddit.com/r/medicaldevices/.rss', name: 'Reddit MedDev' },
-        // arXiv for research
-        { url: 'https://export.arxiv.org/rss/cs.AI', name: 'arXiv AI' },
-        // FDA News - regulatory updates (using FDA Medical Devices RSS)
-        { url: 'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml', name: 'FDA News', category: 'Regulatory' },
-        // MedTech industry news
-        { url: 'https://www.medtechdive.com/feeds/news/', name: 'MedTech Dive' },
-    ];
+// Auto-refresh interval: 15 minutes
+const REFRESH_INTERVAL_MS = 15 * 60 * 1000;
 
-    // Fetch all feeds in parallel
-    const feedPromises = sources.map(s => fetchRSS(s.url, s.name, s.category));
-    const clinicalTrialsPromise = fetchClinicalTrials();
+export default function NewsSidebar() {
+    const [allNews, setAllNews] = useState<NewsItem[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
-    const results = await Promise.all([...feedPromises, clinicalTrialsPromise]);
+    const fetchFeed = useCallback(async (isManualRefresh = false) => {
+        if (isManualRefresh) {
+            setIsRefreshing(true);
+        } else if (allNews.length === 0) {
+            setLoading(true);
+        }
+        setError(null);
 
-    // Flatten and sort by date - get up to 100 items
-    const allNews: NewsItem[] = results
-        .flat()
-        .sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime())
-        .slice(0, 100);
+        try {
+            const response = await fetch('/api/rss-feed');
+            if (!response.ok) throw new Error(`Feed fetch failed: ${response.status}`);
+            const data: NewsItem[] = await response.json();
+            setAllNews(data);
+            setLastUpdated(new Date());
+        } catch (err) {
+            console.error('NewsSidebar fetch error:', err);
+            // Only show error if we have no data at all
+            if (allNews.length === 0) {
+                setError('Unable to load external feeds. Try refreshing or check back later.');
+            }
+        } finally {
+            setLoading(false);
+            setIsRefreshing(false);
+        }
+    }, [allNews.length]);
+
+    // Initial fetch + auto-refresh
+    useEffect(() => {
+        fetchFeed();
+
+        const interval = setInterval(() => {
+            fetchFeed();
+        }, REFRESH_INTERVAL_MS);
+
+        return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const formatLastUpdated = () => {
+        if (!lastUpdated) return '';
+        const now = new Date();
+        const diffMs = now.getTime() - lastUpdated.getTime();
+        const diffMin = Math.floor(diffMs / 60000);
+        if (diffMin < 1) return 'Just now';
+        if (diffMin < 60) return `${diffMin}m ago`;
+        return `${Math.floor(diffMin / 60)}h ago`;
+    };
+
+    if (loading) {
+        return (
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                <div className="px-6 py-4 bg-gradient-to-r from-slate-800 to-slate-700">
+                    <h3 className="text-xl font-bold text-white">Input Feed</h3>
+                    <p className="text-slate-300 text-sm mt-1">Loading sources...</p>
+                </div>
+                <div className="flex items-center justify-center p-12">
+                    <Loader2 className="w-8 h-8 text-gray-400 animate-spin" />
+                </div>
+            </div>
+        );
+    }
+
+    if (error && allNews.length === 0) {
+        return (
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                <div className="px-6 py-4 bg-gradient-to-r from-slate-800 to-slate-700">
+                    <h3 className="text-xl font-bold text-white">Input Feed</h3>
+                </div>
+                <div className="text-center py-12 px-6">
+                    <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                    <p className="text-gray-500 mb-2 font-medium">{error}</p>
+                    <button
+                        onClick={() => fetchFeed(true)}
+                        className="mt-3 inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800"
+                    >
+                        <RefreshCw className="w-4 h-4" />
+                        Try again
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
             {/* Header */}
             <div className="px-6 py-4 bg-gradient-to-r from-slate-800 to-slate-700">
-                <h3 className="text-xl font-bold text-white">
-                    Input Feed
-                </h3>
-                <p className="text-slate-300 text-sm mt-1">
-                    {sources.length + 1} sources • {allNews.length} articles
-                </p>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h3 className="text-xl font-bold text-white">
+                            Input Feed
+                        </h3>
+                        <p className="text-slate-300 text-sm mt-1">
+                            6 sources • {allNews.length} articles
+                            {lastUpdated && (
+                                <span className="text-slate-400"> • Updated {formatLastUpdated()}</span>
+                            )}
+                        </p>
+                    </div>
+                    <button
+                        onClick={() => fetchFeed(true)}
+                        disabled={isRefreshing}
+                        className="p-2 text-slate-300 hover:text-white transition-colors disabled:opacity-50"
+                        title="Refresh feed"
+                    >
+                        <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+                    </button>
+                </div>
             </div>
 
             {/* Filter + Articles */}
@@ -69,16 +166,9 @@ export default async function NewsSidebar() {
                 />
             ) : (
                 <div className="text-center py-12 px-6">
-                    <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                    </svg>
-                    <p className="text-gray-500 mb-2 font-medium">Unable to load external feeds</p>
-                    <p className="text-sm text-gray-400">This may be due to network restrictions. Try refreshing or check back later.</p>
+                    <p className="text-gray-500">No articles loaded yet.</p>
                 </div>
             )}
         </div>
     );
 }
-
-
-

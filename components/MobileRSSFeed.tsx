@@ -47,7 +47,7 @@ export default function MobileRSSFeed({ items: propItems, autoScrollSpeed = 3000
     const startX = useRef(0);
     const scrollLeft = useRef(0);
 
-    // Fetch data if not provided
+    // Fetch data if not provided + auto-refresh every 15 minutes
     useEffect(() => {
         if (propItems && propItems.length > 0) {
             setItems(propItems);
@@ -69,6 +69,10 @@ export default function MobileRSSFeed({ items: propItems, autoScrollSpeed = 3000
         };
 
         fetchFeed();
+
+        // Auto-refresh every 15 minutes
+        const interval = setInterval(fetchFeed, 15 * 60 * 1000);
+        return () => clearInterval(interval);
     }, [propItems]);
 
     // Auto-scroll

@@ -27,6 +27,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/standards/iec-81001-5-1',
     '/standards/iso-15223',
     '/standards/iso-20417',
+    '/standards/ansi-aami-sw96',
+    '/standards/aami-tir57',
+    '/standards/ul-2900',
   ];
 
   // Regulations pages - high priority for SEO
@@ -40,6 +43,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/regulations/510k-submission',
     '/regulations/pma-submission',
     '/regulations/estar-template',
+    '/regulations/fda-cybersecurity-guidance',
+    '/regulations/section-524b',
+    '/regulations/hipaa-security-rule',
+    '/regulations/hipaa-baa',
   ];
 
   // Tools - medium-high priority
@@ -48,6 +55,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/tools/fmea',
     '/tools/distributions',
     '/tools/sample-size',
+    '/tools/cybersecurity-framework-mapper',
   ];
 
   // Resource pages
@@ -61,6 +69,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/global-map',
     '/resources',
     '/professional-development',
+    '/domains/cybersecurity',
   ];
 
   // Guides and How-to
@@ -71,6 +80,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/how-to/conduct-fmea-analysis',
     '/how-to/design-development-iso13485',
     '/how-to/develop-medical-laser-system',
+    '/guides/spdf-implementation',
+    '/guides/sbom-creation',
+    '/guides/threat-modeling-medical-devices',
+    '/guides/cybersecurity-risk-assessment',
+    '/how-to/fda-cybersecurity-submission',
+    '/guides/hipaa-for-device-manufacturers',
+    '/guides/soc2-for-medtech',
+    '/guides/cloud-security-medical-devices',
   ];
 
   return [

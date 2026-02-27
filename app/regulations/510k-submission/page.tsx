@@ -144,7 +144,7 @@ export default function FDA510kSubmissionPage() {
 Choose your predicate wisely. A good predicate comparison is the foundation of your entire submission.`,
         context: 'Most Class II devices go through 510(k). Understanding this process is fundamental to US market access.',
         realWorldTips: [
-          'Use eSTAR—it\'s faster to prepare and FDA reviews it more quickly.',
+          'Use eSTAR—it\'s required.',
           'Pre-Sub meetings with FDA are free and can save months of back-and-forth.',
           'Missing NRTL test reports is the #1 cause of additional information requests.',
           'FDA\'s 90-day review clock doesn\'t include the time they\'re waiting for your responses.',

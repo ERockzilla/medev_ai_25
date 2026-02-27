@@ -55,6 +55,10 @@ export default function DashboardFeedWidget({ maxItems = 12 }: DashboardFeedWidg
 
     useEffect(() => {
         fetchFeed();
+
+        // Auto-refresh every 15 minutes
+        const interval = setInterval(fetchFeed, 15 * 60 * 1000);
+        return () => clearInterval(interval);
     }, [fetchFeed]);
 
     // Keyboard navigation

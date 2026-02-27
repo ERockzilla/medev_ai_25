@@ -201,6 +201,22 @@ const TOOLS = [
     status: 'available',
     difficulty: 'Intermediate',
   },
+  {
+    id: 'cybersecurity-framework-mapper',
+    title: 'Cybersecurity Framework Mapper',
+    icon: Shield,
+    color: 'red',
+    description: 'Interactive control overlap matrix: FDA ↔ HIPAA ↔ SOC 2 ↔ IEC 81001-5-1',
+    features: [
+      '33 controls across 7 security domains',
+      'Gap analysis and full-overlap filtering',
+      'CSV export for DHF/audit documentation',
+      'Framework-specific reference citations',
+    ],
+    href: '/tools/cybersecurity-framework-mapper',
+    status: 'available',
+    difficulty: 'Intermediate',
+  },
 ];
 
 const TEMPLATE_PACKS = [
@@ -321,8 +337,8 @@ export default function ToolsPage() {
                 <button
                   onClick={() => setFilterDifficulty(null)}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${filterDifficulty === null
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                 >
                   All Levels
@@ -332,8 +348,8 @@ export default function ToolsPage() {
                     key={level}
                     onClick={() => setFilterDifficulty(filterDifficulty === level ? null : level)}
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${filterDifficulty === level
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                   >
                     {level}
@@ -347,8 +363,8 @@ export default function ToolsPage() {
                 <button
                   onClick={() => setFilterStatus(filterStatus === 'available' ? null : 'available')}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${filterStatus === 'available'
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                 >
                   Available Now
@@ -356,8 +372,8 @@ export default function ToolsPage() {
                 <button
                   onClick={() => setFilterStatus(filterStatus === 'coming-soon' ? null : 'coming-soon')}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${filterStatus === 'coming-soon'
-                      ? 'bg-purple-100 text-purple-700'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-purple-100 text-purple-700'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                 >
                   Coming Soon
@@ -379,8 +395,8 @@ export default function ToolsPage() {
                     key={tool.id}
                     href={isAvailable ? tool.href : '#'}
                     className={`bg-white border-2 rounded-lg p-6 transition-all ${isAvailable
-                        ? `border-${tool.color}-200 hover:border-${tool.color}-400 hover:shadow-lg`
-                        : 'border-gray-200 opacity-75 cursor-not-allowed'
+                      ? `border-${tool.color}-200 hover:border-${tool.color}-400 hover:shadow-lg`
+                      : 'border-gray-200 opacity-75 cursor-not-allowed'
                       }`}
                     onClick={(e) => !isAvailable && e.preventDefault()}
                   >

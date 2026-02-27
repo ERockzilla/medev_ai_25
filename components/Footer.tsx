@@ -120,6 +120,7 @@ export default function Footer() {
               <FooterLink href="/">Knowledge Center</FooterLink>
               <FooterLink href="/standards">Standards</FooterLink>
               <FooterLink href="/regulations">Regulations</FooterLink>
+              <FooterLink href="/domains/cybersecurity">Cybersecurity Hub</FooterLink>
               <FooterLink href="/tools">Tools</FooterLink>
               <FooterLink href="/ai-tools">AI Tools</FooterLink>
               <FooterLink href="/regulatory-analysis">Analysis</FooterLink>

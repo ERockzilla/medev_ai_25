@@ -26,6 +26,106 @@ export const FEED_ITEMS: FeedItem[] = [
         status: "published"
     },
 
+    // Cybersecurity Hub - Phase 2 Content
+    {
+        title: "Threat Modeling for Medical Devices: FDA-Expected Methods and Deliverables",
+        description: "STRIDE, PASTA, and attack-tree methodologies for medical device cybersecurity. Covers data-flow diagrams, trust boundaries, exploitability scoring, and the threat-to-control traceability matrix FDA reviewers expect.",
+        url: "https://www.medev.ai/guides/threat-modeling-medical-devices",
+        date: "2026-02-26",
+        category: "Cybersecurity",
+        tags: ["cybersecurity", "threat-modeling", "stride", "fda", "medical-device"],
+        status: "published"
+    },
+    {
+        title: "Cybersecurity Risk Assessment: Moving Beyond Traditional Risk Methods",
+        description: "Build a cybersecurity-specific risk assessment using exploitability-based scoring (CVSS/CWSS) instead of ISO 14971 probability. Covers uncontrolled vs. controlled risk, residual risk acceptance, and post-market monitoring.",
+        url: "https://www.medev.ai/guides/cybersecurity-risk-assessment",
+        date: "2026-02-26",
+        category: "Cybersecurity",
+        tags: ["cybersecurity", "risk-assessment", "cvss", "fda", "sw96"],
+        status: "published"
+    },
+    {
+        title: "How to Prepare the Cybersecurity Section of Your FDA Premarket Submission",
+        description: "Step-by-step checklist for compiling the complete cybersecurity package for 510(k), De Novo, and PMA submissions — covering SPDF evidence, threat models, SBOMs, and post-market plans.",
+        url: "https://www.medev.ai/how-to/fda-cybersecurity-submission",
+        date: "2026-02-26",
+        category: "Cybersecurity",
+        tags: ["cybersecurity", "fda-submission", "510k", "pma", "premarket"],
+        status: "published"
+    },
+
+    // Cybersecurity Hub - Phase 3: HIPAA Compliance
+    {
+        title: "HIPAA Security Rule Explained: What Connected Device Manufacturers Must Know",
+        description: "Complete guide to the HIPAA Security Rule for medical device companies — covering administrative, physical, and technical safeguards, business associate obligations, and enforcement trends.",
+        url: "https://www.medev.ai/regulations/hipaa-security-rule",
+        date: "2026-02-27",
+        category: "Cybersecurity",
+        tags: ["hipaa", "security-rule", "ephi", "compliance", "medical-device"],
+        status: "published"
+    },
+    {
+        title: "Business Associate Agreements for Medical Device Companies",
+        description: "When you need a BAA, what it must cover, cloud provider BAA nuances (AWS, Azure, GCP), and how to build a vendor BAA management program.",
+        url: "https://www.medev.ai/regulations/hipaa-baa",
+        date: "2026-02-27",
+        category: "Cybersecurity",
+        tags: ["hipaa", "baa", "business-associate", "cloud", "compliance"],
+        status: "published"
+    },
+    {
+        title: "HIPAA Compliance Guide for Medical Device Manufacturers: From Device to Cloud",
+        description: "End-to-end ePHI protection from device sensor to cloud storage. Maps all HIPAA safeguard requirements against your connected device data architecture with FDA-HIPAA dual compliance strategy.",
+        url: "https://www.medev.ai/guides/hipaa-for-device-manufacturers",
+        date: "2026-02-27",
+        category: "Cybersecurity",
+        tags: ["hipaa", "compliance", "cloud-security", "ephi", "fda"],
+        status: "published"
+    },
+
+    // Cybersecurity Hub - Phase 4: SOC 2
+    {
+        title: "SOC 2 Type II for Medical Device SaaS Platforms",
+        description: "Why hospitals demand SOC 2, how to leverage existing HIPAA and FDA controls for audit readiness, Trust Services Criteria mapping, and cost/timeline expectations.",
+        url: "https://www.medev.ai/guides/soc2-for-medtech",
+        date: "2026-02-27",
+        category: "Cybersecurity",
+        tags: ["soc2", "audit", "trust-services", "hipaa", "medtech"],
+        status: "published"
+    },
+
+    // Cybersecurity Hub - Phase 5: Cloud Security
+    {
+        title: "Cloud Security Best Practices for Connected Medical Device Backends",
+        description: "Reference architecture for medical device cloud backends — covering shared responsibility, VPC design, IAM, encryption, SIEM, and disaster recovery across AWS, Azure, and GCP.",
+        url: "https://www.medev.ai/guides/cloud-security-medical-devices",
+        date: "2026-02-27",
+        category: "Cybersecurity",
+        tags: ["cloud-security", "aws", "azure", "gcp", "hipaa", "fda"],
+        status: "published"
+    },
+
+    // Cybersecurity Hub - Phase 6: Standards & Tools
+    {
+        title: "ANSI/AAMI SW96:2023 — Medical Device Security Risk Management",
+        description: "The FDA-recognized consensus standard for cybersecurity risk management. Covers exploitability-based scoring, ISO 14971 relationship, and how SW96 replaces AAMI TIR57.",
+        url: "https://www.medev.ai/standards/ansi-aami-sw96",
+        date: "2026-02-27",
+        category: "Cybersecurity",
+        tags: ["sw96", "aami", "risk-management", "fda", "cybersecurity"],
+        status: "published"
+    },
+    {
+        title: "Cybersecurity Framework Mapper: FDA ↔ HIPAA ↔ SOC 2 ↔ IEC 81001-5-1",
+        description: "Interactive tool mapping 33 security controls across 7 domains, showing which controls satisfy multiple compliance frameworks. Export traceability matrix for your Design History File.",
+        url: "https://www.medev.ai/tools/cybersecurity-framework-mapper",
+        date: "2026-02-27",
+        category: "Tools",
+        tags: ["cybersecurity", "framework-mapper", "fda", "hipaa", "soc2", "iec-81001"],
+        status: "published"
+    },
+
     // ============================================
     // DRAFT - Hidden from RSS until you change to 'published'
     // Quick Reference: Find item, change status: "draft" → "published"

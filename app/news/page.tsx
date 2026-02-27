@@ -5,9 +5,6 @@ import NewsSidebar from '@/components/NewsSidebar';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// Revalidate every 15 minutes
-export const revalidate = 900;
-
 export default function DailyBriefingPage() {
     return (
         <div className="min-h-screen bg-gray-50 relative">

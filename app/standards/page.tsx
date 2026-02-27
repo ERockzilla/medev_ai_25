@@ -149,6 +149,36 @@ const STANDARDS = [
     status: 'published',
     description: 'Safety requirements for LED and other non-laser light source medical equipment',
     url: '/standards/iec-60601-2-57'
+  },
+  {
+    id: 'ansi-aami-sw96',
+    number: 'ANSI/AAMI SW96',
+    title: 'Medical device cybersecurity — Security risk management for device manufacturers',
+    organization: 'AAMI',
+    category: 'cybersecurity',
+    status: 'published',
+    description: 'FDA-recognized consensus standard for exploitability-based cybersecurity risk management',
+    url: '/standards/ansi-aami-sw96'
+  },
+  {
+    id: 'aami-tir57',
+    number: 'AAMI TIR57',
+    title: 'Principles for medical device security — Risk management',
+    organization: 'AAMI',
+    category: 'cybersecurity',
+    status: 'published',
+    description: 'Foundational technical information report for cybersecurity risk management (superseded by SW96)',
+    url: '/standards/aami-tir57'
+  },
+  {
+    id: 'ul-2900',
+    number: 'UL 2900',
+    title: 'Standard for Software Cybersecurity for Network-Connectable Products',
+    organization: 'UL',
+    category: 'cybersecurity',
+    status: 'published',
+    description: 'Testing-centric cybersecurity standard covering fuzz testing, static analysis, and penetration testing',
+    url: '/standards/ul-2900'
   }
 ];
 
@@ -163,6 +193,7 @@ const CATEGORIES = [
   { id: 'testing', label: 'Testing', color: 'green' },
   { id: 'clinical', label: 'Clinical', color: 'purple' },
   { id: 'labeling', label: 'Labeling', color: 'indigo' },
+  { id: 'cybersecurity', label: 'Cybersecurity', color: 'red' },
 ];
 
 export default function StandardsPage() {
@@ -322,7 +353,7 @@ export default function StandardsPage() {
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
                   <div className="bg-white rounded p-2">
-                    <div className="font-bold text-blue-900">14 Standards</div>
+                    <div className="font-bold text-blue-900">17 Standards</div>
                     <div className="text-blue-700">Published</div>
                   </div>
                   <div className="bg-white rounded p-2">

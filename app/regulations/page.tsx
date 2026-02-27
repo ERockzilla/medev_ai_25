@@ -99,6 +99,46 @@ const REGULATIONS = [
     status: 'published',
     description: 'Structured electronic submission template for 510(k) submissions',
     url: '/regulations/estar-template'
+  },
+  {
+    id: 'fda-cybersecurity-guidance',
+    number: 'FDA Cybersecurity Guidance',
+    title: 'Cybersecurity in Medical Devices: Premarket Submissions',
+    organization: 'FDA',
+    category: 'cybersecurity',
+    status: 'published',
+    description: 'Finalized guidance on SPDF, threat modeling, SBOM, and cybersecurity risk assessment for premarket submissions',
+    url: '/regulations/fda-cybersecurity-guidance'
+  },
+  {
+    id: 'section-524b',
+    number: 'Section 524B (FD&C Act)',
+    title: 'Ensuring Cybersecurity of Devices',
+    organization: 'FDA',
+    category: 'cybersecurity',
+    status: 'published',
+    description: 'Statutory mandate requiring SBOM, patching plans, and reasonable assurance of cybersecurity for cyber devices',
+    url: '/regulations/section-524b'
+  },
+  {
+    id: 'hipaa-security-rule',
+    number: 'HIPAA Security Rule',
+    title: '45 CFR Parts 160, 162, and 164 — Security Standards for ePHI',
+    organization: 'HHS/OCR',
+    category: 'hipaa',
+    status: 'published',
+    description: 'Administrative, physical, and technical safeguard requirements for protecting electronic Protected Health Information',
+    url: '/regulations/hipaa-security-rule'
+  },
+  {
+    id: 'hipaa-baa',
+    number: 'HIPAA BAA Requirements',
+    title: 'Business Associate Agreement Provisions — 45 CFR § 164.314(a)',
+    organization: 'HHS/OCR',
+    category: 'hipaa',
+    status: 'published',
+    description: 'BAA requirements for medical device companies handling ePHI, cloud provider BAAs, and vendor management',
+    url: '/regulations/hipaa-baa'
   }
 ];
 
@@ -111,6 +151,8 @@ const CATEGORIES = [
   { id: 'registration', label: 'Registration', color: 'indigo' },
   { id: 'post-market', label: 'Post-Market', color: 'red' },
   { id: 'premarket', label: 'Premarket', color: 'teal' },
+  { id: 'cybersecurity', label: 'Cybersecurity', color: 'red' },
+  { id: 'hipaa', label: 'HIPAA', color: 'violet' },
 ];
 
 export default function RegulationsPage() {

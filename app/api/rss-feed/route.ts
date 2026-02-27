@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import { fetchRSS, fetchClinicalTrials, NewsItem } from '@/lib/rssFetcher';
 
-// Cache for 15 minutes
-export const revalidate = 900;
+// Force this route to always execute dynamically (never cached at build time)
+// This is critical for hosts like AWS Amplify that don't support ISR
+export const dynamic = 'force-dynamic';
+
+// In-memory server-side cache to avoid hammering upstream feeds on every request
+let cachedData: NewsItem[] | null = null;
+let cacheTimestamp = 0;
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
 // RSS sources configuration
 const sources = [
@@ -15,6 +21,19 @@ const sources = [
 
 export async function GET() {
     try {
+        const now = Date.now();
+
+        // Return cached data if still fresh
+        if (cachedData && (now - cacheTimestamp) < CACHE_TTL_MS) {
+            return NextResponse.json(cachedData, {
+                headers: {
+                    'Cache-Control': 'public, max-age=300, stale-while-revalidate=600',
+                    'X-Cache': 'HIT',
+                    'X-Cache-Age': String(Math.floor((now - cacheTimestamp) / 1000)),
+                },
+            });
+        }
+
         // Fetch all feeds in parallel
         const feedPromises = sources.map(s => fetchRSS(s.url, s.name, s.category));
         const clinicalTrialsPromise = fetchClinicalTrials();
@@ -27,16 +46,33 @@ export async function GET() {
             .sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime())
             .slice(0, 100);
 
+        // Update in-memory cache
+        cachedData = allNews;
+        cacheTimestamp = now;
+
         return NextResponse.json(allNews, {
             headers: {
-                'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=900',
+                'Cache-Control': 'public, max-age=300, stale-while-revalidate=600',
+                'X-Cache': 'MISS',
             },
         });
     } catch (error) {
         console.error('RSS API error:', error);
+
+        // If we have stale cached data, return it rather than an error
+        if (cachedData) {
+            return NextResponse.json(cachedData, {
+                headers: {
+                    'Cache-Control': 'public, max-age=60',
+                    'X-Cache': 'STALE',
+                },
+            });
+        }
+
         return NextResponse.json(
             { error: 'Failed to fetch RSS feeds' },
             { status: 500 }
         );
     }
 }
+
